@@ -55,13 +55,20 @@ Preferred communication style: Simple, everyday language.
 ### Component Architecture
 
 **Page Structure**: Single home page with multiple sections
-- Header (sticky navigation with school logo)
-- Hero Section (cross-fading hero images with CTA)
+- Header (sticky navigation with school logo and ambient audio toggle)
+- Hero Section (cross-fading hero images with CTA, animated fog effects, candlelight flickers)
 - Live Sessions Section (card-based layout for three Halloween sessions)
 - Patreon Section (rotating image carousel with CTA)
 - YouTube Section (embedded video grid from Google Sheets data)
 - Playlist Section (embedded playlist videos)
 - Footer (social links and branding)
+
+**Enhanced Halloween Atmosphere**:
+- Animated fog drift overlays with purple and orange tinted radial gradients
+- Candlelight flicker effects using CSS animations
+- Smooth gradient background motion in hero section
+- Ambient audio toggle in header (localStorage persistence, autoplay compliance)
+  - Note: Currently uses silent WAV placeholder - replace data URI with actual Halloween ambient audio file
 
 **Design Pattern**: Component composition with shared UI primitives
 - Reusable card, button, and layout components
