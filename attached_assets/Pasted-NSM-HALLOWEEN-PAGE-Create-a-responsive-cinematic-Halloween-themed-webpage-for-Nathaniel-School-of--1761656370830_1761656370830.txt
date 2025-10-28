@@ -1,0 +1,126 @@
+NSM HALLOWEEN PAGE
+
+Create a responsive, cinematic Halloween-themed webpage for Nathaniel School of Music, Bangalore.
+The page promotes:
+1. Three Halloween Live Sessions (bookable via one single CTA link to PracticeNow)
+2. The Patreon Halloween Collection (rotating explainer images + description + CTA)
+3. The school’s Halloween YouTube Content — videos from an uploaded spreadsheet (songs + tutorials) and the Halloween Riffs Playlist.
+
+🎨 Design Guidelines
+* Dark, elegant Halloween vibe — deep purple, black, and burnt orange accents
+* Clean, modern layout with minimal scrolling
+* Mobile-friendly and fast-loading
+* Use large typography and smooth section transitions
+* Background: subtle fog, candlelight flicker, or gradient motion
+* Nathaniel School of Music logo fixed at the top-right corner of the header, remaining visible while scrolling (sticky header).
+    * The logo should be small, elegant, and clickable, linking to the school’s official website (https://www.nathanielschool.com/).
+    * Add a fade-in reveal effect for the sticky logo (so it appears softly when the page loads) 
+* Fonts: gothic display for headlines, clean sans-serif for body text
+* Avoid cartoonish visuals; keep it cinematic and sophisticated
+* Section dividers can include minimal icons (🕯️ 🧛 🕸️)
+* Buttons and CTAs should have soft glowing hover effects
+* Use dark gradient overlays on visuals and video thumbnails for depth and clarity
+* I will provide exactly 3 Halloween décor images:
+    * I have attached the decor images and is named as Decor 1, Decor 2, Decor 3
+    * Replit must only use these uploaded décor images 
+    * Decor images should be placed tastefully throughout the site 
+    * They should blend cinematically - subtle, not distracting.
+
+🧭 Page Structure
+1. Header
+* Fixed header with the Nathaniel School of Music logo placed in the top-right corner, remaining visible on scroll.
+* Clicking the logo opens the school’s main website (placeholder link).
+
+2. Hero Section
+* Title: “🎃 Halloween Music Specials”
+* Subtitle: “Learn haunting piano chords and Halloween themes.”
+* Background: dark cinematic gradient with soft fog or candlelight glow.
+* Display two hero images (I will provide both):
+    * Replit must cross-fade between them every few seconds
+* CTA: “Book Your Halloween Pass 🎃” — Leads to the PracticeNow link - https://nathanielschool.practicenow.us/students/subscriptions?service=group_class&plan_id=7749
+* The image to be added to the hero section is attached and is named as Jason 1, Jason 2
+
+3. Live Session Section
+* Heading: “🕸️ Halloween Live Sessions”
+* Display all 3 sessions as elegant cards (no individual purchase links).
+* Display the dates and timings based on the user’s geolocation (PIN code)
+* Each card includes:
+    * Date
+    * Time 
+    * Class name
+    * Duration
+    * Description
+Sessions to display:
+🕯️ Saturday, 1st November ⏰ 6:30 AM – 7:30 AM Class: Scary Chord Progressions Duration: 60 min Description: Learn to create dark, cinematic harmonies using tritones, minor seconds, and diminished voicings. Explore modal shifts and rhythmic tension for composers and pianists.
+🧛 Sunday, 2nd November ⏰ 6:45 AM – 8:15 AM Class: Music Factory – Halloween Themes & Songs Duration: 90 min Description: Work through iconic Halloween themes from movies & TV. Transcribe by ear, study melodic ideas, and analyze suspense techniques.
+🕸️ Sunday, 2nd November ⏰ 8:45 AM – 9:45 AM Class: The Wednesday Theme – Solo Piano Arrangement Duration: 60 min Description: Learn Danny Elfman’s haunting Wednesday theme phrase by phrase. Study harmony, bass motion, and orchestral adaptation for solo piano.
+🟠 Single CTA Button below all cards: Text: “🎹 Book Now” → Leads to a single PracticeNow link - https://nathanielschool.practicenow.us/students/subscriptions?service=group_class&plan_id=7749 -  where users can choose to purchase one session or all three.
+
+4. Patreon Halloween Collection
+* Heading: “🧙 Patreon Halloween Collection”
+* Layout:
+    1. Explainer Image Section:
+        * Display five images (I will provide them).
+        * I have attached the explainer images and they are named as Patreon 1, Patreon 2, Patreon 3, Patreon 4, Patreon 5
+        * Implement a smooth cross-fade animation that transitions between images every 4 seconds, looping infinitely.
+        * Animation should be cinematic and perform well on both desktop and mobile.
+    2. Description: “Get access to notations, MIDI files, and handwritten notes for Halloween classics — including the Wednesday Theme, Addams Family Theme, and creative tips for spooky chord progressions.”
+    3. CTA Button: Text: “💀 Access on Patreon” → (Patreon link - https://www.patreon.com/collection/1805426).
+
+5. YouTube Halloween Songs & Tutorials
+* Heading: “🎬 Halloween Songs & Tutorials”
+* Dynamically load video data from an uploaded Google sheet with the following columns:
+    * Title — The video’s title
+    * Category — Either Song or Tutorial
+    * Link — The YouTube URL
+    * Description — A short one-line description of the video
+* The sheet ID of the google sheet - 1QqeTbhU7ksJnLRC1j2aTT5bevsUD3vBzhVygEe438VA 
+Display Rules :
+* Videos must be automatically divided into left and right subsections based on the value of the Category column:
+    * If Category = Tutorial, place video in the left subsection
+    * If Category = Song, place video in the right subsection
+* Each video card includes:
+    * Thumbnail (auto-fetched from YouTube link)
+    * Title
+    * Description
+    * Embedded playable YouTube video (playable directly on the webpage)
+* Layout: two-subsection responsive grid that stacks vertically on mobile screens.
+
+6. YouTube Halloween Riffs Playlist
+* Heading: “🎧 Halloween Riffs Playlist”
+* Description: “A spooky selection of riffs and chord ideas from our YouTube channel — crafted for pianists, producers, and Halloween lovers.”
+* Display all videos in the playlist, each with:
+    * Thumbnail
+    * Title
+    * Embedded player (playable directly on the webpage)
+* The link to this playlist - https://www.youtube.com/playlist?list=PLrNNL05e9FT-nmVSqhB5g0RD2yHEpuoRs
+* ⚠️ Do not include a CTA button in this section.
+
+7. Footer
+* Include:
+    * Icons/links: YouTube (https://www.youtube.com/nathanielschool?sub_confirmation=1), Instagram (https://www.instagram.com/jasonzac?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==), Patreon (https://www.patreon.com/2815392/join), Website (https://www.nathanielschool.com/)
+    * Copyright: “© 2025 Nathaniel School of Music | All Rights Reserved”
+* Add subtle orange glow or candle flicker near footer elements.
+
+⚙️ Technical & Functional Requirements
+* Fully responsive single-page design
+* Sticky header with school logo (top-right, always visible)
+* Smooth scroll navigation
+* Playable embedded YouTube videos (from spreadsheet + playlist)
+* Excel integration:
+    * Auto-render videos based on Category
+    * Display Tutorials in left subsection and Songs in right subsection
+* Patreon image section:
+    * 5 images loop automatically
+    * Cross-fade transition every 4 seconds
+    * Infinite loop, mobile-optimized
+* Optimize for quick load and SEO. SEO keywords: Halloween Music Lessons, Piano Workshops, Nathaniel School of Music, Halloween Songs, Wednesday Theme Piano, Jason Zac Piano, Piano Song Tutorial, Music Theory Lessons, Ear Training
+
+✅ Deliverable
+A deployable Replit project titled nathaniel-halloween-specials, containing:
+* One cinematic, single-page responsive webpage
+* Sticky header logo (top-right)
+* All sections and animations as described
+* Dynamic YouTube grid divided by Category column
+* Editable placeholders for links, spreadsheet data, and Patreon images
+
