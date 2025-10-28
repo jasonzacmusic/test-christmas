@@ -142,7 +142,7 @@ async function fetchYouTubePlaylist() {
       return numA - numB;
     });
     
-    return { videos: videos.slice(0, 12) };
+    return { videos: videos.slice(0, 10) };
   } catch (error) {
     console.error("Error fetching playlist:", error);
     return { videos: [] };

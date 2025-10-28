@@ -107,9 +107,9 @@ export function HeroSection() {
               aria-label={isPlaying ? "Pause music" : "Play music"}
             >
               {isPlaying ? (
-                <Volume2 className="w-20 h-20" />
+                <Volume2 className="w-24 h-24" />
               ) : (
-                <VolumeX className="w-20 h-20" />
+                <VolumeX className="w-24 h-24" />
               )}
             </Button>
           </div>

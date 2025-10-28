@@ -9,6 +9,13 @@ export function Footer() {
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex flex-col items-center gap-6">
+          <div className="mb-4">
+            <img 
+              src={nsmLogoWhite} 
+              alt="Nathaniel School of Music" 
+              className="h-16 animate-gentle-scale"
+            />
+          </div>
           <div className="flex items-center gap-6">
             <a
               href="https://www.youtube.com/nathanielschool?sub_confirmation=1"
@@ -57,7 +64,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent animate-pulse" />
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent animate-gentle-scale" />
     </footer>
   );
 }

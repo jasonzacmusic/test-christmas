@@ -17,9 +17,6 @@ const AUDIO_TRACKS = [
   track06, track07, track08, track09, track10
 ];
 
-const START_TIME = 30; // 0:30
-const END_TIME = 90; // 1:30
-
 interface AudioContextType {
   isPlaying: boolean;
   currentTrack: number;
@@ -65,7 +62,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     if (!audio) return;
 
     const handleLoadedMetadata = () => {
-      audio.currentTime = START_TIME;
+      audio.currentTime = 0; // Start from beginning
       if (isPlaying) {
         audio.play().catch((error) => {
           console.log('Audio playback blocked or failed:', error.message);
@@ -73,19 +70,17 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       }
     };
 
-    const handleTimeUpdate = () => {
-      if (audio.currentTime >= END_TIME) {
-        // Auto-cycle to next track
-        setCurrentTrack((prev) => (prev + 1) % AUDIO_TRACKS.length);
-      }
+    const handleEnded = () => {
+      // Auto-cycle to next track when current track ends
+      setCurrentTrack((prev) => (prev + 1) % AUDIO_TRACKS.length);
     };
 
     audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-    audio.addEventListener('timeupdate', handleTimeUpdate);
+    audio.addEventListener('ended', handleEnded);
 
     return () => {
       audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
+      audio.removeEventListener('ended', handleEnded);
     };
   }, [currentTrack, isPlaying]);
 
@@ -95,7 +90,6 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     
     if (audioRef.current) {
       if (isPlaying) {
-        audioRef.current.currentTime = START_TIME;
         audioRef.current.play().catch((error) => {
           console.log('Audio playback blocked or failed:', error.message);
         });
