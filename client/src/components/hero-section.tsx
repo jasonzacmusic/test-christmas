@@ -8,11 +8,13 @@ import jason2 from "@assets/Jason 2_1761656394482.jpg";
 import { trackEvent } from "@/lib/analytics";
 import { useAudio } from "@/contexts/audio-context";
 
-const sessions = [
+// Session data with timezone-aware dates
+// Base times are in EST (America/New_York)
+const sessionsData = [
   {
     id: "1",
-    date: "Saturday, 1st November",
-    time: "6:30 AM – 7:30 AM",
+    startTime: new Date('2025-11-01T06:30:00-05:00'), // 6:30 AM EST
+    endTime: new Date('2025-11-01T07:30:00-05:00'),   // 7:30 AM EST
     className: "Scary Chord Progressions",
     duration: "60 min",
     description: "Learn to create dark, cinematic harmonies using tritones, minor seconds, and diminished voicings.",
@@ -20,8 +22,8 @@ const sessions = [
   },
   {
     id: "2",
-    date: "Sunday, 2nd November",
-    time: "6:45 AM – 8:15 AM",
+    startTime: new Date('2025-11-02T06:45:00-05:00'), // 6:45 AM EST
+    endTime: new Date('2025-11-02T08:15:00-05:00'),   // 8:15 AM EST
     className: "Music Factory – Halloween Themes & Songs",
     duration: "90 min",
     description: "Work through iconic Halloween themes from movies & TV. Transcribe by ear and study melodic ideas.",
@@ -29,14 +31,40 @@ const sessions = [
   },
   {
     id: "3",
-    date: "Sunday, 2nd November",
-    time: "8:45 AM – 9:45 AM",
+    startTime: new Date('2025-11-02T08:45:00-05:00'), // 8:45 AM EST
+    endTime: new Date('2025-11-02T09:45:00-05:00'),   // 9:45 AM EST
     className: "The Wednesday Theme – Solo Piano Arrangement",
     duration: "60 min",
     description: "Learn Danny Elfman's haunting Wednesday theme phrase by phrase.",
     icon: Piano
   }
 ];
+
+// Format session times in user's local timezone
+const formatSessionDate = (date: Date) => {
+  return new Intl.DateTimeFormat('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+  }).format(date);
+};
+
+const formatSessionTime = (startDate: Date, endDate: Date) => {
+  const timeFormat: Intl.DateTimeFormatOptions = {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  };
+  const start = new Intl.DateTimeFormat('en-US', timeFormat).format(startDate);
+  const end = new Intl.DateTimeFormat('en-US', timeFormat).format(endDate);
+  return `${start} – ${end}`;
+};
+
+const sessions = sessionsData.map(session => ({
+  ...session,
+  date: formatSessionDate(session.startTime),
+  time: formatSessionTime(session.startTime, session.endTime),
+}));
 
 export function HeroSection() {
   const [currentImage, setCurrentImage] = useState(0);
@@ -52,7 +80,7 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-14 sm:pt-16 md:pt-20">
       <div className="absolute inset-0">
         {images.map((img, index) => (
           <div
@@ -63,7 +91,7 @@ export function HeroSection() {
             style={{
               backgroundImage: `url(${img})`,
               backgroundSize: 'cover',
-              backgroundPosition: 'center',
+              backgroundPosition: 'center 20%',
             }}
           />
         ))}
@@ -90,37 +118,37 @@ export function HeroSection() {
       </div>
 
       <div className="relative z-10 container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h1 className="text-6xl md:text-8xl font-gothic text-primary mb-6 drop-shadow-2xl animate-gentle-scale">
+        <div className="text-center mb-8 sm:mb-12 md:mb-16">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-gothic text-primary mb-4 sm:mb-6 drop-shadow-2xl animate-gentle-scale">
             Halloween Live Sessions
           </h1>
-          <p className="text-xl md:text-2xl text-foreground mb-8 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-foreground mb-6 sm:mb-8 max-w-3xl mx-auto px-2">
             Join our exclusive Halloween music workshops and master spooky piano techniques
           </p>
           
-          <div className="flex justify-center mb-12">
+          <div className="flex justify-center mb-6 sm:mb-8 md:mb-12">
             <Button
               onClick={toggleAudio}
               size="lg"
-              className="w-28 h-28 rounded-full bg-primary text-primary-foreground shadow-2xl shadow-primary/50 hover:scale-110 transition-all duration-300 animate-gentle-scale hover:animate-none"
+              className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full bg-primary text-primary-foreground shadow-2xl shadow-primary/50 hover:scale-110 transition-all duration-300 animate-gentle-scale hover:animate-none"
               data-testid="button-audio-toggle-hero"
               aria-label={isPlaying ? "Pause music" : "Play music"}
             >
               {isPlaying ? (
-                <Volume2 className="w-24 h-24" />
+                <Volume2 className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24" />
               ) : (
-                <VolumeX className="w-24 h-24" />
+                <VolumeX className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24" />
               )}
             </Button>
           </div>
 
           {isPlaying && (
-            <p className="text-sm text-muted-foreground mb-8 animate-pulse">
+            <p className="text-xs sm:text-sm text-muted-foreground mb-6 sm:mb-8 animate-pulse">
               Now playing: Track {currentTrack + 1}
             </p>
           )}
           
-          <div className="grid md:grid-cols-3 gap-6 mb-8">
+          <div className="grid md:grid-cols-3 gap-4 sm:gap-5 md:gap-6 mb-6 sm:mb-8">
             {sessions.map((session) => {
               const IconComponent = session.icon;
               return (

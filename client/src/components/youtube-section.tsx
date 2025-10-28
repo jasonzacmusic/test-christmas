@@ -46,17 +46,17 @@ export function YouTubeSection() {
   const songs = data?.videos.filter((v) => v.category === "Song") || [];
 
   return (
-    <section className="py-20 relative">
+    <section className="py-12 sm:py-16 md:py-20 relative">
       <div className="container mx-auto px-4">
-        <h2 className="text-5xl md:text-6xl font-gothic text-center text-primary mb-4">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-gothic text-center text-primary mb-3 sm:mb-4">
           Halloween Songs & Tutorials
         </h2>
-        <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+        <p className="text-center text-sm sm:text-base text-muted-foreground mb-8 sm:mb-10 md:mb-12 max-w-2xl mx-auto px-2">
           Learn from our collection of Halloween music lessons and performances
         </p>
 
         {isLoading && (
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
             <div className="space-y-6">
               <h3 className="text-2xl font-bold text-primary mb-4">Tutorials</h3>
               {[1, 2, 3].map((i) => (
@@ -79,23 +79,23 @@ export function YouTubeSection() {
         )}
 
         {data && (
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="space-y-4">
-              <h3 className="text-3xl font-bold text-primary mb-6" data-testid="heading-tutorials">
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
+            <div className="space-y-3 sm:space-y-4">
+              <h3 className="text-2xl sm:text-3xl font-bold text-primary mb-4 sm:mb-6" data-testid="heading-tutorials">
                 Music Concepts
               </h3>
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {tutorials.map((video, index) => (
                   <VideoCard key={index} video={video} />
                 ))}
               </div>
             </div>
 
-            <div className="space-y-4">
-              <h3 className="text-3xl font-bold text-primary mb-6" data-testid="heading-songs">
+            <div className="space-y-3 sm:space-y-4">
+              <h3 className="text-2xl sm:text-3xl font-bold text-primary mb-4 sm:mb-6" data-testid="heading-songs">
                 Song Tutorials
               </h3>
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {songs.map((video, index) => (
                   <VideoCard key={index} video={video} />
                 ))}

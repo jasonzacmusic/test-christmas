@@ -33,17 +33,17 @@ export function PlaylistSection() {
   });
 
   return (
-    <section className="py-20 bg-card/30 relative">
+    <section className="py-12 sm:py-16 md:py-20 bg-card/30 relative">
       <div className="container mx-auto px-4">
-        <h2 className="text-5xl md:text-6xl font-gothic text-center text-primary mb-4">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-gothic text-center text-primary mb-3 sm:mb-4">
           Halloween Riffs Playlist
         </h2>
-        <p className="text-center text-foreground mb-12 max-w-3xl mx-auto" data-testid="text-playlist-description">
+        <p className="text-center text-sm sm:text-base text-foreground mb-8 sm:mb-10 md:mb-12 max-w-3xl mx-auto px-2" data-testid="text-playlist-description">
           A spooky selection of riffs and chord ideas from our YouTube channel — crafted for pianists, producers, and Halloween lovers.
         </p>
 
         {isLoading && (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <Skeleton key={i} className="h-72 rounded-lg" />
             ))}
@@ -57,11 +57,16 @@ export function PlaylistSection() {
         )}
 
         {data && (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {data.videos.map((video) => (
-              <PlaylistVideoCard key={video.id} video={video} />
-            ))}
-          </div>
+          <>
+            <div className="text-center mb-6 text-muted-foreground text-sm" data-testid="text-video-count">
+              Showing {data.videos.length} Halloween riffs
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
+              {data.videos.map((video) => (
+                <PlaylistVideoCard key={video.id} video={video} />
+              ))}
+            </div>
+          </>
         )}
       </div>
     </section>
