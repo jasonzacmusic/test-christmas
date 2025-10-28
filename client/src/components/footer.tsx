@@ -1,5 +1,6 @@
 import { Youtube, Instagram } from "lucide-react";
 import { SiPatreon } from "react-icons/si";
+import nsmLogoWhite from "@assets/NSM LOGO White_1761660070091.png";
 
 export function Footer() {
   return (
@@ -8,6 +9,13 @@ export function Footer() {
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex flex-col items-center gap-6">
+          <div className="mb-4">
+            <img 
+              src={nsmLogoWhite} 
+              alt="Nathaniel School of Music" 
+              className="h-16 animate-pulse"
+            />
+          </div>
           <div className="flex items-center gap-6">
             <a
               href="https://www.youtube.com/nathanielschool?sub_confirmation=1"
@@ -51,7 +59,7 @@ export function Footer() {
           </div>
 
           <p className="text-muted-foreground text-center text-sm" data-testid="text-copyright">
-            © 2025 Nathaniel School of Music | All Rights Reserved
+            © 2025 | All Rights Reserved
           </p>
         </div>
       </div>

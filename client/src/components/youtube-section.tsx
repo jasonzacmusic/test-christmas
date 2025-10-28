@@ -13,8 +13,8 @@ function VideoCard({ video }: { video: YouTubeVideo }) {
 
   return (
     <Card className="bg-card/50 backdrop-blur-sm border-card-border hover-elevate transition-all duration-300" data-testid={`card-video-${videoId}`}>
-      <CardHeader>
-        <div className="aspect-video mb-3 rounded-md overflow-hidden border border-border">
+      <CardHeader className="p-4">
+        <div className="aspect-video mb-2 rounded-md overflow-hidden border border-border">
           <iframe
             width="100%"
             height="100%"
@@ -26,10 +26,10 @@ function VideoCard({ video }: { video: YouTubeVideo }) {
             data-testid={`iframe-video-${videoId}`}
           />
         </div>
-        <CardTitle className="text-lg text-card-foreground" data-testid={`text-title-${videoId}`}>
+        <CardTitle className="text-base text-card-foreground mb-1" data-testid={`text-title-${videoId}`}>
           {video.title}
         </CardTitle>
-        <CardDescription className="text-sm text-muted-foreground" data-testid={`text-desc-${videoId}`}>
+        <CardDescription className="text-xs text-muted-foreground line-clamp-2" data-testid={`text-desc-${videoId}`}>
           {video.description}
         </CardDescription>
       </CardHeader>
@@ -80,22 +80,22 @@ export function YouTubeSection() {
 
         {data && (
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="space-y-6">
+            <div className="space-y-4">
               <h3 className="text-3xl font-bold text-primary mb-6" data-testid="heading-tutorials">
-                Tutorials
+                Music Concepts
               </h3>
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {tutorials.map((video, index) => (
                   <VideoCard key={index} video={video} />
                 ))}
               </div>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-4">
               <h3 className="text-3xl font-bold text-primary mb-6" data-testid="heading-songs">
-                Songs
+                Song Tutorials
               </h3>
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {songs.map((video, index) => (
                   <VideoCard key={index} video={video} />
                 ))}

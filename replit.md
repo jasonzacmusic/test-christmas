@@ -55,20 +55,31 @@ Preferred communication style: Simple, everyday language.
 ### Component Architecture
 
 **Page Structure**: Single home page with multiple sections
-- Header (sticky navigation with school logo and ambient audio toggle)
-- Hero Section (cross-fading hero images with CTA, animated fog effects, candlelight flickers)
-- Live Sessions Section (card-based layout for three Halloween sessions)
+- Header (sticky navigation with NSM logo and ambient audio toggle)
+  - NSM White logo with pulsing animation and scale-on-hover effect
+  - Audio toggle button for Halloween ambient sounds (working with Mixkit audio file)
+- Hero Section (comprehensive Halloween showcase)
+  - Cross-fading hero images with CTA
+  - Animated fog effects and candlelight flickers
+  - Halloween Live Sessions cards integrated directly in hero with icons, time badges, and descriptions
+  - Single animated "Book Your Halloween Pass" CTA button with pulse effect
 - Patreon Section (rotating image carousel with CTA)
-- YouTube Section (embedded video grid from Google Sheets data)
-- Playlist Section (embedded playlist videos)
-- Footer (social links and branding)
+- YouTube Section (two-column layout with exact Excel data)
+  - Left column: "Music Concepts" (Tutorial category) - 4 videos
+  - Right column: "Song Tutorials" (Song category) - 5 videos
+  - Compact card design with smaller padding and line-clamped descriptions
+- Playlist Section (embedded playlist videos sorted numerically by title)
+- Footer (social links with NSM logo and animated gradient)
+  - NSM LOGO White image with pulsing animation
+  - Social media links (YouTube, Instagram, Patreon, Website)
 
 **Enhanced Halloween Atmosphere**:
 - Animated fog drift overlays with purple and orange tinted radial gradients
 - Candlelight flicker effects using CSS animations
 - Smooth gradient background motion in hero section
-- Ambient audio toggle in header (localStorage persistence, autoplay compliance)
-  - Note: Currently uses silent WAV placeholder - replace data URI with actual Halloween ambient audio file
+- Working ambient audio toggle (Mixkit Halloween SFX) with localStorage persistence
+- Animated CTA buttons with pulse, scale-on-hover, and shadow effects
+- NSM logos throughout with spooky pulse animations
 
 **Design Pattern**: Component composition with shared UI primitives
 - Reusable card, button, and layout components
@@ -113,7 +124,7 @@ The application uses a simple, non-technical content management approach:
 
 3. **Live Sessions & Patreon Content**:
    - Currently hardcoded directly in React components:
-     - Live sessions: `client/src/components/live-sessions-section.tsx`
+     - Live sessions: Integrated into `client/src/components/hero-section.tsx` (3 session cards in hero)
      - Patreon images: `client/src/components/patreon-section.tsx`
    - To update: Edit the arrays/data in these component files
    - Seasonal content that rarely changes, so component-level storage is appropriate
@@ -161,9 +172,9 @@ The application tracks user interactions using a simple, privacy-respecting anal
    - Graceful error handling - tracking failures don't affect functionality
 
 4. **Currently Tracked Events**:
-   - Hero CTA clicks: 'cta_click' / 'hero_book_halloween_pass'
-   - Live Sessions CTA clicks: 'cta_click' / 'live_sessions_book_now'
+   - Hero CTA clicks: 'cta_click' / 'hero_book_halloween_pass' (single button in hero)
    - Patreon CTA clicks: 'cta_click' / 'patreon_access'
+   - Note: Live Sessions section removed as standalone - now integrated in hero with same CTA
 
 5. **Future Enhancements**:
    - Video engagement tracking can be added using YouTube IFrame API
@@ -247,4 +258,11 @@ The application tracks user interactions using a simple, privacy-respecting anal
 - Hero images: Jason 1, Jason 2 (cross-fading background)
 - Patreon collection images: 5 rotating promotional images
 - Décor images: 3 Halloween-themed decorative images
+- NSM Logos: 4 variants (White with text, White logo only, Black with text, Black logo only)
+  - Used in header: NSM White_1761660070091.png
+  - Used in footer: NSM LOGO White_1761660070091.png
 - Vite alias: `@assets` for clean imports
+
+**Audio**: 
+- Halloween ambient sound from Mixkit: https://assets.mixkit.co/active_storage/sfx/2466/2466-preview.mp3
+- Autoplay with user consent via toggle button in header

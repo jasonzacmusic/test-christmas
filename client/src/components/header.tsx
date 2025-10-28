@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Volume2, VolumeX } from "lucide-react";
+import nsmWhiteLogo from "@assets/NSM White_1761660070091.png";
 
 export function Header() {
   const [isVisible, setIsVisible] = useState(false);
@@ -53,12 +54,14 @@ export function Header() {
           href="https://www.nathanielschool.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className={`transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+          className={`transition-opacity duration-1000 hover-elevate ${isVisible ? 'opacity-100' : 'opacity-0'}`}
           data-testid="link-school-logo"
         >
-          <div className="text-xl font-bold text-primary hover-elevate px-3 py-1 rounded-md transition-all duration-300">
-            Nathaniel School of Music
-          </div>
+          <img 
+            src={nsmWhiteLogo} 
+            alt="Nathaniel School of Music" 
+            className="h-12 animate-pulse hover:scale-110 transition-transform duration-300"
+          />
         </a>
       </div>
       
@@ -67,9 +70,8 @@ export function Header() {
         loop
         preload="auto"
         data-testid="audio-ambient"
-      >
-        <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=" type="audio/wav" />
-      </audio>
+        src="https://assets.mixkit.co/active_storage/sfx/2466/2466-preview.mp3"
+      />
     </header>
   );
 }

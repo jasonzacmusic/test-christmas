@@ -1,8 +1,41 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Flame, Music2, Piano } from "lucide-react";
 import jason1 from "@assets/Jason 1_1761656394481.jpg";
 import jason2 from "@assets/Jason 2_1761656394482.jpg";
 import { trackEvent } from "@/lib/analytics";
+
+const sessions = [
+  {
+    id: "1",
+    date: "Saturday, 1st November",
+    time: "6:30 AM – 7:30 AM",
+    className: "Scary Chord Progressions",
+    duration: "60 min",
+    description: "Learn to create dark, cinematic harmonies using tritones, minor seconds, and diminished voicings.",
+    icon: Flame
+  },
+  {
+    id: "2",
+    date: "Sunday, 2nd November",
+    time: "6:45 AM – 8:15 AM",
+    className: "Music Factory – Halloween Themes & Songs",
+    duration: "90 min",
+    description: "Work through iconic Halloween themes from movies & TV. Transcribe by ear and study melodic ideas.",
+    icon: Music2
+  },
+  {
+    id: "3",
+    date: "Sunday, 2nd November",
+    time: "8:45 AM – 9:45 AM",
+    className: "The Wednesday Theme – Solo Piano Arrangement",
+    duration: "60 min",
+    description: "Learn Danny Elfman's haunting Wednesday theme phrase by phrase.",
+    icon: Piano
+  }
+];
 
 export function HeroSection() {
   const [currentImage, setCurrentImage] = useState(0);
@@ -54,28 +87,78 @@ export function HeroSection() {
         </div>
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 text-center">
-        <h1 className="text-6xl md:text-8xl font-gothic text-primary mb-6 drop-shadow-2xl animate-pulse">
-          Halloween Music Specials
-        </h1>
-        <p className="text-xl md:text-2xl text-foreground mb-8 max-w-2xl mx-auto">
-          Learn haunting piano chords and Halloween themes.
-        </p>
-        <Button
-          asChild
-          size="lg"
-          className="text-lg bg-primary text-primary-foreground shadow-2xl shadow-primary/50"
-          data-testid="button-hero-cta"
-        >
-          <a
-            href="https://nathanielschool.practicenow.us/students/subscriptions?service=group_class&plan_id=7749"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => trackEvent('cta_click', 'hero_book_halloween_pass')}
+      <div className="relative z-10 container mx-auto px-4">
+        <div className="text-center mb-16">
+          <h1 className="text-6xl md:text-8xl font-gothic text-primary mb-6 drop-shadow-2xl animate-pulse">
+            Halloween Music Specials
+          </h1>
+          <p className="text-xl md:text-2xl text-foreground mb-8 max-w-2xl mx-auto">
+            Learn haunting piano chords and Halloween themes.
+          </p>
+        </div>
+
+        <div className="mb-12">
+          <h2 className="text-4xl md:text-5xl font-gothic text-center text-primary mb-4">
+            Halloween Live Sessions
+          </h2>
+          <p className="text-center text-foreground mb-8 max-w-2xl mx-auto">
+            Join our exclusive Halloween music workshops and master spooky piano techniques
+          </p>
+          
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
+            {sessions.map((session) => {
+              const IconComponent = session.icon;
+              return (
+                <Card key={session.id} className="bg-card/70 backdrop-blur-md border-card-border hover-elevate transition-all duration-300" data-testid={`card-session-${session.id}`}>
+                  <CardHeader>
+                    <div className="flex justify-center mb-4">
+                      <IconComponent className="w-10 h-10 text-primary" />
+                    </div>
+                    <CardTitle className="text-xl text-card-foreground text-center">
+                      {session.className}
+                    </CardTitle>
+                    <CardDescription className="text-muted-foreground text-center">
+                      {session.date}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-3 text-center">
+                    <div className="flex items-center gap-2 justify-center">
+                      <Badge variant="secondary" data-testid={`badge-time-${session.id}`}>
+                        {session.time}
+                      </Badge>
+                    </div>
+                    <div className="flex justify-center">
+                      <Badge variant="outline" data-testid={`badge-duration-${session.id}`}>
+                        Duration: {session.duration}
+                      </Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed" data-testid={`text-description-${session.id}`}>
+                      {session.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="text-center">
+          <Button
+            asChild
+            size="lg"
+            className="text-lg bg-primary text-primary-foreground shadow-2xl shadow-primary/50 animate-pulse hover:animate-none hover:scale-110 transition-all duration-300"
+            data-testid="button-hero-cta"
           >
-            Book Your Halloween Pass
-          </a>
-        </Button>
+            <a
+              href="https://nathanielschool.practicenow.us/students/subscriptions?service=group_class&plan_id=7749"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackEvent('cta_click', 'hero_book_halloween_pass')}
+            >
+              Book Your Halloween Pass
+            </a>
+          </Button>
+        </div>
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />

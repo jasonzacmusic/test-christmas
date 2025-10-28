@@ -54,7 +54,7 @@ async function fetchGoogleSheetData() {
         description: "Discover mysterious connections between chords to make your playing more interesting."
       },
       {
-        title: "How to Use "Wrong" Notes Creatively - Intervals Music Theory",
+        title: "How to Use \"Wrong\" Notes Creatively - Intervals Music Theory",
         category: "Tutorial",
         link: "https://youtu.be/W6rTUhK4RgY",
         description: "Learn how to take the most unstable intervals in music – minor 2nds, tritones, major 7ths & minor 6ths – and turn them into lush, usable chords. Perfect for pianists, composers & arrangers looking to add emotional depth and harmonic colour."
@@ -130,6 +130,12 @@ async function fetchYouTubePlaylist() {
       title: titles[index] || `Video ${index + 1}`,
       thumbnail: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
     }));
+    
+    videos.sort((a, b) => {
+      const numA = parseInt(a.title.match(/#(\d+)/)?.[1] || '0');
+      const numB = parseInt(b.title.match(/#(\d+)/)?.[1] || '0');
+      return numA - numB;
+    });
     
     return { videos };
   } catch (error) {

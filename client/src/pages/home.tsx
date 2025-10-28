@@ -1,6 +1,5 @@
 import { Header } from "@/components/header";
 import { HeroSection } from "@/components/hero-section";
-import { LiveSessionsSection } from "@/components/live-sessions-section";
 import { PatreonSection } from "@/components/patreon-section";
 import { YouTubeSection } from "@/components/youtube-section";
 import { PlaylistSection } from "@/components/playlist-section";
@@ -12,7 +11,6 @@ export default function HomePage() {
       <Header />
       <main>
         <HeroSection />
-        <LiveSessionsSection />
         <PatreonSection />
         <YouTubeSection />
         <PlaylistSection />
