@@ -40,61 +40,57 @@ const sessionsData = [
   }
 ];
 
-// Map timezone to country flag emoji
+// Map timezone to country flag emoji - comprehensive global coverage
 const getCountryFlag = (timezone: string): string => {
-  // Common timezone to country mappings
   const timezoneToCountry: Record<string, string> = {
     // India
-    'Asia/Kolkata': '🇮🇳',
-    'Asia/Calcutta': '🇮🇳',
+    'Asia/Kolkata': '🇮🇳', 'Asia/Calcutta': '🇮🇳',
     // USA
-    'America/New_York': '🇺🇸',
-    'America/Chicago': '🇺🇸',
-    'America/Denver': '🇺🇸',
-    'America/Los_Angeles': '🇺🇸',
-    'America/Phoenix': '🇺🇸',
-    'America/Anchorage': '🇺🇸',
-    'Pacific/Honolulu': '🇺🇸',
+    'America/New_York': '🇺🇸', 'America/Chicago': '🇺🇸', 'America/Denver': '🇺🇸',
+    'America/Los_Angeles': '🇺🇸', 'America/Phoenix': '🇺🇸', 'America/Anchorage': '🇺🇸',
+    'Pacific/Honolulu': '🇺🇸', 'America/Detroit': '🇺🇸', 'America/Indianapolis': '🇺🇸',
     // UK
     'Europe/London': '🇬🇧',
     // Australia
-    'Australia/Sydney': '🇦🇺',
-    'Australia/Melbourne': '🇦🇺',
-    'Australia/Brisbane': '🇦🇺',
-    'Australia/Perth': '🇦🇺',
-    'Australia/Adelaide': '🇦🇺',
-    // UAE
-    'Asia/Dubai': '🇦🇪',
-    // Singapore
-    'Asia/Singapore': '🇸🇬',
-    // Japan
-    'Asia/Tokyo': '🇯🇵',
-    // China
-    'Asia/Shanghai': '🇨🇳',
-    'Asia/Hong_Kong': '🇭🇰',
+    'Australia/Sydney': '🇦🇺', 'Australia/Melbourne': '🇦🇺', 'Australia/Brisbane': '🇦🇺',
+    'Australia/Perth': '🇦🇺', 'Australia/Adelaide': '🇦🇺', 'Australia/Hobart': '🇦🇺',
+    'Australia/Darwin': '🇦🇺',
     // Canada
-    'America/Toronto': '🇨🇦',
-    'America/Vancouver': '🇨🇦',
-    'America/Montreal': '🇨🇦',
-    // Brazil
-    'America/Sao_Paulo': '🇧🇷',
-    // Germany
-    'Europe/Berlin': '🇩🇪',
-    // France
-    'Europe/Paris': '🇫🇷',
-    // Spain
-    'Europe/Madrid': '🇪🇸',
-    // Italy
-    'Europe/Rome': '🇮🇹',
-    // South Africa
-    'Africa/Johannesburg': '🇿🇦',
-    // New Zealand
-    'Pacific/Auckland': '🇳🇿',
-    // Mexico
-    'America/Mexico_City': '🇲🇽',
+    'America/Toronto': '🇨🇦', 'America/Vancouver': '🇨🇦', 'America/Montreal': '🇨🇦',
+    'America/Edmonton': '🇨🇦', 'America/Halifax': '🇨🇦', 'America/Winnipeg': '🇨🇦',
+    // Europe
+    'Europe/Athens': '🇬🇷', 'Europe/Berlin': '🇩🇪', 'Europe/Paris': '🇫🇷',
+    'Europe/Madrid': '🇪🇸', 'Europe/Rome': '🇮🇹', 'Europe/Amsterdam': '🇳🇱',
+    'Europe/Brussels': '🇧🇪', 'Europe/Vienna': '🇦🇹', 'Europe/Zurich': '🇨🇭',
+    'Europe/Stockholm': '🇸🇪', 'Europe/Oslo': '🇳🇴', 'Europe/Copenhagen': '🇩🇰',
+    'Europe/Helsinki': '🇫🇮', 'Europe/Warsaw': '🇵🇱', 'Europe/Prague': '🇨🇿',
+    'Europe/Budapest': '🇭🇺', 'Europe/Bucharest': '🇷🇴', 'Europe/Sofia': '🇧🇬',
+    'Europe/Dublin': '🇮🇪', 'Europe/Lisbon': '🇵🇹', 'Europe/Moscow': '🇷🇺',
+    'Europe/Kiev': '🇺🇦', 'Europe/Istanbul': '🇹🇷',
+    // Middle East
+    'Asia/Dubai': '🇦🇪', 'Asia/Riyadh': '🇸🇦', 'Asia/Kuwait': '🇰🇼',
+    'Asia/Qatar': '🇶🇦', 'Asia/Bahrain': '🇧🇭', 'Asia/Muscat': '🇴🇲',
+    'Asia/Jerusalem': '🇮🇱', 'Asia/Beirut': '🇱🇧', 'Asia/Tehran': '🇮🇷',
+    // Asia
+    'Asia/Singapore': '🇸🇬', 'Asia/Tokyo': '🇯🇵', 'Asia/Shanghai': '🇨🇳',
+    'Asia/Hong_Kong': '🇭🇰', 'Asia/Seoul': '🇰🇷', 'Asia/Bangkok': '🇹🇭',
+    'Asia/Manila': '🇵🇭', 'Asia/Jakarta': '🇮🇩', 'Asia/Kuala_Lumpur': '🇲🇾',
+    'Asia/Taipei': '🇹🇼', 'Asia/Karachi': '🇵🇰', 'Asia/Dhaka': '🇧🇩',
+    'Asia/Colombo': '🇱🇰', 'Asia/Kathmandu': '🇳🇵', 'Asia/Yangon': '🇲🇲',
+    'Asia/Ho_Chi_Minh': '🇻🇳',
+    // South America
+    'America/Sao_Paulo': '🇧🇷', 'America/Buenos_Aires': '🇦🇷', 'America/Santiago': '🇨🇱',
+    'America/Lima': '🇵🇪', 'America/Bogota': '🇨🇴', 'America/Caracas': '🇻🇪',
+    // Africa
+    'Africa/Johannesburg': '🇿🇦', 'Africa/Cairo': '🇪🇬', 'Africa/Lagos': '🇳🇬',
+    'Africa/Nairobi': '🇰🇪', 'Africa/Casablanca': '🇲🇦', 'Africa/Algiers': '🇩🇿',
+    // Oceania
+    'Pacific/Auckland': '🇳🇿', 'Pacific/Fiji': '🇫🇯',
+    // Mexico & Central America
+    'America/Mexico_City': '🇲🇽', 'America/Monterrey': '🇲🇽', 'America/Cancun': '🇲🇽',
   };
   
-  return timezoneToCountry[timezone] || '🌍'; // Default globe emoji
+  return timezoneToCountry[timezone] || '🌍';
 };
 
 // Format session date in IST
@@ -230,7 +226,7 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-14 sm:pt-16 md:pt-24">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 sm:pt-20 md:pt-28">
       {/* Mobile Spooky Design - Halloween themed background with VISIBLE decorative elements */}
       <div className="absolute inset-0 md:hidden mobile-spooky-bg">
         {/* Dark Halloween gradient base */}
