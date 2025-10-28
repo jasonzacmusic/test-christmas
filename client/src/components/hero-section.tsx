@@ -12,43 +12,101 @@ import { trackEvent } from "@/lib/analytics";
 import { useAudio } from "@/contexts/audio-context";
 
 // Session data with timezone-aware dates
-// Base times are in EST (America/New_York)
+// Base times are in IST (Indian Standard Time - Asia/Kolkata)
 const sessionsData = [
   {
     id: "1",
-    startTime: new Date('2025-11-01T06:30:00-05:00'), // 6:30 AM EST
-    endTime: new Date('2025-11-01T07:30:00-05:00'),   // 7:30 AM EST
+    startTime: new Date('2025-11-01T06:30:00+05:30'), // 6:30 AM IST
+    endTime: new Date('2025-11-01T07:30:00+05:30'),   // 7:30 AM IST
     className: "Scary Chord Progressions",
     duration: "60 min",
-    description: "Learn to create dark, cinematic harmonies using tritones, minor seconds, and diminished voicings.",
+    description: "Learn to create dark, cinematic harmonies using tritones, minor seconds, and diminished voicings. Explore modal shifts and rhythmic tension for composers and pianists.",
     icon: Flame
   },
   {
     id: "2",
-    startTime: new Date('2025-11-02T06:45:00-05:00'), // 6:45 AM EST
-    endTime: new Date('2025-11-02T08:15:00-05:00'),   // 8:15 AM EST
+    startTime: new Date('2025-11-02T06:45:00+05:30'), // 6:45 AM IST
+    endTime: new Date('2025-11-02T08:15:00+05:30'),   // 8:15 AM IST
     className: "Music Factory – Halloween Themes & Songs",
     duration: "90 min",
-    description: "Work through iconic Halloween themes from movies & TV. Transcribe by ear and study melodic ideas.",
+    description: "Work through iconic Halloween themes from movies & TV. Transcribe by ear, study melodic ideas, and analyze suspense techniques.",
     icon: Music2
   },
   {
     id: "3",
-    startTime: new Date('2025-11-02T08:45:00-05:00'), // 8:45 AM EST
-    endTime: new Date('2025-11-02T09:45:00-05:00'),   // 9:45 AM EST
+    startTime: new Date('2025-11-02T08:45:00+05:30'), // 8:45 AM IST
+    endTime: new Date('2025-11-02T09:45:00+05:30'),   // 9:45 AM IST
     className: "The Wednesday Theme – Solo Piano Arrangement",
     duration: "60 min",
-    description: "Learn Danny Elfman's haunting Wednesday theme phrase by phrase.",
+    description: "Learn Danny Elfman's haunting Wednesday theme phrase by phrase. Study harmony, bass motion, and orchestral adaptation for solo piano.",
     icon: Piano
   }
 ];
 
-// Format session times in user's local timezone
+// Map timezone to country flag emoji
+const getCountryFlag = (timezone: string): string => {
+  // Common timezone to country mappings
+  const timezoneToCountry: Record<string, string> = {
+    // India
+    'Asia/Kolkata': '🇮🇳',
+    'Asia/Calcutta': '🇮🇳',
+    // USA
+    'America/New_York': '🇺🇸',
+    'America/Chicago': '🇺🇸',
+    'America/Denver': '🇺🇸',
+    'America/Los_Angeles': '🇺🇸',
+    'America/Phoenix': '🇺🇸',
+    'America/Anchorage': '🇺🇸',
+    'Pacific/Honolulu': '🇺🇸',
+    // UK
+    'Europe/London': '🇬🇧',
+    // Australia
+    'Australia/Sydney': '🇦🇺',
+    'Australia/Melbourne': '🇦🇺',
+    'Australia/Brisbane': '🇦🇺',
+    'Australia/Perth': '🇦🇺',
+    'Australia/Adelaide': '🇦🇺',
+    // UAE
+    'Asia/Dubai': '🇦🇪',
+    // Singapore
+    'Asia/Singapore': '🇸🇬',
+    // Japan
+    'Asia/Tokyo': '🇯🇵',
+    // China
+    'Asia/Shanghai': '🇨🇳',
+    'Asia/Hong_Kong': '🇭🇰',
+    // Canada
+    'America/Toronto': '🇨🇦',
+    'America/Vancouver': '🇨🇦',
+    'America/Montreal': '🇨🇦',
+    // Brazil
+    'America/Sao_Paulo': '🇧🇷',
+    // Germany
+    'Europe/Berlin': '🇩🇪',
+    // France
+    'Europe/Paris': '🇫🇷',
+    // Spain
+    'Europe/Madrid': '🇪🇸',
+    // Italy
+    'Europe/Rome': '🇮🇹',
+    // South Africa
+    'Africa/Johannesburg': '🇿🇦',
+    // New Zealand
+    'Pacific/Auckland': '🇳🇿',
+    // Mexico
+    'America/Mexico_City': '🇲🇽',
+  };
+  
+  return timezoneToCountry[timezone] || '🌍'; // Default globe emoji
+};
+
+// Format session date in IST
 const formatSessionDate = (date: Date) => {
   return new Intl.DateTimeFormat('en-US', {
     weekday: 'long',
     month: 'long',
     day: 'numeric',
+    timeZone: 'Asia/Kolkata',
   }).format(date);
 };
 
@@ -59,9 +117,9 @@ const formatSessionTime = (startDate: Date, endDate: Date) => {
     hour12: true,
   };
   
-  // Format in user's local timezone
-  const start = new Intl.DateTimeFormat('en-US', timeFormat).format(startDate);
-  const end = new Intl.DateTimeFormat('en-US', timeFormat).format(endDate);
+  // Get user's timezone
+  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const isIndia = userTimezone === 'Asia/Kolkata' || userTimezone === 'Asia/Calcutta';
   
   // Format in IST (Indian Standard Time)
   const istStart = new Intl.DateTimeFormat('en-US', {
@@ -73,15 +131,20 @@ const formatSessionTime = (startDate: Date, endDate: Date) => {
     timeZone: 'Asia/Kolkata',
   }).format(endDate);
   
-  // Get user's timezone abbreviation (e.g., EST, PST, GMT, etc.)
-  const timezoneAbbr = new Intl.DateTimeFormat('en-US', {
-    timeZoneName: 'short',
-  }).format(startDate).split(' ').pop() || '';
+  // Format in user's local timezone
+  const localStart = new Intl.DateTimeFormat('en-US', timeFormat).format(startDate);
+  const localEnd = new Intl.DateTimeFormat('en-US', timeFormat).format(endDate);
+  
+  // Get flags
+  const indiaFlag = '🇮🇳';
+  const userFlag = getCountryFlag(userTimezone);
   
   return {
-    local: `${start} – ${end}`,
-    ist: `${istStart} – ${istEnd} IST`,
-    timezone: timezoneAbbr,
+    isIndia,
+    istTime: `${istStart} – ${istEnd}`,
+    localTime: `${localStart} – ${localEnd}`,
+    indiaFlag,
+    userFlag,
   };
 };
 
@@ -92,9 +155,11 @@ export function HeroSection() {
     return {
       ...session,
       date: formatSessionDate(session.startTime),
-      timeLocal: timeInfo.local,
-      timeIST: timeInfo.ist,
-      timezone: timeInfo.timezone,
+      isIndia: timeInfo.isIndia,
+      istTime: timeInfo.istTime,
+      localTime: timeInfo.localTime,
+      indiaFlag: timeInfo.indiaFlag,
+      userFlag: timeInfo.userFlag,
     };
   });
   const [currentImage, setCurrentImage] = useState(0);
@@ -217,16 +282,28 @@ export function HeroSection() {
                   </CardHeader>
                   <CardContent className="space-y-3 text-center">
                     <div className="space-y-2">
-                      <div className="flex items-center gap-2 justify-center flex-wrap">
-                        <Badge variant="secondary" data-testid={`badge-time-local-${session.id}`}>
-                          {session.timeLocal} {session.timezone}
-                        </Badge>
-                      </div>
-                      <div className="flex items-center gap-2 justify-center flex-wrap">
-                        <Badge variant="outline" className="bg-primary/10 border-primary/30" data-testid={`badge-time-ist-${session.id}`}>
-                          {session.timeIST}
-                        </Badge>
-                      </div>
+                      {session.isIndia ? (
+                        // Show only IST time with India flag for Indian users
+                        <div className="flex items-center gap-2 justify-center flex-wrap">
+                          <Badge variant="secondary" className="text-base px-3 py-1" data-testid={`badge-time-ist-${session.id}`}>
+                            {session.indiaFlag} {session.istTime}
+                          </Badge>
+                        </div>
+                      ) : (
+                        // Show both times with flags for non-Indian users
+                        <>
+                          <div className="flex items-center gap-2 justify-center flex-wrap">
+                            <Badge variant="secondary" className="text-base px-3 py-1" data-testid={`badge-time-local-${session.id}`}>
+                              {session.userFlag} {session.localTime}
+                            </Badge>
+                          </div>
+                          <div className="flex items-center gap-2 justify-center flex-wrap">
+                            <Badge variant="outline" className="bg-primary/10 border-primary/30 text-base px-3 py-1" data-testid={`badge-time-ist-${session.id}`}>
+                              {session.indiaFlag} {session.istTime}
+                            </Badge>
+                          </div>
+                        </>
+                      )}
                       <div className="flex justify-center">
                         <Badge variant="outline" data-testid={`badge-duration-${session.id}`}>
                           {session.duration}

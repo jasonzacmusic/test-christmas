@@ -1,294 +1,72 @@
 # Nathaniel School of Music - Halloween Specials
 
 ## Overview
-
-This is a single-page promotional website for Nathaniel School of Music's Halloween music specials. The application showcases Halloween-themed music content including live sessions, Patreon collections, YouTube videos, and playlists. Built with a cinematic Halloween aesthetic featuring dark, elegant visuals with deep purple, black, and burnt orange color schemes.
-
-The site is designed as a responsive, marketing-focused landing page with minimal vertical scrolling, smooth transitions, and a sophisticated horror cinematography-inspired design approach.
+This single-page promotional website showcases Nathaniel School of Music's Halloween music specials, including live sessions, Patreon content, and YouTube videos. Designed with a cinematic Halloween aesthetic, it features dark, elegant visuals, minimal scrolling, smooth transitions, and a responsive, marketing-focused layout. The project aims to attract users to Halloween-themed music content and drive registrations for special events.
 
 ## User Preferences
-
 Preferred communication style: Simple, everyday language.
 
 ## System Architecture
 
-### Frontend Architecture
+### Frontend
+- **Framework**: React with TypeScript (Vite build tool)
+- **Routing**: Wouter (lightweight client-side routing)
+- **UI Components**: Shadcn/ui (Radix UI primitives with custom "new-york" styling via Tailwind CSS and CSS variables)
+- **State Management**: TanStack Query (React Query) for server state.
+- **Styling**: Tailwind CSS with custom Halloween dark theme (deep purple, black, burnt orange), gothic fonts (Creepster, Nosifer) for headlines, Inter for body text, smooth animations.
+- **Key Features**:
+    - Sticky header with NSM logo and 10-track audio selector (keyboard shortcuts 1-10).
+    - Hero section with prominent audio player (10 auto-cycling MP3 tracks), animated fog/candlelight effects, cross-fading hero images, and 3 localized Live Session cards (displaying IST and user's local time globally).
+    - Animated "Book Your Halloween Pass" CTA button.
+    - Patreon section with rotating image carousel.
+    - YouTube section displaying curated "Music Concepts" and "Song Tutorials" videos.
+    - Playlist section featuring 10 Halloween riff videos from YouTube.
+    - Footer with social links and animated NSM logo.
+    - Enhanced Halloween atmosphere with animated overlays, subtle gradient motions, and gentle scale animations on interactive elements.
 
-**Framework**: React with TypeScript using Vite as the build tool
+### Backend
+- **Server Framework**: Express.js with TypeScript.
+- **API Structure**: RESTful endpoints for YouTube videos and playlist data.
+- **Data Sources**: Google Sheets API for dynamic YouTube video content, YouTube API for playlist data, with a robust fallback data mechanism.
+- **Server-Side Rendering**: Vite middleware for development (HMR) and static file serving for production.
 
-**Routing**: Wouter for lightweight client-side routing (single-page application with minimal routes)
+### Data Storage & Content Management
+- **Database**: Drizzle ORM configured with PostgreSQL (Neon Database) for future expansion (admin_users, live_sessions, youtube_videos, patreon_images tables defined but not actively used).
+- **Type Safety**: Zod schemas for runtime validation of API data.
+- **Current Content Management**:
+    - **YouTube Videos**: Fetched dynamically from a public Google Sheet CSV (`1QqebhU7ksJnLRC1j2aTT5bevsUD3vBzhVygEe438VA`).
+    - **Fallback Data**: Hardcoded in `server/routes.ts` for reliability when external services are unavailable.
+    - **Live Sessions & Patreon**: Hardcoded directly within React components for seasonal content.
 
-**UI Component Library**: Shadcn/ui (Radix UI primitives with custom styling)
-- Provides accessible, customizable components
-- Configured with "new-york" style variant
-- Uses Tailwind CSS for styling with CSS variables for theming
-
-**State Management**: TanStack Query (React Query) for server state management
-- Handles data fetching from backend APIs
-- Provides caching, background updates, and loading states
-- No complex global state needed due to simple data flow
-
-**Styling System**: 
-- Tailwind CSS with custom configuration
-- CSS variables for theming (Halloween dark theme by default)
-- Custom color palette: deep purple backgrounds, burnt orange accents
-- Gothic display fonts (Creepster, Nosifer) for headlines, Inter for body text
-- Smooth animations and transitions throughout
-
-### Backend Architecture
-
-**Server Framework**: Express.js with TypeScript
-
-**API Structure**: RESTful endpoints serving JSON data
-- `/api/youtube-videos` - Fetches curated Halloween video content from Google Sheets
-- `/api/playlist-videos` - Returns YouTube playlist data
-
-**Data Sources**:
-- Google Sheets API integration for dynamic content management
-- YouTube API integration for playlist videos
-- Fallback data mechanism when external services are unavailable
-
-**Server-Side Rendering**: Vite middleware integration for development
-- Hot module replacement (HMR) for development
-- Static file serving for production builds
-
-### Component Architecture
-
-**Page Structure**: Single home page with multiple sections
-- Header (sticky navigation with NSM logo and track selector)
-  - NSM White logo with pulsing animation and scale-on-hover effect
-  - 10 visible number buttons (1-10) in center for instant track selection
-  - Active track button highlighted with scale effect
-  - Keyboard shortcuts (1-10 keys) also work to switch tracks
-- Hero Section (comprehensive Halloween showcase with prominent audio player)
-  - Main heading: "Halloween Live Sessions" (prominent text-6xl md:text-8xl)
-  - Description: "Join our exclusive Halloween music workshops and master spooky piano techniques"
-  - Huge circular audio toggle button (w-28 h-28) with large volume icon (w-24 h-24)
-  - "Now playing: Track X" indicator when audio is active
-  - 10 MP3 tracks (01.mp3-10.mp3) with auto-cycling functionality
-  - Full-length playback: each track plays from start to finish
-  - Auto-cycling: when track ends, automatically plays next track
-  - Cross-fading hero images:
-    - Desktop/Laptop (md and above): Jason 1, Jason 2 (professional musician images) - uses "cover" sizing for full background
-    - Mobile (below md): Decor 1, 2, 3 (Halloween decorative images - piano hands, witch hat character, skeleton) - uses "contain" sizing to show full image
-  - Animated fog effects and candlelight flickers
-  - 3 Live Sessions cards with icons (Flame, Music2, Piano), dual timezone display (user's local + IST), and descriptions
-    - Shows time in user's local timezone (e.g., "6:30 AM – 7:30 AM EST")
-    - Shows time in IST - Indian Standard Time (e.g., "5:00 PM – 6:00 PM IST")
-    - Displays duration badge
-    - Optimized for global audience: USA, South America, Australia, UAE, Middle East, Africa, Europe, UK, China, Japan, Singapore, etc.
-  - Single extra-large animated "Book Your Halloween Pass" CTA button with gentle scale effect
-  - CTA details text: "Includes Live Lectures, Notation, Assignments & HD Recordings"
-- Patreon Section (rotating image carousel with CTA)
-- YouTube Section (two-column layout with prioritized video ordering)
-  - Left column: "Music Concepts" (Tutorial category) - 4 videos
-    - "ALL the Scary Chords & Progressions" featured first
-  - Right column: "Song Tutorials" (Song category) - 5 videos
-    - "Wednesday's Theme" featured first
-  - Compact card design with smaller padding and line-clamped descriptions
-- Playlist Section (10 Halloween riff videos from YouTube playlist, sorted numerically by riff number)
-- Footer (social links with NSM logo and animated gradient)
-  - NSM LOGO White image with gentle scale animation
-  - Social media links (YouTube, Instagram, Patreon, Website)
-
-**Enhanced Halloween Atmosphere**:
-- Animated fog drift overlays with purple and orange tinted radial gradients
-- Candlelight flicker effects using CSS animations
-- Smooth gradient background motion in hero section
-- Interactive audio player with 10 Halloween music tracks (full-length playback)
-- Auto-cycling: Plays track 1→2→3...→10→1 automatically when each finishes
-- Keyboard-controllable audio switching (keys 1-10) with instant playback
-- Gentle scale animations (breathing effect) on all logos and CTA button
-- Large, prominent speaker icon (96px) in audio toggle button
-- Extra-large "Book Your Halloween Pass" CTA button
-
-**Design Pattern**: Component composition with shared UI primitives
-- Reusable card, button, and layout components
-- Consistent spacing and visual hierarchy
-- Mobile-first responsive design
-
-### Data Storage
-
-**Database Configuration**: Drizzle ORM with PostgreSQL dialect configured
-- Schema defined in `shared/schema.ts`
-- Database tables created for future content management:
-  - `admin_users`: Admin authentication (for future use)
-  - `live_sessions`: Live session content management
-  - `youtube_videos`: YouTube video metadata storage
-  - `patreon_images`: Patreon carousel image management
-- Database credentials via environment variable `DATABASE_URL`
-- Currently using fallback data mechanism (see Content Management section)
-
-**Type Safety**: Zod schemas for runtime validation
-- YouTube video data validation
-- Playlist video validation
-- Live session data validation
-
-### Content Management Workflow
-
-**Current Approach**: Google Sheets with fallback data
-
-The application uses a simple, non-technical content management approach:
-
-1. **Google Sheets Integration** (Primary for YouTube videos):
-   - Sheet ID: `1QqeTbhU7ksJnLRC1j2aTT5bevsUD3vBzhVygEe438VA`
-   - Backend automatically fetches YouTube video metadata directly from the public Google Sheets CSV URL
-   - Content managers can update the Google Sheet and changes appear immediately on next page load
-   - No manual export/import needed - the backend handles this automatically
-   - Implementation: `server/routes.ts` - `fetchGoogleSheetData()` function
-
-2. **Fallback Data Mechanism**:
-   - When Google Sheets is unavailable or requires authentication, the app automatically uses curated fallback data
-   - Fallback data location: `server/routes.ts` - defined in the `/api/youtube-videos` route handler
-   - To update fallback data: Edit the `fallbackVideos` array in `server/routes.ts`
-   - Ensures website always displays content even if external service is down
-
-3. **Live Sessions & Patreon Content**:
-   - Currently hardcoded directly in React components:
-     - Live sessions: Integrated into `client/src/components/hero-section.tsx` (3 session cards in hero)
-     - Patreon images: `client/src/components/patreon-section.tsx`
-   - To update: Edit the arrays/data in these component files
-   - Seasonal content that rarely changes, so component-level storage is appropriate
-
-4. **Database Schema (Future Expansion)**:
-   - **Note**: Database tables exist but are NOT currently used by the application
-   - Tables created: `admin_users`, `live_sessions`, `youtube_videos`, `patreon_images`
-   - Schema location: `shared/schema.ts`
-   - To switch from current approach to database storage:
-     a. Implement storage interface methods in `server/storage.ts`
-     b. Create API routes to serve data from database instead of fallback/sheets
-     c. Update frontend to use new API endpoints
-     d. (Optional) Build admin interface for CRUD operations
-   - Current implementation uses in-memory data, not database
-
-**Why This Approach Works**:
-- Halloween special is seasonal with relatively static content
-- Google Sheets provides non-technical staff easy content editing for YouTube videos
-- Automatic fetching means zero manual steps - just edit the sheet
-- Fallback data ensures reliability if Sheets API has issues
-- No authentication/session management complexity needed
-- Fast development and deployment
-- Database ready for future scaling if content update frequency increases
-
-### Analytics Tracking
-
-**Analytics Implementation**: Event tracking system for user engagement
-
-The application tracks user interactions using a simple, privacy-respecting analytics system:
-
-1. **Database Storage** (shared/schema.ts):
-   - `analyticsEventsTable`: Stores event type, optional event data, and timestamp
-   - Simple schema for easy querying and analysis
-
-2. **Backend API** (server/routes.ts):
-   - POST `/api/analytics/track` - Records analytics events with validation (returns 400 for invalid data, 500 for server errors)
-   - GET `/api/analytics/stats` - Returns analytics dashboard data:
-     - Daily event breakdown for past 30 days
-     - Total counts by event type
-   - Database connection via `server/db.ts` using Drizzle + Neon
-
-3. **Frontend Tracking** (client/src/lib/analytics.ts):
-   - Lightweight utility function for tracking events
-   - Non-blocking async calls - never slows down user experience
-   - Graceful error handling - tracking failures don't affect functionality
-
-4. **Currently Tracked Events**:
-   - Hero CTA clicks: 'cta_click' / 'hero_book_halloween_pass' (single button in hero)
-   - Patreon CTA clicks: 'cta_click' / 'patreon_access'
-   - Note: Live Sessions section removed as standalone - now integrated in hero with same CTA
-
-5. **Future Enhancements**:
-   - Video engagement tracking can be added using YouTube IFrame API
-   - Additional event types for more granular tracking
-   - Analytics dashboard UI (currently accessible via API endpoint)
+### Analytics
+- **Tracking System**: Simple event tracking for user engagement.
+- **Storage**: `analyticsEventsTable` in PostgreSQL.
+- **Backend API**: POST `/api/analytics/track` for recording, GET `/api/analytics/stats` for dashboard data.
+- **Frontend Tracking**: Lightweight utility in `client/src/lib/analytics.ts` for non-blocking event dispatch.
+- **Tracked Events**: CTA clicks (hero, Patreon).
 
 ### Build and Deployment
-
-**Development**: 
-- Vite dev server with HMR
-- TSX for TypeScript execution
-- Development-only plugins: runtime error overlay, cartographer, dev banner
-
-**Production Build**:
-- Vite builds frontend to `dist/public`
-- ESBuild bundles backend to `dist`
-- Single-file server output with external packages
-
-**Configuration Management**:
-- Environment variables for sensitive data (DATABASE_URL, API keys)
-- TypeScript path aliases for clean imports (@/, @shared, @assets)
+- **Development**: Vite dev server with HMR, TSX.
+- **Production**: Vite for frontend, ESBuild for backend (single-file output).
+- **Configuration**: Environment variables for sensitive data, TypeScript path aliases.
 
 ## External Dependencies
 
 ### Third-Party Services
-
-**Google Sheets**: Primary content management system
-- Sheet ID: `1QqeTbhU7ksJnLRC1j2aTT5bevsUD3vBzhVygEe438VA`
-- Serves YouTube video metadata (title, category, link, description)
-- CSV export format for easy parsing
-- Fallback data when sheet is unavailable
-
-**YouTube**: 
-- Playlist ID: `PLrNNL05e9FT-nmVSqhB5g0RD2yHEpuoRs` (Halloween Riffs Playlist)
-- Embedded iframe players for video playback
-- No direct API integration (uses public embed URLs)
-
-**PracticeNow**: External booking system
-- URL: `https://nathanielschool.practicenow.us/students/subscriptions?service=group_class&plan_id=7749`
-- Used for Halloween session registration CTA
+- **Google Sheets**: Primary content source for YouTube video metadata (`1QqeBhU7ksJnLRC1j2aTT5bevsUD3vBzhVygEe438VA`).
+- **YouTube**: Embedded iframe players for video playback (Playlist ID: `PLrNNL05e9FT-nmVSqhB5g0RD2yHEpuoRs`).
+- **PracticeNow**: External booking system for Halloween session registration (`https://nathanielschool.practicenow.us/students/subscriptions?service=group_class&plan_id=7749`).
 
 ### Database
+- **Neon Database**: Serverless PostgreSQL via `@neondatabase/serverless` (minimal current usage).
 
-**Neon Database**: Serverless PostgreSQL
-- Package: `@neondatabase/serverless`
-- Connection via `DATABASE_URL` environment variable
-- Minimal current usage (prepared for future features)
+### UI Component Libraries
+- **Radix UI**: Headless accessible UI primitives (e.g., accordion, dialog) for foundational components.
+- **embla-carousel-react**: Carousel functionality.
 
-### UI Component Dependencies
-
-**Radix UI**: Headless accessible UI primitives
-- Multiple components: accordion, alert-dialog, avatar, checkbox, dialog, dropdown-menu, etc.
-- Provides keyboard navigation, ARIA compliance, and accessibility
-- Customized with Tailwind styling
-
-**Additional UI Libraries**:
-- `embla-carousel-react`: Carousel/slider functionality
-- `cmdk`: Command menu component
-- `vaul`: Drawer component
-- `react-day-picker`: Date picker
-- `recharts`: Charting (included but not actively used)
-
-### Form Handling
-
-**React Hook Form**: Form state management
-- Package: `react-hook-form` with `@hookform/resolvers`
-- Zod integration for validation
-- Not heavily used in current marketing page
-
-### Development Tools
-
-**Replit Plugins**:
-- `@replit/vite-plugin-runtime-error-modal`: Error overlay
-- `@replit/vite-plugin-cartographer`: Code navigation
-- `@replit/vite-plugin-dev-banner`: Development banner
-- Conditionally loaded only in Replit development environment
+### Development Tools (Replit-specific)
+- `@replit/vite-plugin-runtime-error-modal`, `@replit/vite-plugin-cartographer`, `@replit/vite-plugin-dev-banner`.
 
 ### Asset Management
-
-**Static Assets**: Stored in `attached_assets/` directory
-- Hero images: Jason 1, Jason 2 (cross-fading background)
-- Patreon collection images: 5 rotating promotional images
-- Décor images: 3 Halloween-themed decorative images
-- NSM Logos: 4 variants (White with text, White logo only, Black with text, Black logo only)
-  - Used in header: NSM White_1761660070091.png
-  - Used in footer: NSM LOGO White_1761660070091.png
-- Vite alias: `@assets` for clean imports
-
-**Audio**: 
-- 10 Halloween music tracks (01.mp3 through 10.mp3)
-  - Files: 01_1761662458015.mp3 to 10_1761662458016.mp3
-  - Each track plays from 0:30 to 1:30 (60 seconds)
-  - Auto-cycles to next track when current finishes
-  - Keyboard shortcuts: Press keys 1-10 to switch tracks instantly
-  - Playback state persisted in localStorage
-  - Toggle button in header for play/pause control
+- **Static Assets**: Stored in `attached_assets/` (hero images, Patreon images, decorative images, NSM logos).
+- **Audio**: 10 Halloween MP3 tracks (e.g., `01_1761662458015.mp3` to `10_1761662458016.mp3`) with auto-cycling and keyboard control.
