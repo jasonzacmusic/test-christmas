@@ -1,0 +1,62 @@
+import { Youtube, Instagram } from "lucide-react";
+import { SiPatreon } from "react-icons/si";
+
+export function Footer() {
+  return (
+    <footer className="py-12 border-t border-border relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent opacity-50" />
+      
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="flex flex-col items-center gap-6">
+          <div className="flex items-center gap-6">
+            <a
+              href="https://www.youtube.com/nathanielschool?sub_confirmation=1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-foreground hover:text-primary transition-all duration-300 hover:scale-110 hover-elevate p-3 rounded-full"
+              data-testid="link-youtube"
+              aria-label="YouTube"
+            >
+              <Youtube className="w-7 h-7" />
+            </a>
+            <a
+              href="https://www.instagram.com/jasonzac?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-foreground hover:text-primary transition-all duration-300 hover:scale-110 hover-elevate p-3 rounded-full"
+              data-testid="link-instagram"
+              aria-label="Instagram"
+            >
+              <Instagram className="w-7 h-7" />
+            </a>
+            <a
+              href="https://www.patreon.com/2815392/join"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-foreground hover:text-primary transition-all duration-300 hover:scale-110 hover-elevate p-3 rounded-full"
+              data-testid="link-patreon"
+              aria-label="Patreon"
+            >
+              <SiPatreon className="w-7 h-7" />
+            </a>
+            <a
+              href="https://www.nathanielschool.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-foreground hover:text-primary transition-all duration-300 hover:scale-110 hover-elevate px-4 py-2 rounded-full border border-border"
+              data-testid="link-website"
+            >
+              <span className="text-sm font-semibold">Website</span>
+            </a>
+          </div>
+
+          <p className="text-muted-foreground text-center text-sm" data-testid="text-copyright">
+            © 2025 Nathaniel School of Music | All Rights Reserved
+          </p>
+        </div>
+      </div>
+
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent animate-pulse" />
+    </footer>
+  );
+}
