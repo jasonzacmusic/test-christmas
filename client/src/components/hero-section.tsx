@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Flame, Music2, Piano } from "lucide-react";
+import { Flame, Music2, Piano, Volume2, VolumeX } from "lucide-react";
 import jason1 from "@assets/Jason 1_1761656394481.jpg";
 import jason2 from "@assets/Jason 2_1761656394482.jpg";
 import { trackEvent } from "@/lib/analytics";
+import { useAudio } from "@/contexts/audio-context";
 
 const sessions = [
   {
@@ -40,6 +41,7 @@ const sessions = [
 export function HeroSection() {
   const [currentImage, setCurrentImage] = useState(0);
   const images = [jason1, jason2];
+  const { isPlaying, currentTrack, toggleAudio } = useAudio();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -92,9 +94,31 @@ export function HeroSection() {
           <h1 className="text-6xl md:text-8xl font-gothic text-primary mb-6 drop-shadow-2xl animate-pulse">
             Halloween Live Sessions
           </h1>
-          <p className="text-xl md:text-2xl text-foreground mb-12 max-w-3xl mx-auto">
+          <p className="text-xl md:text-2xl text-foreground mb-8 max-w-3xl mx-auto">
             Join our exclusive Halloween music workshops and master spooky piano techniques
           </p>
+          
+          <div className="flex justify-center mb-12">
+            <Button
+              onClick={toggleAudio}
+              size="lg"
+              className="w-32 h-32 rounded-full bg-primary text-primary-foreground shadow-2xl shadow-primary/50 hover:scale-110 transition-all duration-300 animate-pulse hover:animate-none"
+              data-testid="button-audio-toggle-hero"
+              aria-label={isPlaying ? "Pause music" : "Play music"}
+            >
+              {isPlaying ? (
+                <Volume2 className="w-16 h-16" />
+              ) : (
+                <VolumeX className="w-16 h-16" />
+              )}
+            </Button>
+          </div>
+
+          {isPlaying && (
+            <p className="text-sm text-muted-foreground mb-8 animate-pulse">
+              Now playing: Track {currentTrack + 1}
+            </p>
+          )}
           
           <div className="grid md:grid-cols-3 gap-6 mb-8">
             {sessions.map((session) => {
