@@ -42,40 +42,58 @@ async function fetchGoogleSheetData() {
     console.warn('Failed to fetch from Google Sheets, using fallback data:', error);
     const videos = [
       {
-        title: "The Wednesday Theme - Piano Tutorial",
+        title: "How to play Chord Connections | Part 1",
         category: "Tutorial",
-        link: "https://www.youtube.com/watch?v=ygkYKQU81Cw",
-        description: "Learn Danny Elfman's hauntingly beautiful Wednesday theme step by step"
+        link: "https://youtu.be/JCChCSaxFjw",
+        description: "This video is part 1 of how to play chord connections."
       },
       {
-        title: "Addams Family Theme - Piano Tutorial",
+        title: "STOP Wasting Time with Boring Chords - Mysterious Connections Revealed",
         category: "Tutorial",
-        link: "https://www.youtube.com/watch?v=zUwmfD6N0fU",
-        description: "Master the iconic Addams Family theme with detailed breakdown"
+        link: "https://youtu.be/_yoM8SzSaEk",
+        description: "Discover mysterious connections between chords to make your playing more interesting."
       },
       {
-        title: "Scary Chord Progressions Tutorial",
+        title: "How to Use "Wrong" Notes Creatively - Intervals Music Theory",
         category: "Tutorial",
-        link: "https://www.youtube.com/watch?v=BaJu3_0bQSI",
-        description: "Create dark, cinematic harmonies using tritones and diminished chords"
+        link: "https://youtu.be/W6rTUhK4RgY",
+        description: "Learn how to take the most unstable intervals in music – minor 2nds, tritones, major 7ths & minor 6ths – and turn them into lush, usable chords. Perfect for pianists, composers & arrangers looking to add emotional depth and harmonic colour."
       },
       {
-        title: "Thriller - Michael Jackson Piano",
-        category: "Song",
-        link: "https://www.youtube.com/watch?v=4V90AmXnguw",
-        description: "Halloween classic - Thriller piano arrangement"
+        title: "ALL the Scary Chords & Progressions you should know 👻",
+        category: "Tutorial",
+        link: "https://youtu.be/l7B37u8--OQ",
+        description: "Learn how to form chords using the dissonant intervals that theory offers and compose some spooky, eerie, and scary music. Using tension intervals - Minor 2nd, Tritone, Major 6th & Major 7th, we build a variety of chords using unique musical concepts."
       },
       {
-        title: "Ghostbusters Theme Piano",
+        title: "🎹 Learn to Play The Addams Family Theme on Piano! 🖤",
         category: "Song",
-        link: "https://www.youtube.com/watch?v=cK5G8fPmWeA",
-        description: "The iconic Ghostbusters theme on piano"
+        link: "https://youtu.be/Js31p-7mItU?si=xF4_xE_sAPq41MEg",
+        description: "Learn to play The Addams Family Theme on piano in beginner, intermediate & advanced versions. We'll cover the essential music theory, melody phrasing, left-hand rhythm patterns, and ornaments to make your performance sound authentic and full."
       },
       {
-        title: "This Is Halloween Piano",
+        title: "How to Play the Halloween Theme 🎹 John Carpenter 👻",
         category: "Song",
-        link: "https://www.youtube.com/watch?v=xpvdAJYvofI",
-        description: "From The Nightmare Before Christmas"
+        link: "https://youtu.be/eGKSpaNCS2k",
+        description: "This video teaches you how to play John Carpenter's Halloween Theme on piano."
+      },
+      {
+        title: "How to Play the Ghostbusters Theme on Piano 👻 Easy Piano Tutorial",
+        category: "Song",
+        link: "https://youtu.be/2cfx5Q4FV38",
+        description: "Learn to play the Ghostbusters Theme on piano with this easy tutorial."
+      },
+      {
+        title: "Thriller on the Piano - Michael Jackson",
+        category: "Song",
+        link: "https://youtu.be/uZ8Gl_p-ghE",
+        description: "This video shows you how to play Michael Jackson's \"Thriller\" on the piano."
+      },
+      {
+        title: "How to Play Wednesday's Theme with This One Simple Piano Technique?",
+        category: "Song",
+        link: "https://youtu.be/Z309URkixMU",
+        description: "Learn how to play the Wednesday Theme by Danny Elfman as a solo piano arrangement. After transcribing the epic cello bass line, orchestration, percussion, choir, and haunting theremin, this piano arrangement pushes your skills to the limit."
       }
     ];
     
