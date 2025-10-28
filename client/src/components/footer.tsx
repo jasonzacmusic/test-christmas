@@ -10,11 +10,20 @@ export function Footer() {
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex flex-col items-center gap-6">
           <div className="mb-4">
-            <img 
-              src={nsmLogoWhite} 
-              alt="Nathaniel School of Music" 
-              className="h-16 animate-gentle-scale"
-            />
+            <a
+              href="https://www.nathanielschool.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block transition-all duration-300 hover:scale-110"
+              data-testid="link-website-logo"
+              aria-label="Visit Nathaniel School of Music Website"
+            >
+              <img 
+                src={nsmLogoWhite} 
+                alt="Nathaniel School of Music" 
+                className="h-16 animate-gentle-scale"
+              />
+            </a>
           </div>
           <div className="flex items-center gap-6">
             <a
@@ -46,15 +55,6 @@ export function Footer() {
               aria-label="Patreon"
             >
               <SiPatreon className="w-7 h-7" />
-            </a>
-            <a
-              href="https://www.nathanielschool.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-foreground hover:text-primary transition-all duration-300 hover:scale-110 hover-elevate px-4 py-2 rounded-full border border-border"
-              data-testid="link-website"
-            >
-              <span className="text-sm font-semibold">Website</span>
             </a>
           </div>
 

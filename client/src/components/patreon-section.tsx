@@ -30,7 +30,14 @@ export function PatreonSection() {
         </p>
 
         <div className="max-w-4xl mx-auto">
-          <div className="relative aspect-video mb-6 sm:mb-8 rounded-lg overflow-hidden border border-card-border shadow-2xl">
+          <a
+            href="https://www.patreon.com/collection/1805426"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block relative aspect-video mb-6 sm:mb-8 rounded-lg overflow-hidden border border-card-border shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-3xl cursor-pointer"
+            data-testid="link-patreon-carousel"
+            onClick={() => trackEvent('cta_click', 'patreon_carousel')}
+          >
             {images.map((img, index) => (
               <div
                 key={index}
@@ -46,7 +53,7 @@ export function PatreonSection() {
                 />
               </div>
             ))}
-          </div>
+          </a>
 
           <div className="text-center">
             <p className="text-sm sm:text-base md:text-lg text-foreground mb-6 sm:mb-8 leading-relaxed max-w-3xl mx-auto px-2" data-testid="text-patreon-description">

@@ -455,11 +455,11 @@ export function HeroSection() {
           </div>
         </div>
 
-        <div className="text-center">
+        <div className="text-center px-4">
           <Button
             asChild
             size="lg"
-            className="text-2xl md:text-3xl px-12 py-8 md:px-16 md:py-10 bg-primary text-primary-foreground shadow-2xl shadow-primary/50 animate-gentle-scale hover:animate-none hover:scale-110 transition-all duration-300"
+            className="text-lg sm:text-xl md:text-2xl lg:text-3xl px-6 py-6 sm:px-10 sm:py-7 md:px-14 md:py-9 lg:px-16 lg:py-10 bg-primary text-primary-foreground shadow-2xl shadow-primary/50 animate-gentle-scale hover:animate-none hover:scale-110 transition-all duration-300 whitespace-normal leading-tight"
             data-testid="button-hero-cta"
           >
             <a
