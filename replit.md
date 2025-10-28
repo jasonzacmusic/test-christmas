@@ -69,10 +69,14 @@ Preferred communication style: Simple, everyday language.
   - Full-length playback: each track plays from start to finish
   - Auto-cycling: when track ends, automatically plays next track
   - Cross-fading hero images:
-    - Desktop/Laptop (md and above): Jason 1, Jason 2 (professional musician images)
-    - Mobile (below md): Decor 1, 2, 3 (Halloween decorative images - piano hands, witch hat character, skeleton)
+    - Desktop/Laptop (md and above): Jason 1, Jason 2 (professional musician images) - uses "cover" sizing for full background
+    - Mobile (below md): Decor 1, 2, 3 (Halloween decorative images - piano hands, witch hat character, skeleton) - uses "contain" sizing to show full image
   - Animated fog effects and candlelight flickers
-  - 3 Live Sessions cards with icons (Flame, Music2, Piano), time badges, timezone-aware dates/times, and descriptions
+  - 3 Live Sessions cards with icons (Flame, Music2, Piano), dual timezone display (user's local + IST), and descriptions
+    - Shows time in user's local timezone (e.g., "6:30 AM – 7:30 AM EST")
+    - Shows time in IST - Indian Standard Time (e.g., "5:00 PM – 6:00 PM IST")
+    - Displays duration badge
+    - Optimized for global audience: USA, South America, Australia, UAE, Middle East, Africa, Europe, UK, China, Japan, Singapore, etc.
   - Single extra-large animated "Book Your Halloween Pass" CTA button with gentle scale effect
   - CTA details text: "Includes Live Lectures, Notation, Assignments & HD Recordings"
 - Patreon Section (rotating image carousel with CTA)

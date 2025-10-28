@@ -58,18 +58,45 @@ const formatSessionTime = (startDate: Date, endDate: Date) => {
     minute: '2-digit',
     hour12: true,
   };
+  
+  // Format in user's local timezone
   const start = new Intl.DateTimeFormat('en-US', timeFormat).format(startDate);
   const end = new Intl.DateTimeFormat('en-US', timeFormat).format(endDate);
-  return `${start} – ${end}`;
+  
+  // Format in IST (Indian Standard Time)
+  const istStart = new Intl.DateTimeFormat('en-US', {
+    ...timeFormat,
+    timeZone: 'Asia/Kolkata',
+  }).format(startDate);
+  const istEnd = new Intl.DateTimeFormat('en-US', {
+    ...timeFormat,
+    timeZone: 'Asia/Kolkata',
+  }).format(endDate);
+  
+  // Get user's timezone abbreviation (e.g., EST, PST, GMT, etc.)
+  const timezoneAbbr = new Intl.DateTimeFormat('en-US', {
+    timeZoneName: 'short',
+  }).format(startDate).split(' ').pop() || '';
+  
+  return {
+    local: `${start} – ${end}`,
+    ist: `${istStart} – ${istEnd} IST`,
+    timezone: timezoneAbbr,
+  };
 };
 
-const sessions = sessionsData.map(session => ({
-  ...session,
-  date: formatSessionDate(session.startTime),
-  time: formatSessionTime(session.startTime, session.endTime),
-}));
-
 export function HeroSection() {
+  // Compute sessions inside component to ensure timezone info is current
+  const sessions = sessionsData.map(session => {
+    const timeInfo = formatSessionTime(session.startTime, session.endTime);
+    return {
+      ...session,
+      date: formatSessionDate(session.startTime),
+      timeLocal: timeInfo.local,
+      timeIST: timeInfo.ist,
+      timezone: timeInfo.timezone,
+    };
+  });
   const [currentImage, setCurrentImage] = useState(0);
   const desktopImages = [jason1, jason2];
   const mobileImages = [decor1, decor2, decor3];
@@ -95,7 +122,8 @@ export function HeroSection() {
             }`}
             style={{
               backgroundImage: `url(${img})`,
-              backgroundSize: 'cover',
+              backgroundSize: 'contain',
+              backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center',
             }}
           />
@@ -188,15 +216,22 @@ export function HeroSection() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-3 text-center">
-                    <div className="flex items-center gap-2 justify-center">
-                      <Badge variant="secondary" data-testid={`badge-time-${session.id}`}>
-                        {session.time}
-                      </Badge>
-                    </div>
-                    <div className="flex justify-center">
-                      <Badge variant="outline" data-testid={`badge-duration-${session.id}`}>
-                        Duration: {session.duration}
-                      </Badge>
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2 justify-center flex-wrap">
+                        <Badge variant="secondary" data-testid={`badge-time-local-${session.id}`}>
+                          {session.timeLocal} {session.timezone}
+                        </Badge>
+                      </div>
+                      <div className="flex items-center gap-2 justify-center flex-wrap">
+                        <Badge variant="outline" className="bg-primary/10 border-primary/30" data-testid={`badge-time-ist-${session.id}`}>
+                          {session.timeIST}
+                        </Badge>
+                      </div>
+                      <div className="flex justify-center">
+                        <Badge variant="outline" data-testid={`badge-duration-${session.id}`}>
+                          {session.duration}
+                        </Badge>
+                      </div>
                     </div>
                     <p className="text-sm text-muted-foreground leading-relaxed" data-testid={`text-description-${session.id}`}>
                       {session.description}
