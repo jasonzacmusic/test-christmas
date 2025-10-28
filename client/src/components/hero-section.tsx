@@ -5,6 +5,9 @@ import { Badge } from "@/components/ui/badge";
 import { Flame, Music2, Piano, Volume2, VolumeX } from "lucide-react";
 import jason1 from "@assets/Jason 1_1761656394481.jpg";
 import jason2 from "@assets/Jason 2_1761656394482.jpg";
+import decor1 from "@assets/Decor 1 _1761666701283.jpg";
+import decor2 from "@assets/Decor 2_1761666701283.jpg";
+import decor3 from "@assets/Decor 3 _1761666701283.jpg";
 import { trackEvent } from "@/lib/analytics";
 import { useAudio } from "@/contexts/audio-context";
 
@@ -68,12 +71,13 @@ const sessions = sessionsData.map(session => ({
 
 export function HeroSection() {
   const [currentImage, setCurrentImage] = useState(0);
-  const images = [jason1, jason2];
+  const desktopImages = [jason1, jason2];
+  const mobileImages = [decor1, decor2, decor3];
   const { isPlaying, currentTrack, toggleAudio } = useAudio();
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % images.length);
+      setCurrentImage((prev) => (prev + 1) % 3); // Cycle through 3 images max
     }, 5000);
 
     return () => clearInterval(interval);
@@ -81,12 +85,31 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-14 sm:pt-16 md:pt-20">
-      <div className="absolute inset-0">
-        {images.map((img, index) => (
+      {/* Mobile Background Images (Decor) - Hidden on md and above */}
+      <div className="absolute inset-0 md:hidden">
+        {mobileImages.map((img, index) => (
           <div
-            key={index}
+            key={`mobile-${index}`}
             className={`absolute inset-0 transition-opacity duration-1500 ${
               index === currentImage ? 'opacity-100' : 'opacity-0'
+            }`}
+            style={{
+              backgroundImage: `url(${img})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+        ))}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/70 to-background animate-gradient" />
+      </div>
+
+      {/* Desktop Background Images (Jason) - Hidden on mobile */}
+      <div className="absolute inset-0 hidden md:block">
+        {desktopImages.map((img, index) => (
+          <div
+            key={`desktop-${index}`}
+            className={`absolute inset-0 transition-opacity duration-1500 ${
+              index === (currentImage % 2) ? 'opacity-100' : 'opacity-0'
             }`}
             style={{
               backgroundImage: `url(${img})`,

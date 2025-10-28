@@ -68,10 +68,13 @@ Preferred communication style: Simple, everyday language.
   - 10 MP3 tracks (01.mp3-10.mp3) with auto-cycling functionality
   - Full-length playback: each track plays from start to finish
   - Auto-cycling: when track ends, automatically plays next track
-  - Cross-fading hero images (Jason 1, Jason 2)
+  - Cross-fading hero images:
+    - Desktop/Laptop (md and above): Jason 1, Jason 2 (professional musician images)
+    - Mobile (below md): Decor 1, 2, 3 (Halloween decorative images - piano hands, witch hat character, skeleton)
   - Animated fog effects and candlelight flickers
-  - 3 Live Sessions cards with icons (Flame, Music2, Piano), time badges, and descriptions
+  - 3 Live Sessions cards with icons (Flame, Music2, Piano), time badges, timezone-aware dates/times, and descriptions
   - Single extra-large animated "Book Your Halloween Pass" CTA button with gentle scale effect
+  - CTA details text: "Includes Live Lectures, Notation, Assignments & HD Recordings"
 - Patreon Section (rotating image carousel with CTA)
 - YouTube Section (two-column layout with prioritized video ordering)
   - Left column: "Music Concepts" (Tutorial category) - 4 videos
