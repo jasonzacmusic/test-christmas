@@ -63,14 +63,15 @@ Preferred communication style: Simple, everyday language.
 - Hero Section (comprehensive Halloween showcase with prominent audio player)
   - Main heading: "Halloween Live Sessions" (prominent text-6xl md:text-8xl)
   - Description: "Join our exclusive Halloween music workshops and master spooky piano techniques"
-  - Huge circular audio toggle button (w-32 h-32) with volume icon
+  - Huge circular audio toggle button (w-28 h-28) with large volume icon (w-24 h-24)
   - "Now playing: Track X" indicator when audio is active
   - 10 MP3 tracks (01.mp3-10.mp3) with auto-cycling functionality
-  - Playback from 0:30 to 1:30 for each track
+  - Full-length playback: each track plays from start to finish
+  - Auto-cycling: when track ends, automatically plays next track
   - Cross-fading hero images (Jason 1, Jason 2)
   - Animated fog effects and candlelight flickers
   - 3 Live Sessions cards with icons (Flame, Music2, Piano), time badges, and descriptions
-  - Single animated "Book Your Halloween Pass" CTA button with pulse effect
+  - Single extra-large animated "Book Your Halloween Pass" CTA button with gentle scale effect
 - Patreon Section (rotating image carousel with CTA)
 - YouTube Section (two-column layout with prioritized video ordering)
   - Left column: "Music Concepts" (Tutorial category) - 4 videos
@@ -78,19 +79,21 @@ Preferred communication style: Simple, everyday language.
   - Right column: "Song Tutorials" (Song category) - 5 videos
     - "Wednesday's Theme" featured first
   - Compact card design with smaller padding and line-clamped descriptions
-- Playlist Section (embedded playlist videos sorted numerically by title)
+- Playlist Section (10 Halloween riff videos from YouTube playlist, sorted numerically by riff number)
 - Footer (social links with NSM logo and animated gradient)
-  - NSM LOGO White image with pulsing animation
+  - NSM LOGO White image with gentle scale animation
   - Social media links (YouTube, Instagram, Patreon, Website)
 
 **Enhanced Halloween Atmosphere**:
 - Animated fog drift overlays with purple and orange tinted radial gradients
 - Candlelight flicker effects using CSS animations
 - Smooth gradient background motion in hero section
-- Interactive audio player with 10 Halloween music tracks
-- Keyboard-controllable audio switching (keys 1-10)
-- Animated CTA buttons with pulse, scale-on-hover, and shadow effects
-- NSM logos throughout with spooky pulse animations
+- Interactive audio player with 10 Halloween music tracks (full-length playback)
+- Auto-cycling: Plays track 1→2→3...→10→1 automatically when each finishes
+- Keyboard-controllable audio switching (keys 1-10) with instant playback
+- Gentle scale animations (breathing effect) on all logos and CTA button
+- Large, prominent speaker icon (96px) in audio toggle button
+- Extra-large "Book Your Halloween Pass" CTA button
 
 **Design Pattern**: Component composition with shared UI primitives
 - Reusable card, button, and layout components
