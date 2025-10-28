@@ -25,7 +25,7 @@ export function Header() {
             <img 
               src={nsmWhiteLogo} 
               alt="Nathaniel School of Music" 
-              className="h-12 animate-pulse hover:scale-110 transition-transform duration-300"
+              className="h-12 animate-gentle-scale hover:scale-110 transition-transform duration-300"
             />
           </a>
         </div>

@@ -91,7 +91,7 @@ export function HeroSection() {
 
       <div className="relative z-10 container mx-auto px-4">
         <div className="text-center mb-16">
-          <h1 className="text-6xl md:text-8xl font-gothic text-primary mb-6 drop-shadow-2xl animate-pulse">
+          <h1 className="text-6xl md:text-8xl font-gothic text-primary mb-6 drop-shadow-2xl animate-gentle-scale">
             Halloween Live Sessions
           </h1>
           <p className="text-xl md:text-2xl text-foreground mb-8 max-w-3xl mx-auto">
@@ -102,14 +102,14 @@ export function HeroSection() {
             <Button
               onClick={toggleAudio}
               size="lg"
-              className="w-32 h-32 rounded-full bg-primary text-primary-foreground shadow-2xl shadow-primary/50 hover:scale-110 transition-all duration-300 animate-pulse hover:animate-none"
+              className="w-28 h-28 rounded-full bg-primary text-primary-foreground shadow-2xl shadow-primary/50 hover:scale-110 transition-all duration-300 animate-gentle-scale hover:animate-none"
               data-testid="button-audio-toggle-hero"
               aria-label={isPlaying ? "Pause music" : "Play music"}
             >
               {isPlaying ? (
-                <Volume2 className="w-16 h-16" />
+                <Volume2 className="w-20 h-20" />
               ) : (
-                <VolumeX className="w-16 h-16" />
+                <VolumeX className="w-20 h-20" />
               )}
             </Button>
           </div>
@@ -161,7 +161,7 @@ export function HeroSection() {
           <Button
             asChild
             size="lg"
-            className="text-lg bg-primary text-primary-foreground shadow-2xl shadow-primary/50 animate-pulse hover:animate-none hover:scale-110 transition-all duration-300"
+            className="text-2xl md:text-3xl px-12 py-8 md:px-16 md:py-10 bg-primary text-primary-foreground shadow-2xl shadow-primary/50 animate-gentle-scale hover:animate-none hover:scale-110 transition-all duration-300"
             data-testid="button-hero-cta"
           >
             <a
