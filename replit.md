@@ -55,18 +55,26 @@ Preferred communication style: Simple, everyday language.
 ### Component Architecture
 
 **Page Structure**: Single home page with multiple sections
-- Header (sticky navigation with NSM logo and ambient audio toggle)
+- Header (sticky navigation with NSM logo and interactive audio player)
   - NSM White logo with pulsing animation and scale-on-hover effect
-  - Audio toggle button for Halloween ambient sounds (working with Mixkit audio file)
+  - Audio toggle button with 10 MP3 tracks (01.mp3-10.mp3)
+  - Keyboard shortcuts (1-10 keys) to switch tracks
+  - Auto-cycling through tracks when each finishes
+  - Playback from 0:30 to 1:30 for each track
+  - Audio state persisted in localStorage
 - Hero Section (comprehensive Halloween showcase)
-  - Cross-fading hero images with CTA
+  - Main heading: "Halloween Live Sessions" (prominent text-6xl md:text-8xl)
+  - Description: "Join our exclusive Halloween music workshops and master spooky piano techniques"
+  - Cross-fading hero images (Jason 1, Jason 2)
   - Animated fog effects and candlelight flickers
-  - Halloween Live Sessions cards integrated directly in hero with icons, time badges, and descriptions
+  - 3 Live Sessions cards with icons (Flame, Music2, Piano), time badges, and descriptions
   - Single animated "Book Your Halloween Pass" CTA button with pulse effect
 - Patreon Section (rotating image carousel with CTA)
-- YouTube Section (two-column layout with exact Excel data)
+- YouTube Section (two-column layout with prioritized video ordering)
   - Left column: "Music Concepts" (Tutorial category) - 4 videos
+    - "ALL the Scary Chords & Progressions" featured first
   - Right column: "Song Tutorials" (Song category) - 5 videos
+    - "Wednesday's Theme" featured first
   - Compact card design with smaller padding and line-clamped descriptions
 - Playlist Section (embedded playlist videos sorted numerically by title)
 - Footer (social links with NSM logo and animated gradient)
@@ -77,7 +85,8 @@ Preferred communication style: Simple, everyday language.
 - Animated fog drift overlays with purple and orange tinted radial gradients
 - Candlelight flicker effects using CSS animations
 - Smooth gradient background motion in hero section
-- Working ambient audio toggle (Mixkit Halloween SFX) with localStorage persistence
+- Interactive audio player with 10 Halloween music tracks
+- Keyboard-controllable audio switching (keys 1-10)
 - Animated CTA buttons with pulse, scale-on-hover, and shadow effects
 - NSM logos throughout with spooky pulse animations
 
@@ -264,5 +273,10 @@ The application tracks user interactions using a simple, privacy-respecting anal
 - Vite alias: `@assets` for clean imports
 
 **Audio**: 
-- Halloween ambient sound from Mixkit: https://assets.mixkit.co/active_storage/sfx/2466/2466-preview.mp3
-- Autoplay with user consent via toggle button in header
+- 10 Halloween music tracks (01.mp3 through 10.mp3)
+  - Files: 01_1761662458015.mp3 to 10_1761662458016.mp3
+  - Each track plays from 0:30 to 1:30 (60 seconds)
+  - Auto-cycles to next track when current finishes
+  - Keyboard shortcuts: Press keys 1-10 to switch tracks instantly
+  - Playback state persisted in localStorage
+  - Toggle button in header for play/pause control
