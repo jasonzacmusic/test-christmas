@@ -1,5 +1,8 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import { db } from "./db";
+import { analyticsEventsTable, insertAnalyticsEventSchema } from "@shared/schema";
+import { sql } from "drizzle-orm";
 
 const GOOGLE_SHEET_ID = "1QqeTbhU7ksJnLRC1j2aTT5bevsUD3vBzhVygEe438VA";
 const YOUTUBE_PLAYLIST_ID = "PLrNNL05e9FT-nmVSqhB5g0RD2yHEpuoRs";
@@ -135,6 +138,51 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching playlist:", error);
       res.status(500).json({ error: "Failed to fetch playlist" });
+    }
+  });
+
+  app.post("/api/analytics/track", async (req, res) => {
+    try {
+      const validated = insertAnalyticsEventSchema.parse(req.body);
+      await db.insert(analyticsEventsTable).values(validated);
+      res.json({ success: true });
+    } catch (error) {
+      if (error instanceof Error && error.name === 'ZodError') {
+        console.warn("Invalid analytics event data:", error);
+        res.status(400).json({ error: "Invalid event data" });
+      } else {
+        console.error("Error tracking analytics event:", error);
+        res.status(500).json({ error: "Failed to track event" });
+      }
+    }
+  });
+
+  app.get("/api/analytics/stats", async (req, res) => {
+    try {
+      const result = await db.execute(sql`
+        SELECT 
+          event_type,
+          COUNT(*) as count,
+          DATE_TRUNC('day', created_at) as date
+        FROM analytics_events
+        WHERE created_at >= NOW() - INTERVAL '30 days'
+        GROUP BY event_type, DATE_TRUNC('day', created_at)
+        ORDER BY date DESC, event_type ASC
+      `);
+      
+      const totalEvents = await db.execute(sql`
+        SELECT event_type, COUNT(*) as count
+        FROM analytics_events
+        GROUP BY event_type
+      `);
+      
+      res.json({ 
+        daily: result.rows,
+        totals: totalEvents.rows
+      });
+    } catch (error) {
+      console.error("Error fetching analytics stats:", error);
+      res.status(500).json({ error: "Failed to fetch stats" });
     }
   });
 

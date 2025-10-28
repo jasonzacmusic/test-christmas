@@ -82,6 +82,13 @@ export const patreonImagesTable = pgTable("patreon_images", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const analyticsEventsTable = pgTable("analytics_events", {
+  id: serial("id").primaryKey(),
+  eventType: text("event_type").notNull(),
+  eventData: text("event_data"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 // Insert schemas
 export const insertAdminUserSchema = createInsertSchema(adminUsers).omit({
   id: true,
@@ -103,13 +110,20 @@ export const insertPatreonImageSchema = createInsertSchema(patreonImagesTable).o
   createdAt: true,
 });
 
+export const insertAnalyticsEventSchema = createInsertSchema(analyticsEventsTable).omit({
+  id: true,
+  createdAt: true,
+});
+
 // Types
 export type InsertAdminUser = z.infer<typeof insertAdminUserSchema>;
 export type InsertLiveSession = z.infer<typeof insertLiveSessionSchema>;
 export type InsertYoutubeVideo = z.infer<typeof insertYoutubeVideoSchema>;
 export type InsertPatreonImage = z.infer<typeof insertPatreonImageSchema>;
+export type InsertAnalyticsEvent = z.infer<typeof insertAnalyticsEventSchema>;
 
 export type SelectAdminUser = typeof adminUsers.$inferSelect;
 export type SelectLiveSession = typeof liveSessionsTable.$inferSelect;
 export type SelectYoutubeVideo = typeof youtubeVideosTable.$inferSelect;
 export type SelectPatreonImage = typeof patreonImagesTable.$inferSelect;
+export type SelectAnalyticsEvent = typeof analyticsEventsTable.$inferSelect;

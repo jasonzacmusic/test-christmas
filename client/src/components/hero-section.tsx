@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import jason1 from "@assets/Jason 1_1761656394481.jpg";
 import jason2 from "@assets/Jason 2_1761656394482.jpg";
+import { trackEvent } from "@/lib/analytics";
 
 export function HeroSection() {
   const [currentImage, setCurrentImage] = useState(0);
@@ -70,6 +71,7 @@ export function HeroSection() {
             href="https://nathanielschool.practicenow.us/students/subscriptions?service=group_class&plan_id=7749"
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackEvent('cta_click', 'hero_book_halloween_pass')}
           >
             Book Your Halloween Pass
           </a>

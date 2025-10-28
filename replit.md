@@ -138,6 +138,38 @@ The application uses a simple, non-technical content management approach:
 - Fast development and deployment
 - Database ready for future scaling if content update frequency increases
 
+### Analytics Tracking
+
+**Analytics Implementation**: Event tracking system for user engagement
+
+The application tracks user interactions using a simple, privacy-respecting analytics system:
+
+1. **Database Storage** (shared/schema.ts):
+   - `analyticsEventsTable`: Stores event type, optional event data, and timestamp
+   - Simple schema for easy querying and analysis
+
+2. **Backend API** (server/routes.ts):
+   - POST `/api/analytics/track` - Records analytics events with validation (returns 400 for invalid data, 500 for server errors)
+   - GET `/api/analytics/stats` - Returns analytics dashboard data:
+     - Daily event breakdown for past 30 days
+     - Total counts by event type
+   - Database connection via `server/db.ts` using Drizzle + Neon
+
+3. **Frontend Tracking** (client/src/lib/analytics.ts):
+   - Lightweight utility function for tracking events
+   - Non-blocking async calls - never slows down user experience
+   - Graceful error handling - tracking failures don't affect functionality
+
+4. **Currently Tracked Events**:
+   - Hero CTA clicks: 'cta_click' / 'hero_book_halloween_pass'
+   - Live Sessions CTA clicks: 'cta_click' / 'live_sessions_book_now'
+   - Patreon CTA clicks: 'cta_click' / 'patreon_access'
+
+5. **Future Enhancements**:
+   - Video engagement tracking can be added using YouTube IFrame API
+   - Additional event types for more granular tracking
+   - Analytics dashboard UI (currently accessible via API endpoint)
+
 ### Build and Deployment
 
 **Development**: 

@@ -5,6 +5,7 @@ import patreon2 from "@assets/Patreon 2_1761656377221.png";
 import patreon3 from "@assets/ Patreon 3 _1761656377221.png";
 import patreon4 from "@assets/Patreon 4_1761656377221.png";
 import patreon5 from "@assets/Patreon 5_1761656377221.png";
+import { trackEvent } from "@/lib/analytics";
 
 export function PatreonSection() {
   const [currentImage, setCurrentImage] = useState(0);
@@ -62,6 +63,7 @@ export function PatreonSection() {
                 href="https://www.patreon.com/collection/1805426"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackEvent('cta_click', 'patreon_access')}
               >
                 Access on Patreon
               </a>

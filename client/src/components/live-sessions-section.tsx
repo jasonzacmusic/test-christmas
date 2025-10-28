@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Flame, Music2, Piano } from "lucide-react";
 import type { LiveSession } from "@shared/schema";
+import { trackEvent } from "@/lib/analytics";
 
 const sessions: LiveSession[] = [
   {
@@ -102,6 +103,7 @@ export function LiveSessionsSection() {
               href="https://nathanielschool.practicenow.us/students/subscriptions?service=group_class&plan_id=7749"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackEvent('cta_click', 'live_sessions_book_now')}
             >
               Book Now
             </a>
