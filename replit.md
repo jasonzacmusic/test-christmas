@@ -79,14 +79,64 @@ Preferred communication style: Simple, everyday language.
 
 **Database Configuration**: Drizzle ORM with PostgreSQL dialect configured
 - Schema defined in `shared/schema.ts`
-- Currently using in-memory storage for user data (MemStorage class)
+- Database tables created for future content management:
+  - `admin_users`: Admin authentication (for future use)
+  - `live_sessions`: Live session content management
+  - `youtube_videos`: YouTube video metadata storage
+  - `patreon_images`: Patreon carousel image management
 - Database credentials via environment variable `DATABASE_URL`
-- Migration system in place but minimal database usage in current implementation
+- Currently using fallback data mechanism (see Content Management section)
 
 **Type Safety**: Zod schemas for runtime validation
 - YouTube video data validation
 - Playlist video validation
 - Live session data validation
+
+### Content Management Workflow
+
+**Current Approach**: Google Sheets with fallback data
+
+The application uses a simple, non-technical content management approach:
+
+1. **Google Sheets Integration** (Primary for YouTube videos):
+   - Sheet ID: `1QqeTbhU7ksJnLRC1j2aTT5bevsUD3vBzhVygEe438VA`
+   - Backend automatically fetches YouTube video metadata directly from the public Google Sheets CSV URL
+   - Content managers can update the Google Sheet and changes appear immediately on next page load
+   - No manual export/import needed - the backend handles this automatically
+   - Implementation: `server/routes.ts` - `fetchGoogleSheetData()` function
+
+2. **Fallback Data Mechanism**:
+   - When Google Sheets is unavailable or requires authentication, the app automatically uses curated fallback data
+   - Fallback data location: `server/routes.ts` - defined in the `/api/youtube-videos` route handler
+   - To update fallback data: Edit the `fallbackVideos` array in `server/routes.ts`
+   - Ensures website always displays content even if external service is down
+
+3. **Live Sessions & Patreon Content**:
+   - Currently hardcoded directly in React components:
+     - Live sessions: `client/src/components/live-sessions-section.tsx`
+     - Patreon images: `client/src/components/patreon-section.tsx`
+   - To update: Edit the arrays/data in these component files
+   - Seasonal content that rarely changes, so component-level storage is appropriate
+
+4. **Database Schema (Future Expansion)**:
+   - **Note**: Database tables exist but are NOT currently used by the application
+   - Tables created: `admin_users`, `live_sessions`, `youtube_videos`, `patreon_images`
+   - Schema location: `shared/schema.ts`
+   - To switch from current approach to database storage:
+     a. Implement storage interface methods in `server/storage.ts`
+     b. Create API routes to serve data from database instead of fallback/sheets
+     c. Update frontend to use new API endpoints
+     d. (Optional) Build admin interface for CRUD operations
+   - Current implementation uses in-memory data, not database
+
+**Why This Approach Works**:
+- Halloween special is seasonal with relatively static content
+- Google Sheets provides non-technical staff easy content editing for YouTube videos
+- Automatic fetching means zero manual steps - just edit the sheet
+- Fallback data ensures reliability if Sheets API has issues
+- No authentication/session management complexity needed
+- Fast development and deployment
+- Database ready for future scaling if content update frequency increases
 
 ### Build and Deployment
 

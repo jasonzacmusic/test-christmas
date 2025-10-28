@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { pgTable, serial, text, timestamp, integer } from "drizzle-orm/pg-core";
+import { createInsertSchema } from "drizzle-zod";
 
 // YouTube Video from Google Sheets
 export const youtubeVideoSchema = z.object({
@@ -43,3 +45,71 @@ export const playlistDataResponseSchema = z.object({
 
 export type YouTubeDataResponse = z.infer<typeof youtubeDataResponseSchema>;
 export type PlaylistDataResponse = z.infer<typeof playlistDataResponseSchema>;
+
+// Database Tables
+export const adminUsers = pgTable("admin_users", {
+  id: serial("id").primaryKey(),
+  username: text("username").notNull().unique(),
+  password: text("password").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const liveSessionsTable = pgTable("live_sessions", {
+  id: serial("id").primaryKey(),
+  date: text("date").notNull(),
+  time: text("time").notNull(),
+  className: text("class_name").notNull(),
+  duration: text("duration").notNull(),
+  description: text("description").notNull(),
+  icon: text("icon").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const youtubeVideosTable = pgTable("youtube_videos", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  category: text("category").notNull(),
+  link: text("link").notNull(),
+  description: text("description").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const patreonImagesTable = pgTable("patreon_images", {
+  id: serial("id").primaryKey(),
+  url: text("url").notNull(),
+  alt: text("alt").notNull(),
+  order: integer("order").notNull().default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Insert schemas
+export const insertAdminUserSchema = createInsertSchema(adminUsers).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertLiveSessionSchema = createInsertSchema(liveSessionsTable).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertYoutubeVideoSchema = createInsertSchema(youtubeVideosTable).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertPatreonImageSchema = createInsertSchema(patreonImagesTable).omit({
+  id: true,
+  createdAt: true,
+});
+
+// Types
+export type InsertAdminUser = z.infer<typeof insertAdminUserSchema>;
+export type InsertLiveSession = z.infer<typeof insertLiveSessionSchema>;
+export type InsertYoutubeVideo = z.infer<typeof insertYoutubeVideoSchema>;
+export type InsertPatreonImage = z.infer<typeof insertPatreonImageSchema>;
+
+export type SelectAdminUser = typeof adminUsers.$inferSelect;
+export type SelectLiveSession = typeof liveSessionsTable.$inferSelect;
+export type SelectYoutubeVideo = typeof youtubeVideosTable.$inferSelect;
+export type SelectPatreonImage = typeof patreonImagesTable.$inferSelect;
