@@ -108,26 +108,31 @@ async function fetchYouTubePlaylist() {
     const response = await fetch(url);
     const html = await response.text();
     
-    const videoIds: string[] = [];
-    const titles: string[] = [];
-    
+    const videoMap = new Map<string, string>();
     const videoIdRegex = /"videoId":"([^"]{11})"/g;
     const titleRegex = /"title":{"runs":\[{"text":"([^"]+)"/g;
     
+    const videoIds: string[] = [];
+    const titles: string[] = [];
+    
     let match;
     while ((match = videoIdRegex.exec(html)) !== null) {
-      if (!videoIds.includes(match[1])) {
-        videoIds.push(match[1]);
-      }
+      videoIds.push(match[1]);
     }
     
     while ((match = titleRegex.exec(html)) !== null) {
       titles.push(match[1]);
     }
     
-    const videos = videoIds.slice(0, 12).map((id, index) => ({
+    for (let i = 0; i < Math.min(videoIds.length, titles.length); i++) {
+      if (!videoMap.has(videoIds[i])) {
+        videoMap.set(videoIds[i], titles[i]);
+      }
+    }
+    
+    const videos = Array.from(videoMap.entries()).map(([id, title]) => ({
       id,
-      title: titles[index] || `Video ${index + 1}`,
+      title,
       thumbnail: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
     }));
     
@@ -137,7 +142,7 @@ async function fetchYouTubePlaylist() {
       return numA - numB;
     });
     
-    return { videos };
+    return { videos: videos.slice(0, 12) };
   } catch (error) {
     console.error("Error fetching playlist:", error);
     return { videos: [] };
