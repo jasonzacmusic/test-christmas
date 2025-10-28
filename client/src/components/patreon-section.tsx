@@ -56,7 +56,7 @@ export function PatreonSection() {
             <Button
               asChild
               size="lg"
-              className="text-base sm:text-lg bg-primary text-primary-foreground shadow-lg shadow-primary/30"
+              className="text-xl sm:text-2xl md:text-3xl px-8 py-6 sm:px-10 sm:py-7 md:px-12 md:py-8 bg-primary text-primary-foreground shadow-2xl shadow-primary/50 animate-gentle-scale hover:animate-none hover:scale-110 transition-all duration-300"
               data-testid="button-patreon-cta"
             >
               <a
