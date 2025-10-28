@@ -102,73 +102,21 @@ async function fetchGoogleSheetData() {
 }
 
 async function fetchYouTubePlaylist() {
-  // Fallback data for Halloween Riffs playlist
-  const fallbackVideos = [
-    { id: "6c_Vqe9v9JE", title: "Riff #3291 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/6c_Vqe9v9JE/hqdefault.jpg" },
-    { id: "b7tVOcmMqKk", title: "Riff #3292 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/b7tVOcmMqKk/hqdefault.jpg" },
-    { id: "xNv4KiZqLXU", title: "Riff #3293 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/xNv4KiZqLXU/hqdefault.jpg" },
-    { id: "OWpfbwTEGPI", title: "Riff #3294 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/OWpfbwTEGPI/hqdefault.jpg" },
-    { id: "M2-jmN7Q3iU", title: "Riff #3295 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/M2-jmN7Q3iU/hqdefault.jpg" },
-    { id: "Drb2nG5O3cs", title: "Riff #3296 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/Drb2nG5O3cs/hqdefault.jpg" },
-    { id: "GqDGa3n9QsA", title: "Riff #3297 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/GqDGa3n9QsA/hqdefault.jpg" },
-    { id: "HPFQY_1Qb-I", title: "Riff #3298 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/HPFQY_1Qb-I/hqdefault.jpg" },
-    { id: "DFE6WufU3ec", title: "Riff #3299 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/DFE6WufU3ec/hqdefault.jpg" },
-    { id: "cT-YN0gZzPk", title: "Riff #3300 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/cT-YN0gZzPk/hqdefault.jpg" },
+  // Curated Halloween Riffs playlist (user-provided order)
+  const playlistVideos = [
+    { id: "DFE6WufU3ec", title: "Halloween Riff #1 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/DFE6WufU3ec/hqdefault.jpg" },
+    { id: "M2-jmN7Q3iU", title: "Halloween Riff #2 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/M2-jmN7Q3iU/hqdefault.jpg" },
+    { id: "6c_Vqe9v9JE", title: "Halloween Riff #3 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/6c_Vqe9v9JE/hqdefault.jpg" },
+    { id: "Drb2nG5O3cs", title: "Halloween Riff #4 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/Drb2nG5O3cs/hqdefault.jpg" },
+    { id: "QnKi39VEwcg", title: "Halloween Riff #5 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/QnKi39VEwcg/hqdefault.jpg" },
+    { id: "6jERhlyl3Fo", title: "Halloween Riff #6 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/6jERhlyl3Fo/hqdefault.jpg" },
+    { id: "XGQ5bvKsLpA", title: "Halloween Riff #7 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/XGQ5bvKsLpA/hqdefault.jpg" },
+    { id: "p8rlz0JLE58", title: "Halloween Riff #8 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/p8rlz0JLE58/hqdefault.jpg" },
+    { id: "bK_1X3rPN-g", title: "Halloween Riff #9 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/bK_1X3rPN-g/hqdefault.jpg" },
+    { id: "7WxiIP7wszE", title: "Halloween Riff #10 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/7WxiIP7wszE/hqdefault.jpg" },
   ];
 
-  const url = `https://www.youtube.com/playlist?list=${YOUTUBE_PLAYLIST_ID}`;
-  
-  try {
-    const response = await fetch(url);
-    const html = await response.text();
-    
-    const videoMap = new Map<string, string>();
-    const videoIdRegex = /"videoId":"([^"]{11})"/g;
-    const titleRegex = /"title":{"runs":\[{"text":"([^"]+)"/g;
-    
-    const videoIds: string[] = [];
-    const titles: string[] = [];
-    
-    let match;
-    while ((match = videoIdRegex.exec(html)) !== null) {
-      videoIds.push(match[1]);
-    }
-    
-    while ((match = titleRegex.exec(html)) !== null) {
-      titles.push(match[1]);
-    }
-    
-    for (let i = 0; i < Math.min(videoIds.length, titles.length); i++) {
-      if (!videoMap.has(videoIds[i])) {
-        videoMap.set(videoIds[i], titles[i]);
-      }
-    }
-    
-    const videos = Array.from(videoMap.entries()).map(([id, title]) => ({
-      id,
-      title,
-      thumbnail: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
-    }));
-    
-    videos.sort((a, b) => {
-      const numA = parseInt(a.title.match(/#(\d+)/)?.[1] || '0');
-      const numB = parseInt(b.title.match(/#(\d+)/)?.[1] || '0');
-      return numA - numB;
-    });
-    
-    const finalVideos = videos.slice(0, 10);
-    
-    // If we got fewer than 10 videos from scraping, use fallback
-    if (finalVideos.length < 10) {
-      console.log(`Only found ${finalVideos.length} videos from scraping, using fallback data`);
-      return { videos: fallbackVideos };
-    }
-    
-    return { videos: finalVideos };
-  } catch (error) {
-    console.error("Error fetching playlist:", error);
-    return { videos: fallbackVideos };
-  }
+  return { videos: playlistVideos };
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {

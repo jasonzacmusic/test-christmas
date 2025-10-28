@@ -12,9 +12,9 @@ function VideoCard({ video }: { video: YouTubeVideo }) {
   const videoId = getYouTubeVideoId(video.link);
 
   return (
-    <Card className="bg-card/50 backdrop-blur-sm border-card-border hover-elevate transition-all duration-300" data-testid={`card-video-${videoId}`}>
-      <CardHeader className="p-4">
-        <div className="aspect-video mb-2 rounded-md overflow-hidden border border-border">
+    <Card className="bg-card/50 backdrop-blur-sm border-card-border hover-elevate transition-all duration-300 overflow-hidden" data-testid={`card-video-${videoId}`}>
+      <CardHeader className="p-3 sm:p-4">
+        <div className="aspect-video mb-2 rounded-md overflow-hidden border border-border w-full">
           <iframe
             width="100%"
             height="100%"
@@ -26,7 +26,7 @@ function VideoCard({ video }: { video: YouTubeVideo }) {
             data-testid={`iframe-video-${videoId}`}
           />
         </div>
-        <CardTitle className="text-base text-card-foreground mb-1" data-testid={`text-title-${videoId}`}>
+        <CardTitle className="text-sm sm:text-base text-card-foreground mb-1" data-testid={`text-title-${videoId}`}>
           {video.title}
         </CardTitle>
         <CardDescription className="text-xs text-muted-foreground line-clamp-2" data-testid={`text-desc-${videoId}`}>
@@ -46,8 +46,8 @@ export function YouTubeSection() {
   const songs = data?.videos.filter((v) => v.category === "Song") || [];
 
   return (
-    <section className="py-12 sm:py-16 md:py-20 relative">
-      <div className="container mx-auto px-4">
+    <section className="py-12 sm:py-16 md:py-20 relative overflow-hidden">
+      <div className="container mx-auto px-4 max-w-full">
         <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-gothic text-center text-primary mb-3 sm:mb-4">
           Halloween Songs & Tutorials
         </h2>

@@ -5,9 +5,9 @@ import type { PlaylistVideo } from "@shared/schema";
 
 function PlaylistVideoCard({ video }: { video: PlaylistVideo }) {
   return (
-    <Card className="bg-card/50 backdrop-blur-sm border-card-border hover-elevate transition-all duration-300" data-testid={`card-playlist-${video.id}`}>
-      <CardHeader>
-        <div className="aspect-video mb-3 rounded-md overflow-hidden border border-border">
+    <Card className="bg-card/50 backdrop-blur-sm border-card-border hover-elevate transition-all duration-300 overflow-hidden" data-testid={`card-playlist-${video.id}`}>
+      <CardHeader className="p-3 sm:p-4">
+        <div className="aspect-video mb-2 sm:mb-3 rounded-md overflow-hidden border border-border w-full">
           <iframe
             width="100%"
             height="100%"
@@ -19,7 +19,7 @@ function PlaylistVideoCard({ video }: { video: PlaylistVideo }) {
             data-testid={`iframe-playlist-${video.id}`}
           />
         </div>
-        <CardTitle className="text-base text-card-foreground" data-testid={`text-playlist-title-${video.id}`}>
+        <CardTitle className="text-sm sm:text-base text-card-foreground" data-testid={`text-playlist-title-${video.id}`}>
           {video.title}
         </CardTitle>
       </CardHeader>
@@ -33,8 +33,8 @@ export function PlaylistSection() {
   });
 
   return (
-    <section className="py-12 sm:py-16 md:py-20 bg-card/30 relative">
-      <div className="container mx-auto px-4">
+    <section className="py-12 sm:py-16 md:py-20 bg-card/30 relative overflow-hidden">
+      <div className="container mx-auto px-4 max-w-full">
         <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-gothic text-center text-primary mb-3 sm:mb-4">
           Halloween Riffs Playlist
         </h2>
