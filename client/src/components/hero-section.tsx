@@ -5,9 +5,6 @@ import { Badge } from "@/components/ui/badge";
 import { Flame, Music2, Piano, Volume2, VolumeX } from "lucide-react";
 import jason1 from "@assets/Jason 1_1761656394481.jpg";
 import jason2 from "@assets/Jason 2_1761656394482.jpg";
-import decor1 from "@assets/Decor 1 _1761666701283.jpg";
-import decor2 from "@assets/Decor 2_1761666701283.jpg";
-import decor3 from "@assets/Decor 3 _1761666701283.jpg";
 import { trackEvent } from "@/lib/analytics";
 import { useAudio } from "@/contexts/audio-context";
 
@@ -164,12 +161,11 @@ export function HeroSection() {
   });
   const [currentImage, setCurrentImage] = useState(0);
   const desktopImages = [jason1, jason2];
-  const mobileImages = [decor1, decor2, decor3];
   const { isPlaying, currentTrack, toggleAudio } = useAudio();
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % 3); // Cycle through 3 images max
+      setCurrentImage((prev) => (prev + 1) % 2); // Cycle through 2 desktop images
     }, 5000);
 
     return () => clearInterval(interval);
@@ -177,23 +173,24 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-14 sm:pt-16 md:pt-20">
-      {/* Mobile Background Images (Decor) - Hidden on md and above */}
-      <div className="absolute inset-0 md:hidden">
-        {mobileImages.map((img, index) => (
-          <div
-            key={`mobile-${index}`}
-            className={`absolute inset-0 transition-opacity duration-1500 ${
-              index === currentImage ? 'opacity-100' : 'opacity-0'
-            }`}
-            style={{
-              backgroundImage: `url(${img})`,
-              backgroundSize: 'contain',
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'center',
-            }}
-          />
-        ))}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/70 to-background animate-gradient" />
+      {/* Mobile Spooky Design - Optimized CSS-based Halloween background */}
+      <div className="absolute inset-0 md:hidden mobile-spooky-bg">
+        {/* Combined base gradient with all color layers for performance */}
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-950 via-black to-orange-950" />
+        
+        {/* Single subtle animated accent - reduced GPU load */}
+        <div 
+          className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" 
+          style={{ animationDuration: '6s' }}
+        />
+        
+        {/* Combined mist and vignette overlay */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.8) 100%), radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.5) 100%)'
+          }}
+        />
       </div>
 
       {/* Desktop Background Images (Jason) - Hidden on mobile */}
@@ -202,7 +199,7 @@ export function HeroSection() {
           <div
             key={`desktop-${index}`}
             className={`absolute inset-0 transition-opacity duration-1500 ${
-              index === (currentImage % 2) ? 'opacity-100' : 'opacity-0'
+              index === currentImage ? 'opacity-100' : 'opacity-0'
             }`}
             style={{
               backgroundImage: `url(${img})`,
@@ -211,7 +208,7 @@ export function HeroSection() {
             }}
           />
         ))}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/70 to-background animate-gradient" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background/80 animate-gradient" />
         
         <div 
           className="absolute inset-0 pointer-events-none animate-fog-drift"

@@ -16,7 +16,7 @@ Preferred communication style: Simple, everyday language.
 - **Styling**: Tailwind CSS with custom Halloween dark theme (deep purple, black, burnt orange), gothic fonts (Creepster, Nosifer) for headlines, Inter for body text, smooth animations.
 - **Key Features**:
     - Sticky header with NSM logo and 10-track audio selector (keyboard shortcuts 1-10).
-    - Hero section with prominent audio player (10 auto-cycling MP3 tracks), animated fog/candlelight effects, cross-fading hero images, and 3 localized Live Session cards (displaying IST and user's local time globally).
+    - Hero section with prominent audio player (10 auto-cycling MP3 tracks), animated fog/candlelight effects, cross-fading hero images (desktop: Jason musician photos; mobile: custom CSS spooky design with floating orbs, gradients, and mist effects), and 3 localized Live Session cards (displaying IST and user's local time with country flags globally).
     - Animated "Book Your Halloween Pass" CTA button.
     - Patreon section with rotating image carousel.
     - YouTube section displaying curated "Music Concepts" and "Song Tutorials" videos.
@@ -68,5 +68,5 @@ Preferred communication style: Simple, everyday language.
 - `@replit/vite-plugin-runtime-error-modal`, `@replit/vite-plugin-cartographer`, `@replit/vite-plugin-dev-banner`.
 
 ### Asset Management
-- **Static Assets**: Stored in `attached_assets/` (hero images, Patreon images, decorative images, NSM logos).
+- **Static Assets**: Stored in `attached_assets/` (hero images for desktop, Patreon images, NSM logos).
 - **Audio**: 10 Halloween MP3 tracks (e.g., `01_1761662458015.mp3` to `10_1761662458016.mp3`) with auto-cycling and keyboard control.
