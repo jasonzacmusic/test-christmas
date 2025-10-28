@@ -90,18 +90,9 @@ export function HeroSection() {
       <div className="relative z-10 container mx-auto px-4">
         <div className="text-center mb-16">
           <h1 className="text-6xl md:text-8xl font-gothic text-primary mb-6 drop-shadow-2xl animate-pulse">
-            Halloween Music Specials
-          </h1>
-          <p className="text-xl md:text-2xl text-foreground mb-8 max-w-2xl mx-auto">
-            Learn haunting piano chords and Halloween themes.
-          </p>
-        </div>
-
-        <div className="mb-12">
-          <h2 className="text-4xl md:text-5xl font-gothic text-center text-primary mb-4">
             Halloween Live Sessions
-          </h2>
-          <p className="text-center text-foreground mb-8 max-w-2xl mx-auto">
+          </h1>
+          <p className="text-xl md:text-2xl text-foreground mb-12 max-w-3xl mx-auto">
             Join our exclusive Halloween music workshops and master spooky piano techniques
           </p>
           
