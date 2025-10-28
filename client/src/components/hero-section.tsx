@@ -223,7 +223,7 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-18 sm:pt-20 md:pt-24">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 sm:pt-18 md:pt-24">
       {/* Mobile Spooky Design - Halloween themed background with VISIBLE decorative elements */}
       <div className="absolute inset-0 md:hidden mobile-spooky-bg">
         {/* Dark Halloween gradient base */}
