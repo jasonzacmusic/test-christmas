@@ -107,16 +107,18 @@ const formatSessionDate = (date: Date) => {
   }).format(date);
 };
 
-const formatSessionTime = (startDate: Date, endDate: Date) => {
+const formatSessionTime = (startDate: Date, endDate: Date, userTimezone: string) => {
   const timeFormat: Intl.DateTimeFormatOptions = {
     hour: 'numeric',
     minute: '2-digit',
     hour12: true,
   };
   
-  // Get user's timezone
-  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  // Check if user is in India
   const isIndia = userTimezone === 'Asia/Kolkata' || userTimezone === 'Asia/Calcutta';
+  
+  // Debug logging
+  console.log('formatSessionTime - User timezone:', userTimezone, '| Is India:', isIndia);
   
   // Format in IST (Indian Standard Time)
   const istStart = new Intl.DateTimeFormat('en-US', {
@@ -129,12 +131,20 @@ const formatSessionTime = (startDate: Date, endDate: Date) => {
   }).format(endDate);
   
   // Format in user's local timezone
-  const localStart = new Intl.DateTimeFormat('en-US', timeFormat).format(startDate);
-  const localEnd = new Intl.DateTimeFormat('en-US', timeFormat).format(endDate);
+  const localStart = new Intl.DateTimeFormat('en-US', {
+    ...timeFormat,
+    timeZone: userTimezone,
+  }).format(startDate);
+  const localEnd = new Intl.DateTimeFormat('en-US', {
+    ...timeFormat,
+    timeZone: userTimezone,
+  }).format(endDate);
   
   // Get flags
   const indiaFlag = '🇮🇳';
   const userFlag = getCountryFlag(userTimezone);
+  
+  console.log('formatSessionTime - IST:', `${istStart} – ${istEnd}`, '| Local:', `${localStart} – ${localEnd}`, '| Flags:', indiaFlag, userFlag);
   
   return {
     isIndia,
@@ -146,9 +156,49 @@ const formatSessionTime = (startDate: Date, endDate: Date) => {
 };
 
 export function HeroSection() {
-  // Compute sessions inside component to ensure timezone info is current
+  const [userTimezone, setUserTimezone] = useState<string>(() => {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone;
+  });
+  const [detectedCountry, setDetectedCountry] = useState<string>('');
+
+  // Enhanced timezone detection with geolocation fallback
+  useEffect(() => {
+    const detectedTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    setUserTimezone(detectedTimezone);
+    console.log('Detected timezone:', detectedTimezone);
+
+    // Try geolocation API for better accuracy
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log('Geolocation detected:', position.coords);
+          // Geolocation provides coords but we still use browser timezone
+          // This is mainly for logging/debugging purposes
+        },
+        (error) => {
+          console.log('Geolocation not available or denied:', error.message);
+        },
+        { timeout: 5000 }
+      );
+    }
+
+    // Try to detect country from timezone API
+    fetch(`https://worldtimeapi.org/api/timezone/${detectedTimezone}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.abbreviation) {
+          console.log('TimeAPI data:', data);
+          setDetectedCountry(data.abbreviation);
+        }
+      })
+      .catch(() => {
+        console.log('TimeAPI fetch failed, using browser timezone only');
+      });
+  }, []);
+
+  // Compute sessions with current user timezone
   const sessions = sessionsData.map(session => {
-    const timeInfo = formatSessionTime(session.startTime, session.endTime);
+    const timeInfo = formatSessionTime(session.startTime, session.endTime, userTimezone);
     return {
       ...session,
       date: formatSessionDate(session.startTime),
@@ -159,6 +209,7 @@ export function HeroSection() {
       userFlag: timeInfo.userFlag,
     };
   });
+  
   const [currentImage, setCurrentImage] = useState(0);
   const desktopImages = [jason1, jason2];
   const { isPlaying, currentTrack, toggleAudio } = useAudio();
@@ -173,33 +224,99 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-14 sm:pt-16 md:pt-20">
-      {/* Mobile Spooky Design - Halloween themed background with decorative elements */}
+      {/* Mobile Spooky Design - Halloween themed background with VISIBLE decorative elements */}
       <div className="absolute inset-0 md:hidden mobile-spooky-bg">
         {/* Dark Halloween gradient base */}
         <div className="absolute inset-0 bg-gradient-to-br from-purple-950 via-black to-orange-950" />
         
-        {/* Floating jack-o-lantern glow effects */}
-        <div className="absolute top-10 left-5 w-20 h-20 bg-orange-500/40 rounded-full blur-2xl animate-pulse" style={{ animationDuration: '3s' }} />
-        <div className="absolute top-32 right-8 w-16 h-16 bg-orange-600/30 rounded-full blur-xl animate-pulse" style={{ animationDuration: '4s', animationDelay: '1s' }} />
-        <div className="absolute bottom-24 left-12 w-24 h-24 bg-orange-400/35 rounded-full blur-2xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '2s' }} />
+        {/* LARGE jack-o-lantern glows - Much more visible */}
+        <div className="absolute top-10 left-5 w-40 h-40 bg-orange-500/60 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '3s' }} />
+        <div className="absolute top-32 right-8 w-32 h-32 bg-orange-600/50 rounded-full blur-2xl animate-pulse" style={{ animationDuration: '4s', animationDelay: '1s' }} />
+        <div className="absolute bottom-32 left-12 w-48 h-48 bg-orange-400/55 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '2s' }} />
+        <div className="absolute top-64 left-1/2 w-36 h-36 bg-orange-500/45 rounded-full blur-2xl animate-pulse" style={{ animationDuration: '4.5s', animationDelay: '0.5s' }} />
         
-        {/* Ghostly purple orbs */}
-        <div className="absolute top-40 right-16 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s' }} />
-        <div className="absolute bottom-40 right-10 w-28 h-28 bg-purple-600/15 rounded-full blur-2xl animate-pulse" style={{ animationDuration: '7s', animationDelay: '1.5s' }} />
+        {/* Bright purple orbs */}
+        <div className="absolute top-40 right-16 w-40 h-40 bg-purple-500/40 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s' }} />
+        <div className="absolute bottom-48 right-10 w-36 h-36 bg-purple-600/35 rounded-full blur-2xl animate-pulse" style={{ animationDuration: '7s', animationDelay: '1.5s' }} />
+        <div className="absolute top-1/2 left-8 w-44 h-44 bg-purple-500/30 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5.5s', animationDelay: '2.5s' }} />
         
-        {/* Spooky cobweb corner accents */}
-        <div className="absolute top-0 right-0 w-32 h-32 opacity-10">
-          <div className="absolute top-0 right-0 w-full h-px bg-gradient-to-l from-white to-transparent" />
-          <div className="absolute top-0 right-0 h-full w-px bg-gradient-to-b from-white to-transparent" />
-          <div className="absolute top-8 right-0 w-24 h-px bg-gradient-to-l from-white/50 to-transparent" />
-          <div className="absolute top-0 right-8 h-24 w-px bg-gradient-to-b from-white/50 to-transparent" />
+        {/* CSS Pumpkin shapes (jack-o-lanterns) */}
+        <div className="absolute top-20 right-12 w-24 h-24 animate-pulse" style={{ animationDuration: '3s' }}>
+          <div className="w-full h-full rounded-full bg-orange-600/80" style={{ boxShadow: '0 0 30px rgba(255, 102, 0, 0.7), inset 0 -10px 20px rgba(139, 69, 19, 0.5)' }}>
+            <div className="absolute top-6 left-5 w-4 h-6 bg-black/90" style={{ clipPath: 'polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%)' }} />
+            <div className="absolute top-6 right-5 w-4 h-6 bg-black/90" style={{ clipPath: 'polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%)' }} />
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-8 h-4 bg-black/90 rounded-full" />
+          </div>
         </div>
         
-        {/* Twinkling stars */}
-        <div className="absolute top-20 left-20 w-1 h-1 bg-white rounded-full animate-pulse" style={{ animationDuration: '2s' }} />
-        <div className="absolute top-60 left-32 w-1 h-1 bg-white rounded-full animate-pulse" style={{ animationDuration: '3s', animationDelay: '0.5s' }} />
-        <div className="absolute top-96 right-24 w-1 h-1 bg-white rounded-full animate-pulse" style={{ animationDuration: '2.5s', animationDelay: '1s' }} />
-        <div className="absolute bottom-32 left-16 w-1 h-1 bg-white rounded-full animate-pulse" style={{ animationDuration: '3.5s', animationDelay: '1.5s' }} />
+        <div className="absolute bottom-40 left-8 w-20 h-20 animate-pulse" style={{ animationDuration: '4s', animationDelay: '1s' }}>
+          <div className="w-full h-full rounded-full bg-orange-500/70" style={{ boxShadow: '0 0 25px rgba(255, 102, 0, 0.6), inset 0 -8px 15px rgba(139, 69, 19, 0.4)' }}>
+            <div className="absolute top-5 left-4 w-3 h-5 bg-black/90" style={{ clipPath: 'polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%)' }} />
+            <div className="absolute top-5 right-4 w-3 h-5 bg-black/90" style={{ clipPath: 'polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%)' }} />
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-6 h-3 bg-black/90 rounded-full" />
+          </div>
+        </div>
+        
+        {/* CSS Ghost shapes */}
+        <div className="absolute top-52 left-16 w-20 h-24 animate-pulse" style={{ animationDuration: '5s' }}>
+          <div className="w-full h-full bg-white/60 rounded-t-full" style={{ boxShadow: '0 0 20px rgba(255, 255, 255, 0.5)' }}>
+            <div className="absolute top-8 left-4 w-3 h-4 bg-black/80 rounded-full" />
+            <div className="absolute top-8 right-4 w-3 h-4 bg-black/80 rounded-full" />
+            <div className="absolute bottom-0 left-0 w-full h-6 flex">
+              <div className="w-1/3 h-full bg-white/60 rounded-b-full" />
+              <div className="w-1/3 h-full bg-transparent" />
+              <div className="w-1/3 h-full bg-white/60 rounded-b-full" />
+            </div>
+          </div>
+        </div>
+        
+        <div className="absolute bottom-60 right-16 w-24 h-28 animate-pulse" style={{ animationDuration: '6s', animationDelay: '1.5s' }}>
+          <div className="w-full h-full bg-white/50 rounded-t-full" style={{ boxShadow: '0 0 25px rgba(255, 255, 255, 0.6)' }}>
+            <div className="absolute top-10 left-5 w-3 h-4 bg-black/80 rounded-full" />
+            <div className="absolute top-10 right-5 w-3 h-4 bg-black/80 rounded-full" />
+            <div className="absolute bottom-0 left-0 w-full h-7 flex">
+              <div className="w-1/3 h-full bg-white/50 rounded-b-full" />
+              <div className="w-1/3 h-full bg-transparent" />
+              <div className="w-1/3 h-full bg-white/50 rounded-b-full" />
+            </div>
+          </div>
+        </div>
+        
+        {/* CSS Bat shapes */}
+        <div className="absolute top-28 left-1/4 w-16 h-8 animate-pulse" style={{ animationDuration: '2.5s' }}>
+          <div className="absolute top-0 left-0 w-6 h-6 bg-black/70 rounded-full" style={{ clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)', transform: 'rotate(-30deg)', boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)' }} />
+          <div className="absolute top-1 left-1/2 -translate-x-1/2 w-2 h-3 bg-black/80 rounded-full" />
+          <div className="absolute top-0 right-0 w-6 h-6 bg-black/70 rounded-full" style={{ clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)', transform: 'rotate(30deg)', boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)' }} />
+        </div>
+        
+        <div className="absolute bottom-52 right-1/4 w-12 h-6 animate-pulse" style={{ animationDuration: '3s', animationDelay: '1s' }}>
+          <div className="absolute top-0 left-0 w-5 h-5 bg-black/70 rounded-full" style={{ clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)', transform: 'rotate(-30deg)', boxShadow: '0 0 8px rgba(0, 0, 0, 0.5)' }} />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 bg-black/80 rounded-full" />
+          <div className="absolute top-0 right-0 w-5 h-5 bg-black/70 rounded-full" style={{ clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)', transform: 'rotate(30deg)', boxShadow: '0 0 8px rgba(0, 0, 0, 0.5)' }} />
+        </div>
+        
+        {/* Spooky cobwebs - more visible */}
+        <div className="absolute top-0 right-0 w-48 h-48 opacity-30">
+          <div className="absolute top-0 right-0 w-full h-px bg-gradient-to-l from-white via-white/60 to-transparent" style={{ height: '2px' }} />
+          <div className="absolute top-0 right-0 h-full w-px bg-gradient-to-b from-white via-white/60 to-transparent" style={{ width: '2px' }} />
+          <div className="absolute top-12 right-0 w-36 h-px bg-gradient-to-l from-white/70 to-transparent" style={{ height: '1px' }} />
+          <div className="absolute top-0 right-12 h-36 w-px bg-gradient-to-b from-white/70 to-transparent" style={{ width: '1px' }} />
+          <div className="absolute top-24 right-0 w-24 h-px bg-gradient-to-l from-white/50 to-transparent" />
+          <div className="absolute top-0 right-24 h-24 w-px bg-gradient-to-b from-white/50 to-transparent" />
+        </div>
+        
+        {/* Left bottom cobweb */}
+        <div className="absolute bottom-0 left-0 w-48 h-48 opacity-20 rotate-90">
+          <div className="absolute top-0 right-0 w-full h-px bg-gradient-to-l from-white via-white/60 to-transparent" style={{ height: '2px' }} />
+          <div className="absolute top-0 right-0 h-full w-px bg-gradient-to-b from-white via-white/60 to-transparent" style={{ width: '2px' }} />
+        </div>
+        
+        {/* Larger twinkling stars */}
+        <div className="absolute top-20 left-20 w-2 h-2 bg-white rounded-full animate-pulse" style={{ animationDuration: '2s', boxShadow: '0 0 4px #ffffff' }} />
+        <div className="absolute top-60 left-32 w-2 h-2 bg-white rounded-full animate-pulse" style={{ animationDuration: '3s', animationDelay: '0.5s', boxShadow: '0 0 4px #ffffff' }} />
+        <div className="absolute top-96 right-24 w-2 h-2 bg-white rounded-full animate-pulse" style={{ animationDuration: '2.5s', animationDelay: '1s', boxShadow: '0 0 4px #ffffff' }} />
+        <div className="absolute bottom-32 left-16 w-2 h-2 bg-white rounded-full animate-pulse" style={{ animationDuration: '3.5s', animationDelay: '1.5s', boxShadow: '0 0 4px #ffffff' }} />
+        <div className="absolute top-44 right-32 w-2 h-2 bg-white rounded-full animate-pulse" style={{ animationDuration: '2.8s', animationDelay: '2s', boxShadow: '0 0 4px #ffffff' }} />
         
         {/* Eerie mist layers */}
         <div className="absolute inset-0 bg-gradient-to-t from-purple-900/30 via-transparent to-transparent" />
