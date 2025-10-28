@@ -351,4 +351,84 @@
   .border.hover-elevate:not(.no-hover-interaction-elevate)::after {
     inset: -1px;
   }
+
+  /* Halloween Background Animations */
+  @keyframes fog-drift {
+    0% {
+      transform: translateX(0) translateY(0);
+      opacity: 0.1;
+    }
+    50% {
+      transform: translateX(-20px) translateY(-10px);
+      opacity: 0.15;
+    }
+    100% {
+      transform: translateX(0) translateY(0);
+      opacity: 0.1;
+    }
+  }
+
+  @keyframes fog-drift-2 {
+    0% {
+      transform: translateX(0) translateY(0);
+      opacity: 0.08;
+    }
+    50% {
+      transform: translateX(30px) translateY(15px);
+      opacity: 0.12;
+    }
+    100% {
+      transform: translateX(0) translateY(0);
+      opacity: 0.08;
+    }
+  }
+
+  @keyframes candlelight-flicker {
+    0%, 100% {
+      opacity: 0.9;
+      filter: blur(1px);
+    }
+    20% {
+      opacity: 0.95;
+      filter: blur(1.2px);
+    }
+    40% {
+      opacity: 0.85;
+      filter: blur(0.8px);
+    }
+    60% {
+      opacity: 1;
+      filter: blur(1.5px);
+    }
+    80% {
+      opacity: 0.88;
+      filter: blur(1px);
+    }
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .animate-fog-drift {
+    animation: fog-drift 25s ease-in-out infinite;
+  }
+
+  .animate-fog-drift-2 {
+    animation: fog-drift-2 30s ease-in-out infinite;
+  }
+
+  .animate-candlelight {
+    animation: candlelight-flicker 3s ease-in-out infinite;
+  }
+
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient-shift 20s ease infinite;
+  }
 }

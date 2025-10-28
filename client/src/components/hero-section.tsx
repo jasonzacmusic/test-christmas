@@ -31,7 +31,26 @@ export function HeroSection() {
             }}
           />
         ))}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/70 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/70 to-background animate-gradient" />
+        
+        <div 
+          className="absolute inset-0 pointer-events-none animate-fog-drift"
+          style={{
+            background: 'radial-gradient(ellipse 80% 50% at 50% 60%, rgba(139, 92, 246, 0.15) 0%, transparent 100%)',
+          }}
+        />
+        <div 
+          className="absolute inset-0 pointer-events-none animate-fog-drift-2"
+          style={{
+            background: 'radial-gradient(ellipse 70% 40% at 30% 70%, rgba(251, 146, 60, 0.12) 0%, transparent 100%)',
+          }}
+        />
+        
+        <div className="absolute inset-0 pointer-events-none animate-candlelight">
+          <div className="absolute top-1/3 left-1/4 w-2 h-2 bg-primary rounded-full blur-xl opacity-60" />
+          <div className="absolute top-2/3 right-1/3 w-2 h-2 bg-primary rounded-full blur-xl opacity-50" />
+          <div className="absolute bottom-1/3 left-2/3 w-2 h-2 bg-primary rounded-full blur-xl opacity-70" />
+        </div>
       </div>
 
       <div className="relative z-10 container mx-auto px-4 text-center">
