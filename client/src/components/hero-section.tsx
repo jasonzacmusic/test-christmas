@@ -173,24 +173,42 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-14 sm:pt-16 md:pt-20">
-      {/* Mobile Spooky Design - Optimized CSS-based Halloween background */}
+      {/* Mobile Spooky Design - Halloween themed background with decorative elements */}
       <div className="absolute inset-0 md:hidden mobile-spooky-bg">
-        {/* Combined base gradient with all color layers for performance */}
+        {/* Dark Halloween gradient base */}
         <div className="absolute inset-0 bg-gradient-to-br from-purple-950 via-black to-orange-950" />
         
-        {/* Single subtle animated accent - reduced GPU load */}
-        <div 
-          className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" 
-          style={{ animationDuration: '6s' }}
-        />
+        {/* Floating jack-o-lantern glow effects */}
+        <div className="absolute top-10 left-5 w-20 h-20 bg-orange-500/40 rounded-full blur-2xl animate-pulse" style={{ animationDuration: '3s' }} />
+        <div className="absolute top-32 right-8 w-16 h-16 bg-orange-600/30 rounded-full blur-xl animate-pulse" style={{ animationDuration: '4s', animationDelay: '1s' }} />
+        <div className="absolute bottom-24 left-12 w-24 h-24 bg-orange-400/35 rounded-full blur-2xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '2s' }} />
         
-        {/* Combined mist and vignette overlay */}
-        <div 
-          className="absolute inset-0"
-          style={{
-            background: 'linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.8) 100%), radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.5) 100%)'
-          }}
-        />
+        {/* Ghostly purple orbs */}
+        <div className="absolute top-40 right-16 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s' }} />
+        <div className="absolute bottom-40 right-10 w-28 h-28 bg-purple-600/15 rounded-full blur-2xl animate-pulse" style={{ animationDuration: '7s', animationDelay: '1.5s' }} />
+        
+        {/* Spooky cobweb corner accents */}
+        <div className="absolute top-0 right-0 w-32 h-32 opacity-10">
+          <div className="absolute top-0 right-0 w-full h-px bg-gradient-to-l from-white to-transparent" />
+          <div className="absolute top-0 right-0 h-full w-px bg-gradient-to-b from-white to-transparent" />
+          <div className="absolute top-8 right-0 w-24 h-px bg-gradient-to-l from-white/50 to-transparent" />
+          <div className="absolute top-0 right-8 h-24 w-px bg-gradient-to-b from-white/50 to-transparent" />
+        </div>
+        
+        {/* Twinkling stars */}
+        <div className="absolute top-20 left-20 w-1 h-1 bg-white rounded-full animate-pulse" style={{ animationDuration: '2s' }} />
+        <div className="absolute top-60 left-32 w-1 h-1 bg-white rounded-full animate-pulse" style={{ animationDuration: '3s', animationDelay: '0.5s' }} />
+        <div className="absolute top-96 right-24 w-1 h-1 bg-white rounded-full animate-pulse" style={{ animationDuration: '2.5s', animationDelay: '1s' }} />
+        <div className="absolute bottom-32 left-16 w-1 h-1 bg-white rounded-full animate-pulse" style={{ animationDuration: '3.5s', animationDelay: '1.5s' }} />
+        
+        {/* Eerie mist layers */}
+        <div className="absolute inset-0 bg-gradient-to-t from-purple-900/30 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/70" />
+        
+        {/* Dark vignette for text readability */}
+        <div className="absolute inset-0" style={{
+          background: 'radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.6) 100%)'
+        }} />
       </div>
 
       {/* Desktop Background Images (Jason) - Hidden on mobile */}

@@ -14,9 +14,10 @@ Preferred communication style: Simple, everyday language.
 - **UI Components**: Shadcn/ui (Radix UI primitives with custom "new-york" styling via Tailwind CSS and CSS variables)
 - **State Management**: TanStack Query (React Query) for server state.
 - **Styling**: Tailwind CSS with custom Halloween dark theme (deep purple, black, burnt orange), gothic fonts (Creepster, Nosifer) for headlines, Inter for body text, smooth animations.
+- **Social Sharing**: Open Graph meta tags configured with NSM logo for WhatsApp, Facebook, Twitter, LinkedIn sharing.
 - **Key Features**:
     - Sticky header with NSM logo and 10-track audio selector (keyboard shortcuts 1-10).
-    - Hero section with prominent audio player (10 auto-cycling MP3 tracks), animated fog/candlelight effects, cross-fading hero images (desktop: Jason musician photos; mobile: custom CSS spooky design with floating orbs, gradients, and mist effects), and 3 localized Live Session cards (displaying IST and user's local time with country flags globally).
+    - Hero section with prominent audio player (10 auto-cycling MP3 tracks), animated fog/candlelight effects, cross-fading hero images (desktop: Jason musician photos; mobile: custom CSS Halloween design with jack-o-lantern glows, ghostly orbs, cobwebs, twinkling stars, and eerie mist), and 3 localized Live Session cards (displaying IST and user's local time with country flags globally).
     - Animated "Book Your Halloween Pass" CTA button.
     - Patreon section with rotating image carousel.
     - YouTube section displaying curated "Music Concepts" and "Song Tutorials" videos.
