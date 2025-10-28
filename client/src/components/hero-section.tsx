@@ -201,6 +201,9 @@ export function HeroSection() {
               Book Your Halloween Pass
             </a>
           </Button>
+          <p className="text-sm sm:text-base text-muted-foreground mt-4 max-w-2xl mx-auto" data-testid="text-cta-details">
+            Includes Live Lectures, Notation, Assignments & HD Recordings
+          </p>
         </div>
       </div>
 

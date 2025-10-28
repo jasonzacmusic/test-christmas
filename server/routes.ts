@@ -102,6 +102,20 @@ async function fetchGoogleSheetData() {
 }
 
 async function fetchYouTubePlaylist() {
+  // Fallback data for Halloween Riffs playlist
+  const fallbackVideos = [
+    { id: "6c_Vqe9v9JE", title: "Riff #3291 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/6c_Vqe9v9JE/hqdefault.jpg" },
+    { id: "b7tVOcmMqKk", title: "Riff #3292 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/b7tVOcmMqKk/hqdefault.jpg" },
+    { id: "xNv4KiZqLXU", title: "Riff #3293 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/xNv4KiZqLXU/hqdefault.jpg" },
+    { id: "OWpfbwTEGPI", title: "Riff #3294 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/OWpfbwTEGPI/hqdefault.jpg" },
+    { id: "M2-jmN7Q3iU", title: "Riff #3295 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/M2-jmN7Q3iU/hqdefault.jpg" },
+    { id: "Drb2nG5O3cs", title: "Riff #3296 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/Drb2nG5O3cs/hqdefault.jpg" },
+    { id: "GqDGa3n9QsA", title: "Riff #3297 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/GqDGa3n9QsA/hqdefault.jpg" },
+    { id: "HPFQY_1Qb-I", title: "Riff #3298 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/HPFQY_1Qb-I/hqdefault.jpg" },
+    { id: "DFE6WufU3ec", title: "Riff #3299 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/DFE6WufU3ec/hqdefault.jpg" },
+    { id: "cT-YN0gZzPk", title: "Riff #3300 - Jason Zac", thumbnail: "https://i.ytimg.com/vi/cT-YN0gZzPk/hqdefault.jpg" },
+  ];
+
   const url = `https://www.youtube.com/playlist?list=${YOUTUBE_PLAYLIST_ID}`;
   
   try {
@@ -142,10 +156,18 @@ async function fetchYouTubePlaylist() {
       return numA - numB;
     });
     
-    return { videos: videos.slice(0, 10) };
+    const finalVideos = videos.slice(0, 10);
+    
+    // If we got fewer than 10 videos from scraping, use fallback
+    if (finalVideos.length < 10) {
+      console.log(`Only found ${finalVideos.length} videos from scraping, using fallback data`);
+      return { videos: fallbackVideos };
+    }
+    
+    return { videos: finalVideos };
   } catch (error) {
     console.error("Error fetching playlist:", error);
-    return { videos: [] };
+    return { videos: fallbackVideos };
   }
 }
 
