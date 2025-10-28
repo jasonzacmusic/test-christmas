@@ -55,16 +55,18 @@ Preferred communication style: Simple, everyday language.
 ### Component Architecture
 
 **Page Structure**: Single home page with multiple sections
-- Header (sticky navigation with NSM logo and interactive audio player)
+- Header (sticky navigation with NSM logo and track selector)
   - NSM White logo with pulsing animation and scale-on-hover effect
-  - Audio toggle button with 10 MP3 tracks (01.mp3-10.mp3)
-  - Keyboard shortcuts (1-10 keys) to switch tracks
-  - Auto-cycling through tracks when each finishes
-  - Playback from 0:30 to 1:30 for each track
-  - Audio state persisted in localStorage
-- Hero Section (comprehensive Halloween showcase)
+  - 10 visible number buttons (1-10) in center for instant track selection
+  - Active track button highlighted with scale effect
+  - Keyboard shortcuts (1-10 keys) also work to switch tracks
+- Hero Section (comprehensive Halloween showcase with prominent audio player)
   - Main heading: "Halloween Live Sessions" (prominent text-6xl md:text-8xl)
   - Description: "Join our exclusive Halloween music workshops and master spooky piano techniques"
+  - Huge circular audio toggle button (w-32 h-32) with volume icon
+  - "Now playing: Track X" indicator when audio is active
+  - 10 MP3 tracks (01.mp3-10.mp3) with auto-cycling functionality
+  - Playback from 0:30 to 1:30 for each track
   - Cross-fading hero images (Jason 1, Jason 2)
   - Animated fog effects and candlelight flickers
   - 3 Live Sessions cards with icons (Flame, Music2, Piano), time badges, and descriptions
