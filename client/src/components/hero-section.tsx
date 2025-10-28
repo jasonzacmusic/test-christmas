@@ -161,40 +161,46 @@ export function HeroSection() {
   });
   const [detectedCountry, setDetectedCountry] = useState<string>('');
 
-  // Enhanced timezone detection with IP-based timezone (works with VPN)
+  // Enhanced timezone detection - tries multiple methods
   useEffect(() => {
     const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     console.log('Browser timezone:', browserTimezone);
+    setUserTimezone(browserTimezone);
 
-    // Use WorldTimeAPI IP endpoint to detect timezone based on IP (works with VPN!)
-    fetch('https://worldtimeapi.org/api/ip')
-      .then(res => res.json())
-      .then(data => {
+    // Try multiple timezone detection APIs in parallel with CORS-friendly approach
+    const detectTimezoneFromIP = async () => {
+      // Try ipapi.co (CORS-friendly)
+      try {
+        const response = await fetch('https://ipapi.co/json/');
+        const data = await response.json();
         if (data.timezone) {
-          console.log('WorldTimeAPI detected timezone:', data.timezone);
-          // Update timezone with IP-based detection (this respects VPN location!)
+          console.log('ipapi.co detected timezone:', data.timezone);
           setUserTimezone(data.timezone);
-          setDetectedCountry(data.abbreviation || '');
+          setDetectedCountry(data.timezone);
+          return;
         }
-      })
-      .catch((error) => {
-        console.log('WorldTimeAPI fetch failed, using browser timezone as fallback');
-        // Fallback to browser timezone if API fails
-        setUserTimezone(browserTimezone);
-      });
+      } catch (error) {
+        console.log('ipapi.co failed:', error);
+      }
 
-    // Optional: Try geolocation for additional context
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          console.log('Geolocation coords:', position.coords);
-        },
-        (error) => {
-          console.log('Geolocation not available:', error.message);
-        },
-        { timeout: 5000 }
-      );
-    }
+      // Fallback: Try ip-api.com (CORS-friendly)
+      try {
+        const response = await fetch('http://ip-api.com/json/');
+        const data = await response.json();
+        if (data.timezone) {
+          console.log('ip-api.com detected timezone:', data.timezone);
+          setUserTimezone(data.timezone);
+          setDetectedCountry(data.timezone);
+          return;
+        }
+      } catch (error) {
+        console.log('ip-api.com failed:', error);
+      }
+
+      console.log('All timezone APIs failed, using browser timezone');
+    };
+
+    detectTimezoneFromIP();
   }, []);
 
   // Compute sessions with current user timezone
@@ -224,7 +230,7 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 sm:pt-18 md:pt-24">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-14 sm:pt-16 md:pt-24">
       {/* Mobile Spooky Design - Halloween themed background with VISIBLE decorative elements */}
       <div className="absolute inset-0 md:hidden mobile-spooky-bg">
         {/* Dark Halloween gradient base */}
