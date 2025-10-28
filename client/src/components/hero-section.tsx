@@ -161,39 +161,40 @@ export function HeroSection() {
   });
   const [detectedCountry, setDetectedCountry] = useState<string>('');
 
-  // Enhanced timezone detection with geolocation fallback
+  // Enhanced timezone detection with IP-based timezone (works with VPN)
   useEffect(() => {
-    const detectedTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    setUserTimezone(detectedTimezone);
-    console.log('Detected timezone:', detectedTimezone);
+    const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    console.log('Browser timezone:', browserTimezone);
 
-    // Try geolocation API for better accuracy
+    // Use WorldTimeAPI IP endpoint to detect timezone based on IP (works with VPN!)
+    fetch('https://worldtimeapi.org/api/ip')
+      .then(res => res.json())
+      .then(data => {
+        if (data.timezone) {
+          console.log('WorldTimeAPI detected timezone:', data.timezone);
+          // Update timezone with IP-based detection (this respects VPN location!)
+          setUserTimezone(data.timezone);
+          setDetectedCountry(data.abbreviation || '');
+        }
+      })
+      .catch((error) => {
+        console.log('WorldTimeAPI fetch failed, using browser timezone as fallback');
+        // Fallback to browser timezone if API fails
+        setUserTimezone(browserTimezone);
+      });
+
+    // Optional: Try geolocation for additional context
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          console.log('Geolocation detected:', position.coords);
-          // Geolocation provides coords but we still use browser timezone
-          // This is mainly for logging/debugging purposes
+          console.log('Geolocation coords:', position.coords);
         },
         (error) => {
-          console.log('Geolocation not available or denied:', error.message);
+          console.log('Geolocation not available:', error.message);
         },
         { timeout: 5000 }
       );
     }
-
-    // Try to detect country from timezone API
-    fetch(`https://worldtimeapi.org/api/timezone/${detectedTimezone}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.abbreviation) {
-          console.log('TimeAPI data:', data);
-          setDetectedCountry(data.abbreviation);
-        }
-      })
-      .catch(() => {
-        console.log('TimeAPI fetch failed, using browser timezone only');
-      });
   }, []);
 
   // Compute sessions with current user timezone
