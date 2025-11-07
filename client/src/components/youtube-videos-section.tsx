@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ChristmasDecorations, CornerHolly } from "@/components/christmas-decorations";
 
 interface YouTubeVideo {
   id: string;
@@ -53,6 +54,9 @@ export function YouTubeVideosSection() {
         style={{ backgroundImage: 'url(/bg-christmas-festive.png)' }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/75 to-background/90" />
+      <ChristmasDecorations />
+      <CornerHolly position="bottom-left" />
+      <CornerHolly position="bottom-right" />
       
       <div className="container mx-auto px-4 relative z-10">
         {tutorials.length > 0 && (

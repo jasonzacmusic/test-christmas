@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Music, BookOpen, Ear, Radio, Sparkles, Palette, Wrench, WrenchIcon, Calendar, Clock } from "lucide-react";
 import { getUserTimeZone, convertTime } from "@/lib/timezone";
 import { useQuery } from "@tanstack/react-query";
+import { ChristmasDecorations, CornerHolly } from "@/components/christmas-decorations";
 
 interface YouTubeVideo {
   id: string;
@@ -101,6 +102,9 @@ export function WorkshopsSection() {
         style={{ backgroundImage: 'url(/bg-piano-bw.png)' }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/70 to-background/90" />
+      <ChristmasDecorations />
+      <CornerHolly position="top-left" />
+      <CornerHolly position="top-right" />
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-12">

@@ -7,6 +7,7 @@ import thumbnail3 from "@assets/Maxresdefault 1280x720 (3)_1762528882666.webp";
 import thumbnail4 from "@assets/Maxresdefault 1280x720 (4)_1762528882666.webp";
 import thumbnail5 from "@assets/Maxresdefault 1280x720 (5)_1762528882666.webp";
 import thumbnail6 from "@assets/Maxresdefault 1280x720_1762528882666.jpg";
+import { ChristmasDecorations, CornerHolly } from "@/components/christmas-decorations";
 
 interface YouTubeVideo {
   id: string;
@@ -31,6 +32,9 @@ export function PatreonCollectionSection() {
         style={{ backgroundImage: 'url(/bg-christmas-tree.png)' }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/80 to-background/90" />
+      <ChristmasDecorations />
+      <CornerHolly position="top-left" />
+      <CornerHolly position="top-right" />
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-5xl mx-auto">

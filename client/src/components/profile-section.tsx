@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Youtube, Instagram, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import jasonChristmas from "@assets/3_1762528038976.jpg";
+import { ChristmasDecorations, CornerHolly } from "@/components/christmas-decorations";
 
 interface YouTubeVideo {
   id: string;
@@ -59,6 +60,9 @@ export function ProfileSection() {
         style={{ backgroundImage: 'url(/bg-instruments-collage.png)' }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/80 to-background/90" />
+      <ChristmasDecorations />
+      <CornerHolly position="bottom-left" />
+      <CornerHolly position="bottom-right" />
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-6xl mx-auto">

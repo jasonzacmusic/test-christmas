@@ -1,10 +1,13 @@
 import { Youtube, Instagram } from "lucide-react";
 import nsmLogoWhite from "@assets/NSM White_1762526198507.png";
+import { CornerHolly } from "@/components/christmas-decorations";
 
 export function Footer() {
   return (
     <footer className="py-12 border-t border-border relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent opacity-50" />
+      <CornerHolly position="top-left" />
+      <CornerHolly position="top-right" />
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex flex-col items-center gap-6">
