@@ -28,22 +28,28 @@ export function PatreonCollectionSection() {
           <div className="relative">
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
               {thumbnails.map((thumb, i) => (
-                <div
+                <a
                   key={i}
-                  className="relative aspect-video rounded-lg overflow-hidden shadow-xl hover-elevate transition-all duration-300 group"
+                  href="https://www.patreon.com/collection/1818487?view=expanded"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative aspect-video rounded-lg overflow-hidden shadow-xl hover-elevate transition-all duration-300 group cursor-pointer"
                   style={{
                     animation: `float ${3 + i * 0.5}s ease-in-out infinite`,
                     animationDelay: `${i * 0.3}s`,
                   }}
                   data-testid={`patreon-thumbnail-${i}`}
+                  onClick={() => trackEvent('patreon_thumbnail_click', `thumbnail_${i + 1}`)}
                 >
                   <img
                     src={thumb}
                     alt={`Christmas tutorial ${i + 1}`}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span className="text-white text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">View Collection</span>
+                  </div>
+                </a>
               ))}
             </div>
 

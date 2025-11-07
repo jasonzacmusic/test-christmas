@@ -63,8 +63,8 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       if (!sourceNodeRef.current && audioContextRef.current) {
         sourceNodeRef.current = audioContextRef.current.createMediaElementSource(audio);
         analyzerNode.current = audioContextRef.current.createAnalyser();
-        analyzerNode.current.fftSize = 128;
-        analyzerNode.current.smoothingTimeConstant = 0.8;
+        analyzerNode.current.fftSize = 2048;
+        analyzerNode.current.smoothingTimeConstant = 0.7;
         
         sourceNodeRef.current.connect(analyzerNode.current);
         analyzerNode.current.connect(audioContextRef.current.destination);

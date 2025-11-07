@@ -1,8 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { trackEvent } from "@/lib/analytics";
-import { Snowflake, Star, Sparkles, Play, Pause } from "lucide-react";
+import { Snowflake, Star, Sparkles, Play, Pause, Globe, MapPin } from "lucide-react";
 import { useAudio } from "@/contexts/audio-context";
+import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect, useRef } from "react";
+
+interface YouTubeVideo {
+  id: string;
+  title: string;
+  description: string;
+  type: string;
+}
 
 const formatTime = (seconds: number) => {
   if (!isFinite(seconds) || seconds < 0) return '0:00';
@@ -13,11 +21,19 @@ const formatTime = (seconds: number) => {
 
 export function HeroSection() {
   const { isPlaying, currentTrack, toggleAudio, trackNames, audioRef, analyzerNode } = useAudio();
-  const [waveformData, setWaveformData] = useState<number[]>(Array(64).fill(0));
+  const [waveformData, setWaveformData] = useState<number[]>(Array(200).fill(0.5));
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const waveformRef = useRef<HTMLDivElement>(null);
   const animationFrameRef = useRef<number>();
+
+  const { data: videos = [] } = useQuery<YouTubeVideo[]>({
+    queryKey: ['/api/christmas-videos'],
+  });
+
+  const performances = videos.filter(v => v.type === 'performance');
+  const fairytaleVideo = performances.find(v => v.title.toLowerCase().includes('fairytale'));
+  const linusVideo = performances.find(v => v.title.toLowerCase().includes('linus'));
 
   useEffect(() => {
     const audio = audioRef?.current;
@@ -41,7 +57,7 @@ export function HeroSection() {
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
-      setWaveformData(Array(64).fill(0));
+      setWaveformData(Array(200).fill(0));
       return;
     }
 
@@ -49,9 +65,20 @@ export function HeroSection() {
     const dataArray = new Uint8Array(bufferLength);
 
     const updateWaveform = () => {
-      analyzer.getByteFrequencyData(dataArray);
-      const normalized = Array.from(dataArray).map(val => val / 255);
-      setWaveformData(normalized);
+      analyzer.getByteTimeDomainData(dataArray);
+      const samples: number[] = [];
+      const desiredSamples = 200;
+      
+      for (let i = 0; i < desiredSamples; i++) {
+        const position = (i / desiredSamples) * bufferLength;
+        const index = Math.floor(position);
+        const nextIndex = Math.min(index + 1, bufferLength - 1);
+        const fraction = position - index;
+        
+        const value = dataArray[index] * (1 - fraction) + dataArray[nextIndex] * fraction;
+        samples.push(Math.abs((value - 128) / 128));
+      }
+      setWaveformData(samples);
       animationFrameRef.current = requestAnimationFrame(updateWaveform);
     };
 
@@ -80,6 +107,48 @@ export function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+      {linusVideo && (
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 z-20 hidden xl:block w-72" data-testid="video-hero-linus">
+          <div className="bg-card/70 backdrop-blur-sm rounded-lg overflow-hidden border border-card-border hover-elevate transition-all duration-300">
+            <div className="relative aspect-video bg-muted">
+              <iframe
+                className="absolute inset-0 w-full h-full"
+                src={`https://www.youtube.com/embed/${linusVideo.id}`}
+                title={linusVideo.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+            <div className="p-3">
+              <h4 className="text-sm font-semibold text-card-foreground line-clamp-2" style={{ fontFamily: 'var(--font-elegant)' }}>
+                {linusVideo.title}
+              </h4>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {fairytaleVideo && (
+        <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 hidden xl:block w-72" data-testid="video-hero-fairytale">
+          <div className="bg-card/70 backdrop-blur-sm rounded-lg overflow-hidden border border-card-border hover-elevate transition-all duration-300">
+            <div className="relative aspect-video bg-muted">
+              <iframe
+                className="absolute inset-0 w-full h-full"
+                src={`https://www.youtube.com/embed/${fairytaleVideo.id}`}
+                title={fairytaleVideo.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+            <div className="p-3">
+              <h4 className="text-sm font-semibold text-card-foreground line-clamp-2" style={{ fontFamily: 'var(--font-elegant)' }}>
+                {fairytaleVideo.title}
+              </h4>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="absolute inset-0 bg-gradient-to-br from-green-950 via-red-950 to-green-900" />
       
       <div className="absolute inset-0 overflow-hidden">
@@ -208,26 +277,23 @@ export function HeroSection() {
                 data-testid="waveform-container"
                 title="Click anywhere to seek"
               >
-                <div className="absolute inset-0 flex items-end justify-center gap-1 px-2 pb-2">
-                  {waveformData.map((height, i) => (
+                <div className="absolute inset-0 flex items-center justify-start px-0.5">
+                  {waveformData.map((amplitude, i) => (
                     <div
                       key={i}
-                      className={`flex-1 rounded-t-full transition-all duration-75 ${isPlaying ? 'bg-primary' : 'bg-muted'}`}
+                      className={`flex-shrink-0 transition-all duration-75 ${isPlaying ? 'bg-primary/70' : 'bg-muted/60'}`}
                       style={{
-                        height: `${Math.max(height * 90, 5)}%`,
-                        opacity: isPlaying ? 0.7 + height * 0.3 : 0.4,
+                        width: '2px',
+                        height: `${Math.max(amplitude * 100, 8)}%`,
+                        marginRight: '1px',
+                        opacity: i / waveformData.length < (currentTime / duration) ? (isPlaying ? 0.9 : 0.5) : (isPlaying ? 0.4 : 0.3),
                       }}
                     />
                   ))}
                 </div>
                 
                 <div 
-                  className="absolute top-0 left-0 bottom-0 bg-primary/20 pointer-events-none transition-all"
-                  style={{ width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
-                />
-                
-                <div 
-                  className="absolute top-0 bottom-0 w-0.5 bg-accent shadow-lg shadow-accent/50 pointer-events-none transition-all"
+                  className="absolute top-0 bottom-0 w-0.5 bg-accent shadow-lg shadow-accent/50 pointer-events-none transition-all z-10"
                   style={{ left: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
                 />
               </div>
@@ -239,28 +305,67 @@ export function HeroSection() {
           </div>
         </div>
 
-        <div className="text-center space-y-4 mt-16">
-          <Button
-            asChild
-            size="lg"
-            className="text-xl sm:text-2xl px-8 py-6 sm:px-12 sm:py-8 shadow-2xl hover:scale-105 transition-all duration-300 animate-gentle-scale hover:animate-none"
-            style={{
-              boxShadow: '0 0 30px rgba(220, 38, 38, 0.5), 0 0 60px rgba(220, 38, 38, 0.3)',
-            }}
-            data-testid="button-hero-cta"
-          >
-            <a
-              href="https://nathanielschool.practicenow.us/students/subscriptions?service=group_class"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackEvent('cta_click', 'hero_book_christmas_workshop')}
-            >
-              Join the Christmas Workshops
-            </a>
-          </Button>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto" data-testid="text-cta-details">
-            Includes Live Lectures, Notation, Assignments & HD Recordings
-          </p>
+        <div className="text-center space-y-8 mt-16">
+          <div className="max-w-4xl mx-auto">
+            <h3 className="text-2xl sm:text-3xl font-bold text-primary mb-6" style={{ fontFamily: 'var(--font-christmas)' }}>
+              Choose Your Payment Method
+            </h3>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="bg-card/50 backdrop-blur-sm rounded-lg p-6 border border-card-border space-y-4">
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <MapPin className="w-6 h-6 text-primary" />
+                  <h4 className="text-xl font-bold text-foreground">Indian Residents</h4>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Pay with UPI, Account Transfer, or Credit Card
+                </p>
+                <Button
+                  asChild
+                  size="lg"
+                  className="w-full text-lg px-6 py-6 shadow-xl hover:scale-105 transition-all duration-300"
+                  data-testid="button-register-indian"
+                >
+                  <a
+                    href="https://nathanielschool.practicenow.us/students/subscriptions?service=group_class&plan_id=7010"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackEvent('cta_click', 'hero_register_indian')}
+                  >
+                    Register Now (Indian)
+                  </a>
+                </Button>
+              </div>
+
+              <div className="bg-card/50 backdrop-blur-sm rounded-lg p-6 border border-card-border space-y-4">
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <Globe className="w-6 h-6 text-accent" />
+                  <h4 className="text-xl font-bold text-foreground">International</h4>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Secure payment via PayPal
+                </p>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="secondary"
+                  className="w-full text-lg px-6 py-6 shadow-xl hover:scale-105 transition-all duration-300"
+                  data-testid="button-paypal-international"
+                >
+                  <a
+                    href="https://www.paypal.com/ncp/payment/LU7B8SNQ85WN6"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackEvent('cta_click', 'hero_paypal_international')}
+                  >
+                    Pay with PayPal
+                  </a>
+                </Button>
+              </div>
+            </div>
+            <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto mt-6" data-testid="text-cta-details">
+              Includes Live Lectures, Notation, Assignments & HD Recordings
+            </p>
+          </div>
         </div>
       </div>
 
