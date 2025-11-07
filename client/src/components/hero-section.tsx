@@ -170,7 +170,7 @@ export function HeroSection() {
                       <div className="aspect-video bg-muted">
                         <iframe
                           className="w-full h-full"
-                          src={`https://www.youtube.com/embed/${linusVideo.id}`}
+                          src={`https://www.youtube.com/embed/${linusVideo.id}?enablejsapi=1`}
                           title={linusVideo.title}
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                           allowFullScreen

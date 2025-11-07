@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState, useRef, ReactNode } from "react";
-import { pauseAllYouTubeVideos } from "@/hooks/use-youtube-pause-audio";
 
 // Import all 10 Christmas MP3 files
 import track01 from "@assets/1.Jesu Joy of Man's Desiring_1762525313885.mp3";
@@ -129,7 +128,9 @@ export function AudioProvider({ children }: { children: ReactNode }) {
         setIsPlaying(false);
       } else if (!isPlaying || audio?.paused) {
         // Pause all YouTube videos when starting audio
-        pauseAllYouTubeVideos();
+        if (typeof window !== 'undefined' && (window as any).pauseAllYouTubeVideos) {
+          (window as any).pauseAllYouTubeVideos();
+        }
         
         if (audio) {
           await audio.play().catch((error) => {
@@ -146,7 +147,9 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   const selectTrack = async (index: number) => {
     try {
       // Pause all YouTube videos when selecting a track
-      pauseAllYouTubeVideos();
+      if (typeof window !== 'undefined' && (window as any).pauseAllYouTubeVideos) {
+        (window as any).pauseAllYouTubeVideos();
+      }
       
       const audio = audioRef.current;
       const isSameTrack = index === currentTrack;

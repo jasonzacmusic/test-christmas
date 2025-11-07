@@ -83,7 +83,7 @@ export function ProfileSection() {
                     <div className="relative aspect-video bg-muted">
                       <iframe
                         className="absolute inset-0 w-full h-full"
-                        src={`https://www.youtube.com/embed/${linusVideo.id}`}
+                        src={`https://www.youtube.com/embed/${linusVideo.id}?enablejsapi=1`}
                         title={linusVideo.title}
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowFullScreen
@@ -105,7 +105,7 @@ export function ProfileSection() {
                     <div className="relative aspect-video bg-muted">
                       <iframe
                         className="absolute inset-0 w-full h-full"
-                        src={`https://www.youtube.com/embed/${fairytaleVideo.id}`}
+                        src={`https://www.youtube.com/embed/${fairytaleVideo.id}?enablejsapi=1`}
                         title={fairytaleVideo.title}
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowFullScreen
@@ -127,7 +127,7 @@ export function ProfileSection() {
                     <div className="relative aspect-video bg-muted">
                       <iframe
                         className="absolute inset-0 w-full h-full"
-                        src={`https://www.youtube.com/embed/${narayanVideo.id}`}
+                        src={`https://www.youtube.com/embed/${narayanVideo.id}?enablejsapi=1`}
                         title={narayanVideo.title}
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowFullScreen

@@ -17,20 +17,26 @@ declare global {
 // Global registry to store all YouTube player instances
 if (typeof window !== 'undefined') {
   window.youtubePlayersRegistry = [];
-}
-
-export function pauseAllYouTubeVideos() {
-  if (typeof window !== 'undefined' && window.youtubePlayersRegistry) {
-    window.youtubePlayersRegistry.forEach((player) => {
-      try {
-        if (player && typeof player.pauseVideo === 'function') {
-          player.pauseVideo();
+  
+  // Make pauseAllYouTubeVideos globally accessible
+  (window as any).pauseAllYouTubeVideos = function() {
+    console.log('pauseAllYouTubeVideos called');
+    if (window.youtubePlayersRegistry) {
+      console.log(`Pausing ${window.youtubePlayersRegistry.length} YouTube players`);
+      window.youtubePlayersRegistry.forEach((player, index) => {
+        try {
+          if (player && typeof player.pauseVideo === 'function') {
+            player.pauseVideo();
+            console.log(`Paused YouTube player ${index}`);
+          }
+        } catch (error) {
+          console.log('Failed to pause YouTube video:', error);
         }
-      } catch (error) {
-        console.log('Failed to pause YouTube video:', error);
-      }
-    });
-  }
+      });
+    } else {
+      console.log('No YouTube players registered yet');
+    }
+  };
 }
 
 export function useYouTubePauseAudio() {
@@ -47,9 +53,13 @@ export function useYouTubePauseAudio() {
 
     // Function to initialize players
     const initializePlayers = () => {
-      if (!window.YT) return;
+      if (!window.YT) {
+        console.log('YouTube API not ready yet');
+        return;
+      }
 
       const iframes = document.querySelectorAll('iframe[src*="youtube.com/embed"]');
+      console.log(`Found ${iframes.length} YouTube iframes to initialize`);
       
       // Clear old registry
       window.youtubePlayersRegistry = [];
@@ -67,6 +77,7 @@ export function useYouTubePauseAudio() {
               onStateChange: (event: any) => {
                 // When video starts playing
                 if (event.data === window.YT!.PlayerState.PLAYING) {
+                  console.log('YouTube video started playing - pausing audio');
                   pauseAudio();
                 }
               },
@@ -75,11 +86,14 @@ export function useYouTubePauseAudio() {
           
           // Store player in global registry
           window.youtubePlayersRegistry?.push(player);
+          console.log(`YouTube player ${index} initialized (${iframe.id})`);
         } catch (error) {
           // Player might already be initialized
           console.log('YouTube player initialization skipped:', error);
         }
       });
+      
+      console.log(`Total YouTube players registered: ${window.youtubePlayersRegistry?.length || 0}`);
     };
 
     // Wait for API to be ready
