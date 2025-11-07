@@ -153,7 +153,9 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       const audio = audioRef.current;
       
       if (audioContextRef.current?.state === 'suspended') {
+        console.log('Resuming AudioContext...');
         await audioContextRef.current.resume();
+        console.log('AudioContext state:', audioContextRef.current.state);
       }
       
       if (isPlaying && audio && !audio.paused) {

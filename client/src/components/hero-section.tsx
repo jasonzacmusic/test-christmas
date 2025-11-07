@@ -64,15 +64,23 @@ export function HeroSection() {
     const bufferLength = analyzer.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
     const barCount = 32;
+    
+    console.log('Analyzer setup - bufferLength:', bufferLength, 'fftSize:', analyzer.fftSize);
 
     const updateFrequencies = () => {
       analyzer.getByteFrequencyData(dataArray);
       const frequencies: number[] = [];
       
+      let hasData = false;
       for (let i = 0; i < barCount; i++) {
         const index = Math.floor((i / barCount) * bufferLength);
         const value = dataArray[index] / 255;
-        frequencies.push(Math.max(value * 1.2, 0.05));
+        if (value > 0.05) hasData = true;
+        frequencies.push(Math.max(value * 1.5, 0.05));
+      }
+      
+      if (hasData && frequencies.length > 0) {
+        console.log('Sample frequency values:', frequencies.slice(0, 5));
       }
       
       setFrequencyData(frequencies);
