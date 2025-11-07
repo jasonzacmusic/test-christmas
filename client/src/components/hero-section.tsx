@@ -85,48 +85,60 @@ export function HeroSection() {
       />
 
       <div className="relative z-10 container mx-auto px-4 py-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center mb-12">
+        <div className="grid lg:grid-cols-2 gap-12 items-start mb-12">
           <div className="text-center lg:text-left space-y-8 order-2 lg:order-1">
             <div className="space-y-6">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight" style={{ fontFamily: 'var(--font-elegant)' }}>
-              <span className="block text-foreground mb-3" style={{ 
-                textShadow: '0 2px 25px rgba(0, 0, 0, 0.5)'
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight" style={{ fontFamily: 'var(--font-elegant)' }}>
+                <span className="block text-foreground mb-3" style={{ 
+                  textShadow: '0 2px 25px rgba(0, 0, 0, 0.5)'
+                }}>
+                  Master Christmas Classics
+                </span>
+                <span className="block text-primary mb-3" style={{
+                  textShadow: '0 0 40px rgba(220, 38, 38, 0.5), 0 2px 20px rgba(0, 0, 0, 0.6)',
+                  fontFamily: 'var(--font-christmas)',
+                  fontSize: '1.2em',
+                  letterSpacing: '0.02em',
+                }}>
+                  Like Never Before
+                </span>
+              </h1>
+              
+              <div className="h-1 w-32 bg-gradient-to-r from-primary via-accent to-secondary mx-auto lg:mx-0 rounded-full" />
+              
+              <p className="text-lg sm:text-xl md:text-2xl text-foreground/90 max-w-3xl mx-auto lg:mx-0 leading-relaxed" style={{ 
+                fontFamily: 'var(--font-elegant)',
+                textShadow: '0 1px 15px rgba(0, 0, 0, 0.4)'
               }}>
-                Master Christmas Classics
-              </span>
-              <span className="block text-primary mb-3" style={{
-                textShadow: '0 0 40px rgba(220, 38, 38, 0.5), 0 2px 20px rgba(0, 0, 0, 0.6)',
-                fontFamily: 'var(--font-christmas)',
-                fontSize: '1.2em',
-                letterSpacing: '0.02em',
-              }}>
-                Like Never Before
-              </span>
-            </h1>
-            
-            <div className="h-1 w-32 bg-gradient-to-r from-primary via-accent to-secondary mx-auto lg:mx-0 rounded-full" />
-            
-            <p className="text-lg sm:text-xl md:text-2xl text-foreground/90 max-w-3xl mx-auto lg:mx-0 leading-relaxed" style={{ 
-              fontFamily: 'var(--font-elegant)',
-              textShadow: '0 1px 15px rgba(0, 0, 0, 0.4)'
-            }}>
-              Join <span className="text-primary font-bold">8 live workshops</span> this December with Jason Zac, covering carols, theory, ear training, and creative arrangements. Plus, unlock our <span className="text-accent font-bold">exclusive Patreon collection</span> featuring 20 premium tutorials, sheet music, and performance videos—everything you need to shine this festive season.
-            </p>
-            
-            <div className="flex flex-wrap justify-center lg:justify-start gap-4 text-sm sm:text-base text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-primary rounded-full" />
-                <span>8 Live Workshops (Dec 5-21)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-accent rounded-full" />
-                <span>20+ Patreon Tutorials</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-secondary rounded-full" />
-                <span>Sheet Music & Recordings</span>
+                Join <span className="text-primary font-bold">8 live workshops</span> this December with Jason Zac, covering carols, theory, ear training, and creative arrangements. Plus, unlock our <span className="text-accent font-bold">exclusive Patreon collection</span> featuring 20 premium tutorials, sheet music, and performance videos—everything you need to shine this festive season.
+              </p>
+              
+              <div className="flex flex-wrap justify-center lg:justify-start gap-4 text-sm sm:text-base text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-primary rounded-full" />
+                  <span>8 Live Workshops (Dec 5-21)</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-accent rounded-full" />
+                  <span>20+ Patreon Tutorials</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-secondary rounded-full" />
+                  <span>Sheet Music & Recordings</span>
+                </div>
               </div>
             </div>
+            
+            <div className="hidden lg:block mt-8">
+              <div className="relative group max-w-md">
+                <div className="absolute -inset-2 bg-gradient-to-r from-accent via-secondary to-primary rounded-2xl opacity-25 group-hover:opacity-35 transition-opacity blur-xl" />
+                <img
+                  src={jasonHero1}
+                  alt="Jason Zachariah teaching Christmas music"
+                  className="relative rounded-2xl shadow-xl w-full object-cover border-3 border-primary/20"
+                  data-testid="img-jason-hero-below-text"
+                />
+              </div>
             </div>
           </div>
 
@@ -142,33 +154,21 @@ export function HeroSection() {
                 />
               </div>
               
-              <div className="hidden lg:grid lg:grid-cols-2 gap-4">
-                <div className="space-y-4">
-                  <div className="relative group">
-                    <div className="absolute -inset-2 bg-gradient-to-r from-primary via-accent to-secondary rounded-2xl opacity-25 group-hover:opacity-35 transition-opacity blur-xl" />
-                    <img
-                      src={jasonHero2}
-                      alt="Jason Zac performing"
-                      className="relative rounded-2xl shadow-xl w-full object-cover border-3 border-accent/20"
-                      data-testid="img-jason-hero-left"
-                    />
-                  </div>
-                  
-                  <div className="relative group">
-                    <div className="absolute -inset-2 bg-gradient-to-r from-accent via-secondary to-primary rounded-2xl opacity-25 group-hover:opacity-35 transition-opacity blur-xl" />
-                    <img
-                      src={jasonHero1}
-                      alt="Jason Zachariah teaching Christmas music"
-                      className="relative rounded-2xl shadow-xl w-full object-cover border-3 border-primary/20"
-                      data-testid="img-jason-hero-bottom-left"
-                    />
-                  </div>
+              <div className="hidden lg:grid lg:grid-cols-1 gap-4">
+                <div className="relative group">
+                  <div className="absolute -inset-2 bg-gradient-to-r from-primary via-accent to-secondary rounded-2xl opacity-25 group-hover:opacity-35 transition-opacity blur-xl" />
+                  <img
+                    src={jasonHero2}
+                    alt="Jason Zac performing"
+                    className="relative rounded-2xl shadow-xl w-full object-cover border-3 border-accent/20"
+                    data-testid="img-jason-hero-right"
+                  />
                 </div>
                 
                 {linusVideo && (
                   <div className="relative group">
                     <div className="absolute -inset-2 bg-gradient-to-r from-secondary via-primary to-accent rounded-2xl opacity-25 group-hover:opacity-35 transition-opacity blur-xl" />
-                    <div className="relative bg-card/50 backdrop-blur-sm rounded-2xl overflow-hidden border-3 border-secondary/20 shadow-xl h-full">
+                    <div className="relative bg-card/50 backdrop-blur-sm rounded-2xl overflow-hidden border-3 border-secondary/20 shadow-xl">
                       <div className="aspect-video bg-muted">
                         <iframe
                           className="w-full h-full"
