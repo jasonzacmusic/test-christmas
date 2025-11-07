@@ -116,26 +116,6 @@ export function WorkshopsSection() {
           </p>
         </div>
 
-        {firstPerformance && (
-          <div className="lg:hidden mb-8 max-w-2xl mx-auto" data-testid="video-workshops-mobile">
-            <div className="bg-card/70 backdrop-blur-sm rounded-lg overflow-hidden border border-card-border hover-elevate transition-all duration-300">
-              <div className="relative aspect-video bg-muted">
-                <iframe
-                  className="absolute inset-0 w-full h-full"
-                  src={`https://www.youtube.com/embed/${firstPerformance.id}`}
-                  title={firstPerformance.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                />
-              </div>
-              <div className="p-4">
-                <h4 className="text-base font-semibold text-card-foreground line-clamp-2" style={{ fontFamily: 'var(--font-elegant)' }}>
-                  {firstPerformance.title}
-                </h4>
-              </div>
-            </div>
-          </div>
-        )}
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {workshops.map((workshop) => {
