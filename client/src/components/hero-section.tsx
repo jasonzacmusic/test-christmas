@@ -1,31 +1,68 @@
 import { Button } from "@/components/ui/button";
 import { trackEvent } from "@/lib/analytics";
-import { Snowflake, Star, Sparkles, Gift } from "lucide-react";
+import { Snowflake, Star, Sparkles, Play, Pause } from "lucide-react";
 import { useAudio } from "@/contexts/audio-context";
 import { useState, useEffect, useRef } from "react";
 
+const formatTime = (seconds: number) => {
+  if (!isFinite(seconds) || seconds < 0) return '0:00';
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+};
+
 export function HeroSection() {
-  const { isPlaying, currentTrack, toggleAudio, trackNames, audioRef } = useAudio();
-  const [isOpening, setIsOpening] = useState(false);
-  const [waveformData, setWaveformData] = useState<number[]>(Array(50).fill(0.3));
+  const { isPlaying, currentTrack, toggleAudio, trackNames, audioRef, analyzerNode } = useAudio();
+  const [waveformData, setWaveformData] = useState<number[]>(Array(64).fill(0));
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
   const waveformRef = useRef<HTMLDivElement>(null);
+  const animationFrameRef = useRef<number>();
 
   useEffect(() => {
-    setIsOpening(true);
-    const timer = setTimeout(() => setIsOpening(false), 800);
-    return () => clearTimeout(timer);
-  }, [currentTrack]);
+    const audio = audioRef?.current;
+    if (!audio) return;
+
+    const updateTime = () => setCurrentTime(audio.currentTime);
+    const updateDuration = () => setDuration(audio.duration);
+
+    audio.addEventListener('timeupdate', updateTime);
+    audio.addEventListener('loadedmetadata', updateDuration);
+
+    return () => {
+      audio.removeEventListener('timeupdate', updateTime);
+      audio.removeEventListener('loadedmetadata', updateDuration);
+    };
+  }, [audioRef]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (isPlaying) {
-        setWaveformData(prev => 
-          prev.map(() => 0.2 + Math.random() * 0.8)
-        );
+    const analyzer = analyzerNode?.current;
+    if (!analyzer || !isPlaying) {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
       }
-    }, 100);
-    return () => clearInterval(interval);
-  }, [isPlaying]);
+      setWaveformData(Array(64).fill(0));
+      return;
+    }
+
+    const bufferLength = analyzer.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+
+    const updateWaveform = () => {
+      analyzer.getByteFrequencyData(dataArray);
+      const normalized = Array.from(dataArray).map(val => val / 255);
+      setWaveformData(normalized);
+      animationFrameRef.current = requestAnimationFrame(updateWaveform);
+    };
+
+    updateWaveform();
+
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [isPlaying, analyzerNode]);
 
   const handleWaveformClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!waveformRef.current || !audioRef?.current) return;
@@ -119,36 +156,33 @@ export function HeroSection() {
           <div className="flex flex-col items-center gap-8 mt-12">
             <button
               onClick={toggleAudio}
-              className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 transition-all duration-500 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary/50 rounded-lg"
+              className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-primary/50"
               data-testid="button-audio-toggle-hero"
               aria-label={isPlaying ? "Pause music" : "Play music"}
             >
-              <div 
-                className={`absolute inset-0 bg-gradient-to-br from-primary via-red-600 to-primary rounded-lg shadow-2xl transition-all duration-500 ${isOpening ? 'scale-110 rotate-12' : 'scale-100 rotate-0'}`}
-                style={{
-                  boxShadow: '0 0 40px rgba(220, 38, 38, 0.6), 0 0 80px rgba(220, 38, 38, 0.4)',
-                }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-accent/30 via-transparent to-transparent rounded-lg" />
-                
-                <div className="absolute top-1/2 left-0 right-0 h-4 sm:h-6 bg-accent transform -translate-y-1/2" />
-                <div className="absolute left-1/2 top-0 bottom-0 w-4 sm:w-6 bg-accent transform -translate-x-1/2" />
-                
-                <div className={`absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-500 ${isOpening ? 'scale-150 -translate-y-8' : 'scale-100'}`}>
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-accent rounded-full flex items-center justify-center shadow-lg">
-                    <div className="w-8 h-2 sm:w-12 sm:h-3 bg-accent-foreground rounded-full" />
-                    <div className="absolute w-2 h-8 sm:w-3 sm:h-12 bg-accent-foreground rounded-full" />
-                  </div>
-                </div>
-              </div>
-              
               <div className="absolute inset-0 flex items-center justify-center">
-                <Gift className={`w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 text-white transition-opacity duration-300 ${isPlaying ? 'opacity-0' : 'opacity-100'}`} />
-                <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isPlaying ? 'opacity-100' : 'opacity-0'}`}>
-                  <div className="relative w-12 h-12 sm:w-16 sm:h-16">
-                    <div className="absolute inset-0 border-4 border-white rounded-full animate-ping opacity-75" />
-                    <div className="absolute inset-0 border-4 border-white rounded-full" />
+                <div 
+                  className="relative w-full h-full rounded-full bg-gradient-to-br from-primary via-red-600 to-primary shadow-2xl"
+                  style={{
+                    boxShadow: '0 0 60px rgba(220, 38, 38, 0.7), 0 0 120px rgba(220, 38, 38, 0.5)',
+                  }}
+                >
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-white/20 via-transparent to-transparent" />
+                  
+                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-2">
+                    <div className="w-6 h-8 sm:w-8 sm:h-10 bg-accent rounded-t-lg" />
+                    <div className="w-8 h-2 sm:w-10 sm:h-3 bg-accent rounded-full transform -translate-x-1 -translate-y-1" />
                   </div>
+                  
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    {isPlaying ? (
+                      <Pause className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 text-white fill-white" />
+                    ) : (
+                      <Play className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 text-white fill-white ml-2" />
+                    )}
+                  </div>
+                  
+                  <div className={`absolute inset-2 rounded-full border-4 border-white/30 transition-all duration-300 ${isPlaying ? 'animate-ping' : ''}`} />
                 </div>
               </div>
             </button>
@@ -162,30 +196,40 @@ export function HeroSection() {
               </p>
             </div>
 
-            <div className="w-full max-w-4xl mt-8 space-y-4">
+            <div className="w-full max-w-4xl mt-8 space-y-2">
               <div 
                 ref={waveformRef}
                 onClick={handleWaveformClick}
-                className="relative h-24 sm:h-32 bg-card/50 backdrop-blur-sm rounded-lg border border-border overflow-hidden cursor-pointer hover-elevate transition-all"
+                className="relative h-24 sm:h-32 bg-card/50 backdrop-blur-sm rounded-lg border border-border overflow-hidden cursor-pointer group transition-all hover:border-primary/50"
                 data-testid="waveform-container"
+                title="Click anywhere to seek"
               >
-                <div className="absolute inset-0 flex items-center justify-center gap-1 px-2">
+                <div className="absolute inset-0 flex items-end justify-center gap-1 px-2 pb-2">
                   {waveformData.map((height, i) => (
                     <div
                       key={i}
-                      className={`flex-1 rounded-full transition-all duration-100 ${isPlaying ? 'bg-primary' : 'bg-muted'}`}
+                      className={`flex-1 rounded-t-full transition-all duration-75 ${isPlaying ? 'bg-primary' : 'bg-muted'}`}
                       style={{
-                        height: `${height * 100}%`,
-                        opacity: isPlaying ? 0.6 + height * 0.4 : 0.3,
+                        height: `${Math.max(height * 90, 5)}%`,
+                        opacity: isPlaying ? 0.7 + height * 0.3 : 0.4,
                       }}
                     />
                   ))}
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <p className="text-xs text-muted-foreground bg-background/80 px-3 py-1 rounded-full">
-                    Click to seek
-                  </p>
-                </div>
+                
+                <div 
+                  className="absolute top-0 left-0 bottom-0 bg-primary/20 pointer-events-none transition-all"
+                  style={{ width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
+                />
+                
+                <div 
+                  className="absolute top-0 bottom-0 w-0.5 bg-accent shadow-lg shadow-accent/50 pointer-events-none transition-all"
+                  style={{ left: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
+                />
+              </div>
+              <div className="flex justify-between text-xs text-muted-foreground px-2">
+                <span>{formatTime(currentTime)}</span>
+                <span>{formatTime(duration)}</span>
               </div>
             </div>
           </div>
