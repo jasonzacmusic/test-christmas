@@ -75,6 +75,22 @@ const fallbackVideos: YouTubeVideo[] = [
   }
 ];
 
+function extractYouTubeId(urlOrId: string): string {
+  if (!urlOrId) return '';
+  
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/live\/)([a-zA-Z0-9_-]{11})/,
+    /^([a-zA-Z0-9_-]{11})$/
+  ];
+  
+  for (const pattern of patterns) {
+    const match = urlOrId.match(pattern);
+    if (match) return match[1];
+  }
+  
+  return urlOrId;
+}
+
 export async function fetchChristmasVideos(): Promise<YouTubeVideo[]> {
   try {
     const sheets = await getUncachableGoogleSheetClient();
@@ -101,12 +117,14 @@ export async function fetchChristmasVideos(): Promise<YouTubeVideo[]> {
     const videos: YouTubeVideo[] = rows
       .filter((row: any[]) => row[0] && row[1])
       .map((row: any[]) => ({
-        id: row[0],
-        title: row[1] || '',
+        id: extractYouTubeId(row[1]),
+        title: row[0] || '',
         description: row[2] || '',
-        type: (row[3]?.toLowerCase() === 'performance' ? 'performance' : 'tutorial') as 'tutorial' | 'performance'
-      }));
+        type: (row[3] === '0' || row[3]?.toLowerCase() === 'performance' ? 'performance' : 'tutorial') as 'tutorial' | 'performance'
+      }))
+      .filter(video => video.id.length === 11);
 
+    console.log(`Successfully loaded ${videos.length} Christmas videos from Google Sheets`);
     return videos.length > 0 ? videos : fallbackVideos;
   } catch (error) {
     console.error('Error fetching Christmas videos from Google Sheets:', error);
