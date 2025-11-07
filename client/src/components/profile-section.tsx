@@ -43,6 +43,10 @@ export function ProfileSection() {
   const performances = randomizedVideos.filter(v => 
     v.type === 'performance'
   ).slice(0, 3);
+  
+  const linusVideo = randomizedVideos.find(v => 
+    v.type === 'performance' && v.title.toLowerCase().includes('linus')
+  );
 
   return (
     <section className="py-16 sm:py-20 md:py-24 relative overflow-hidden">
@@ -70,17 +74,27 @@ export function ProfileSection() {
           <div className="space-y-12">
             <div className="grid lg:grid-cols-3 gap-8 md:gap-12">
               <div className="lg:col-span-1 space-y-8">
-                <div className="flex justify-center">
-                  <div className="relative group">
-                    <div className="absolute -inset-4 bg-gradient-to-r from-primary via-accent to-secondary rounded-2xl opacity-20 group-hover:opacity-30 transition-opacity blur-xl" />
-                    <img
-                      src={jasonChristmas}
-                      alt="Jason Zachariah in festive Christmas attire"
-                      className="relative rounded-2xl shadow-2xl w-full max-w-lg object-cover"
-                      data-testid="img-jason-profile"
-                    />
+                {linusVideo && (
+                  <div className="bg-card/50 backdrop-blur-sm rounded-lg overflow-hidden border border-card-border hover-elevate transition-all duration-300 shadow-xl">
+                    <div className="relative aspect-video bg-muted">
+                      <iframe
+                        className="absolute inset-0 w-full h-full"
+                        src={`https://www.youtube.com/embed/${linusVideo.id}`}
+                        title={linusVideo.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                      />
+                    </div>
+                    <div className="p-4">
+                      <h4 className="text-base font-semibold text-card-foreground mb-2 line-clamp-2" style={{ fontFamily: 'var(--font-elegant)' }}>
+                        {linusVideo.title}
+                      </h4>
+                      <p className="text-sm text-muted-foreground line-clamp-2">
+                        {linusVideo.description}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
               <div className="lg:col-span-2 space-y-6">
