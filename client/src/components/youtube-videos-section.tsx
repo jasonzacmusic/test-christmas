@@ -34,42 +34,6 @@ export function YouTubeVideosSection() {
     }
   }, [videos]);
 
-  useEffect(() => {
-    const intervals: NodeJS.Timeout[] = [];
-    
-    const setupAutoScroll = (container: HTMLDivElement | null) => {
-      if (!container) return;
-      
-      let scrollPosition = 0;
-      const scrollSpeed = 0.5;
-      
-      const autoScroll = () => {
-        if (container.scrollWidth > container.clientWidth) {
-          scrollPosition += scrollSpeed;
-          
-          if (scrollPosition >= container.scrollWidth - container.clientWidth) {
-            scrollPosition = 0;
-          }
-          
-          container.scrollTo({
-            left: scrollPosition,
-            behavior: 'auto'
-          });
-        }
-      };
-      
-      const interval = setInterval(autoScroll, 50);
-      intervals.push(interval);
-    };
-    
-    setupAutoScroll(tutorialScrollRef.current);
-    setupAutoScroll(performanceScrollRef.current);
-    
-    return () => {
-      intervals.forEach(interval => clearInterval(interval));
-    };
-  }, [randomizedVideos]);
-
   const scroll = (ref: React.RefObject<HTMLDivElement>, direction: 'left' | 'right') => {
     if (!ref.current) return;
     const scrollAmount = direction === 'left' ? -400 : 400;
