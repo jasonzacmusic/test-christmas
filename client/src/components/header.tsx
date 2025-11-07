@@ -31,17 +31,19 @@ export function Header() {
             </div>
           </a>
 
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             {[...Array(10)].map((_, i) => (
               <Button
                 key={i}
                 onClick={() => selectTrack(i)}
-                variant={currentTrack === i ? "default" : "ghost"}
-                size="sm"
+                variant={currentTrack === i ? "default" : "outline"}
                 className={`
-                  w-7 h-7 sm:w-8 sm:h-8 p-0 text-xs sm:text-sm font-bold
+                  w-9 h-9 sm:w-10 sm:h-10 p-0 text-sm sm:text-base font-bold
                   transition-all duration-200
-                  ${currentTrack === i ? 'scale-110' : 'hover:scale-105'}
+                  ${currentTrack === i 
+                    ? 'scale-110 shadow-lg shadow-primary/50 ring-2 ring-primary/30' 
+                    : 'hover:scale-105 hover:border-primary/50'
+                  }
                 `}
                 data-testid={`button-header-track-${i + 1}`}
                 aria-label={`Select track ${i + 1}`}

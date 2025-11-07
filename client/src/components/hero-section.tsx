@@ -20,17 +20,11 @@ const formatTime = (seconds: number) => {
 };
 
 export function HeroSection() {
-  const { isPlaying, currentTrack, toggleAudio, trackNames, audioRef, analyzerNode } = useAudio();
-  const [waveformData, setWaveformData] = useState<number[]>(() => {
-    const data = [];
-    for (let i = 0; i < 200; i++) {
-      data.push(0.3 + Math.random() * 0.7);
-    }
-    return data;
-  });
+  const { isPlaying, currentTrack, toggleAudio, trackNames, audioRef, analyzerNode, selectTrack } = useAudio();
+  const [frequencyData, setFrequencyData] = useState<number[]>(Array(32).fill(0.3));
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const waveformRef = useRef<HTMLDivElement>(null);
+  const animationFrameRef = useRef<number>();
 
   const { data: videos = [] } = useQuery<YouTubeVideo[]>({
     queryKey: ['/api/christmas-videos'],
@@ -57,33 +51,53 @@ export function HeroSection() {
   }, [audioRef]);
 
   useEffect(() => {
-    const generateStaticWaveform = () => {
-      const samples: number[] = [];
-      for (let i = 0; i < 200; i++) {
-        const normalizedPosition = i / 200;
-        const baseAmplitude = 0.3 + Math.sin(normalizedPosition * Math.PI * 4) * 0.3;
-        const randomVariation = Math.random() * 0.4;
-        samples.push(Math.min(baseAmplitude + randomVariation, 1));
-      }
-      setWaveformData(samples);
-    };
-
-    generateStaticWaveform();
-  }, [currentTrack]);
-
-  const handleWaveformClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!waveformRef.current || !audioRef?.current) return;
+    const analyzer = analyzerNode?.current;
     
-    const audio = audioRef.current;
-    if (audio.readyState < HTMLMediaElement.HAVE_METADATA || !isFinite(audio.duration)) {
+    if (!analyzer || !isPlaying) {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+      const gentleAnimation = () => {
+        setFrequencyData(prev => prev.map((val, i) => {
+          const target = 0.2 + Math.sin(Date.now() / 1000 + i * 0.5) * 0.15 + Math.random() * 0.1;
+          return val + (target - val) * 0.1;
+        }));
+        animationFrameRef.current = requestAnimationFrame(gentleAnimation);
+      };
+      gentleAnimation();
       return;
     }
-    
-    const rect = waveformRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const percentage = x / rect.width;
-    audio.currentTime = audio.duration * percentage;
-  };
+
+    const bufferLength = analyzer.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+    const barCount = 32;
+
+    const updateFrequencies = () => {
+      analyzer.getByteFrequencyData(dataArray);
+      const frequencies: number[] = [];
+      const samplesPerBar = Math.floor(bufferLength / barCount);
+      
+      for (let i = 0; i < barCount; i++) {
+        let sum = 0;
+        for (let j = 0; j < samplesPerBar; j++) {
+          sum += dataArray[i * samplesPerBar + j];
+        }
+        const average = sum / samplesPerBar / 255;
+        frequencies.push(Math.max(average, 0.05));
+      }
+      
+      setFrequencyData(frequencies);
+      animationFrameRef.current = requestAnimationFrame(updateFrequencies);
+    };
+
+    updateFrequencies();
+
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, [isPlaying, analyzerNode]);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
@@ -251,36 +265,23 @@ export function HeroSection() {
 
             <div className="w-full max-w-4xl mt-8 space-y-2">
               <div 
-                ref={waveformRef}
-                onClick={handleWaveformClick}
-                className="relative h-24 sm:h-32 bg-card/50 backdrop-blur-sm rounded-lg border border-border overflow-hidden cursor-pointer group transition-all hover:border-primary/50"
-                data-testid="waveform-container"
-                title="Click anywhere to seek"
+                className="relative h-32 sm:h-40 bg-card/50 backdrop-blur-sm rounded-lg border border-border overflow-hidden"
+                data-testid="equalizer-container"
               >
-                <div className="absolute inset-0 flex items-center justify-start px-0.5">
-                  {waveformData.map((amplitude, i) => {
-                    const progress = duration > 0 ? currentTime / duration : 0;
-                    const isPlayed = i / waveformData.length < progress;
-                    return (
-                      <div
-                        key={i}
-                        className="flex-shrink-0 transition-all duration-100"
-                        style={{
-                          width: '2px',
-                          height: `${Math.max(amplitude * 100, 10)}%`,
-                          marginRight: '1px',
-                          backgroundColor: isPlayed ? 'hsl(var(--primary))' : 'hsl(var(--muted-foreground) / 0.4)',
-                          opacity: isPlayed ? 0.9 : 0.6,
-                        }}
-                      />
-                    );
-                  })}
+                <div className="absolute inset-0 flex items-end justify-center gap-1 sm:gap-2 p-4">
+                  {frequencyData.map((amplitude, i) => (
+                    <div
+                      key={i}
+                      className="flex-1 rounded-t-md transition-all duration-150 ease-out"
+                      style={{
+                        height: `${Math.max(amplitude * 100, 5)}%`,
+                        backgroundColor: 'hsl(var(--primary))',
+                        boxShadow: `0 0 ${amplitude * 20}px hsl(var(--primary) / 0.5)`,
+                        minHeight: '5%',
+                      }}
+                    />
+                  ))}
                 </div>
-                
-                <div 
-                  className="absolute top-0 bottom-0 w-0.5 bg-accent shadow-lg shadow-accent/50 pointer-events-none transition-all z-10"
-                  style={{ left: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
-                />
               </div>
               <div className="flex justify-between text-xs text-muted-foreground px-2">
                 <span>{formatTime(currentTime)}</span>
