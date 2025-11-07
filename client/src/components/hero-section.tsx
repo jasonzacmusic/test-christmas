@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { trackEvent } from "@/lib/analytics";
 import { Snowflake, Star, Sparkles, Globe, MapPin } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import jasonChristmasMain from "@assets/Screenshot 2025-11-07 at 22.47.44_1762535866388.png";
+import jasonChristmasMain from "@assets/1_1762536054233.png";
 import jasonHero1 from "@assets/2_1762532746081.png";
 import jasonHero2 from "@assets/1_1762531724143.png";
 import jasonHero3 from "@assets/4_1762532740320.png";
@@ -173,31 +173,40 @@ export function HeroSection() {
           </div>
 
           <div className="order-1 lg:order-2">
-            <div className="relative group max-w-md mx-auto lg:max-w-none">
-              <div className="absolute -inset-3 bg-gradient-to-r from-primary via-accent to-secondary rounded-3xl opacity-30 group-hover:opacity-40 transition-opacity blur-2xl" />
-              <img
-                src={jasonChristmasMain}
-                alt="Jason Zachariah - Merry Christmas"
-                className="relative rounded-3xl shadow-2xl w-full object-cover border-4 border-primary/20 lg:hidden"
-                data-testid="img-jason-hero-mobile"
-              />
+            <div className="max-w-md mx-auto lg:max-w-none">
+              <div className="relative group lg:hidden">
+                <div className="absolute -inset-3 bg-gradient-to-r from-primary via-accent to-secondary rounded-3xl opacity-30 group-hover:opacity-40 transition-opacity blur-2xl" />
+                <img
+                  src={jasonChristmasMain}
+                  alt="Jason Zachariah - Merry Christmas"
+                  className="relative rounded-3xl shadow-2xl w-full object-cover border-4 border-primary/20"
+                  data-testid="img-jason-hero-mobile"
+                />
+              </div>
               
               <div className="hidden lg:grid lg:grid-cols-1 gap-4">
-                <img
-                  src={jasonHero1}
-                  alt="Jason Zachariah teaching Christmas music"
-                  className="relative rounded-3xl shadow-2xl w-full object-cover border-4 border-primary/20"
-                  data-testid="img-jason-hero-1"
-                />
+                <div className="relative group">
+                  <div className="absolute -inset-2 bg-gradient-to-r from-primary via-accent to-secondary rounded-2xl opacity-25 group-hover:opacity-35 transition-opacity blur-xl" />
+                  <img
+                    src={jasonHero1}
+                    alt="Jason Zachariah teaching Christmas music"
+                    className="relative rounded-2xl shadow-xl w-full object-cover border-3 border-primary/20"
+                    data-testid="img-jason-hero-1"
+                  />
+                </div>
                 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="relative group">
+                  <div className="absolute -inset-2 bg-gradient-to-r from-accent via-secondary to-primary rounded-2xl opacity-25 group-hover:opacity-35 transition-opacity blur-xl" />
                   <img
                     src={jasonHero2}
                     alt="Jason Zac performing"
                     className="relative rounded-2xl shadow-xl w-full object-cover border-3 border-accent/20"
                     data-testid="img-jason-hero-2"
                   />
-                  
+                </div>
+                
+                <div className="relative group">
+                  <div className="absolute -inset-2 bg-gradient-to-r from-secondary via-primary to-accent rounded-2xl opacity-25 group-hover:opacity-35 transition-opacity blur-xl" />
                   <img
                     src={jasonHero3}
                     alt="Jason Zac with students"
