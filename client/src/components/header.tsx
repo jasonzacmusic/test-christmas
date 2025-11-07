@@ -103,7 +103,7 @@ export function Header() {
               </div>
             </button>
 
-            <div className="flex-1 max-w-md space-y-1">
+            <div className="flex-1 max-w-2xl space-y-1">
               <div 
                 ref={progressBarRef}
                 className="relative h-2 bg-card/50 backdrop-blur-sm rounded-full border border-border overflow-hidden cursor-pointer group"

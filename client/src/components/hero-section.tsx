@@ -23,8 +23,8 @@ export function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       {linusVideo && (
-        <div className="absolute left-4 top-1/2 -translate-y-1/2 z-20 hidden lg:block w-64 lg:w-72" data-testid="video-hero-linus">
-          <div className="bg-card/70 backdrop-blur-sm rounded-lg overflow-hidden border border-card-border hover-elevate transition-all duration-300">
+        <div className="absolute left-4 bottom-32 z-20 hidden xl:block w-64" data-testid="video-hero-linus">
+          <div className="bg-card/80 backdrop-blur-md rounded-lg overflow-hidden border border-card-border hover-elevate transition-all duration-300 shadow-xl">
             <div className="relative aspect-video bg-muted">
               <iframe
                 className="absolute inset-0 w-full h-full"
@@ -34,8 +34,8 @@ export function HeroSection() {
                 allowFullScreen
               />
             </div>
-            <div className="p-3">
-              <h4 className="text-sm font-semibold text-card-foreground line-clamp-2" style={{ fontFamily: 'var(--font-elegant)' }}>
+            <div className="p-2.5">
+              <h4 className="text-xs font-semibold text-card-foreground line-clamp-2" style={{ fontFamily: 'var(--font-elegant)' }}>
                 {linusVideo.title}
               </h4>
             </div>
@@ -44,8 +44,8 @@ export function HeroSection() {
       )}
 
       {fairytaleVideo && (
-        <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 hidden lg:block w-64 lg:w-72" data-testid="video-hero-fairytale">
-          <div className="bg-card/70 backdrop-blur-sm rounded-lg overflow-hidden border border-card-border hover-elevate transition-all duration-300">
+        <div className="absolute right-4 bottom-32 z-20 hidden xl:block w-64" data-testid="video-hero-fairytale">
+          <div className="bg-card/80 backdrop-blur-md rounded-lg overflow-hidden border border-card-border hover-elevate transition-all duration-300 shadow-xl">
             <div className="relative aspect-video bg-muted">
               <iframe
                 className="absolute inset-0 w-full h-full"
@@ -55,8 +55,8 @@ export function HeroSection() {
                 allowFullScreen
               />
             </div>
-            <div className="p-3">
-              <h4 className="text-sm font-semibold text-card-foreground line-clamp-2" style={{ fontFamily: 'var(--font-elegant)' }}>
+            <div className="p-2.5">
+              <h4 className="text-xs font-semibold text-card-foreground line-clamp-2" style={{ fontFamily: 'var(--font-elegant)' }}>
                 {fairytaleVideo.title}
               </h4>
             </div>
@@ -124,30 +124,52 @@ export function HeroSection() {
 
       <div className="relative z-10 container mx-auto px-4 py-20">
         <div className="text-center mb-12 space-y-8">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 drop-shadow-xl animate-gentle-scale">
-            <span className="block text-accent mb-2" style={{ 
+          <div className="max-w-5xl mx-auto space-y-6">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight" style={{ fontFamily: 'var(--font-elegant)' }}>
+              <span className="block text-foreground mb-3" style={{ 
+                textShadow: '0 2px 25px rgba(0, 0, 0, 0.5)'
+              }}>
+                Transform Your
+              </span>
+              <span className="block text-primary mb-3" style={{
+                textShadow: '0 0 40px rgba(220, 38, 38, 0.5), 0 2px 20px rgba(0, 0, 0, 0.6)',
+                fontFamily: 'var(--font-christmas)',
+                fontSize: '1.2em',
+                letterSpacing: '0.02em',
+              }}>
+                Christmas Music
+              </span>
+              <span className="block text-accent" style={{ 
+                textShadow: '0 2px 25px rgba(0, 0, 0, 0.5)'
+              }}>
+                Journey This Season
+              </span>
+            </h1>
+            
+            <div className="h-1 w-32 bg-gradient-to-r from-primary via-accent to-secondary mx-auto rounded-full" />
+            
+            <p className="text-lg sm:text-xl md:text-2xl text-foreground/90 max-w-3xl mx-auto leading-relaxed" style={{ 
               fontFamily: 'var(--font-elegant)',
-              textShadow: '0 2px 20px rgba(0, 0, 0, 0.4)'
+              textShadow: '0 1px 15px rgba(0, 0, 0, 0.4)'
             }}>
-              Master the Magic of
-            </span>
-            <span className="block text-primary" style={{
-              textShadow: '0 0 30px rgba(220, 38, 38, 0.4), 0 2px 15px rgba(0, 0, 0, 0.5)',
-              fontFamily: 'var(--font-christmas)',
-              letterSpacing: '0.02em',
-            }}>
-              Christmas Music
-            </span>
-          </h1>
-          <p className="text-xl sm:text-2xl md:text-3xl text-accent max-w-4xl mx-auto leading-relaxed font-bold" style={{ 
-            fontFamily: 'var(--font-elegant)',
-            textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
-          }}>
-            Master the magic of the season with our comprehensive Christmas music program
-          </p>
-          <p className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto">
-            8 immersive workshops covering carols, theory, ear training, and creative arrangements with Jason Zac
-          </p>
+              Join Jason Zac for <span className="text-primary font-bold">8 comprehensive workshops</span> covering everything from beloved carols to advanced music theory, ear training, and creative arrangements
+            </p>
+            
+            <div className="flex flex-wrap justify-center gap-4 text-sm sm:text-base text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-primary rounded-full" />
+                <span>Live Interactive Sessions</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-accent rounded-full" />
+                <span>HD Recordings Included</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-secondary rounded-full" />
+                <span>All Skill Levels Welcome</span>
+              </div>
+            </div>
+          </div>
 
         </div>
 
