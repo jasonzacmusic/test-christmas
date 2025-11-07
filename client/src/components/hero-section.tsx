@@ -1,9 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { trackEvent } from "@/lib/analytics";
-import { Snowflake, Star, Sparkles, Play, Pause, Globe, MapPin } from "lucide-react";
-import { useAudio } from "@/contexts/audio-context";
+import { Snowflake, Star, Sparkles, Globe, MapPin } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { useState, useEffect, useRef } from "react";
 
 interface YouTubeVideo {
   id: string;
@@ -12,19 +10,8 @@ interface YouTubeVideo {
   type: string;
 }
 
-const formatTime = (seconds: number) => {
-  if (!isFinite(seconds) || seconds < 0) return '0:00';
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
-};
 
 export function HeroSection() {
-  const { isPlaying, currentTrack, toggleAudio, trackNames, audioRef, selectTrack } = useAudio();
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const progressBarRef = useRef<HTMLDivElement>(null);
-
   const { data: videos = [] } = useQuery<YouTubeVideo[]>({
     queryKey: ['/api/christmas-videos'],
   });
@@ -32,35 +19,6 @@ export function HeroSection() {
   const performances = videos.filter(v => v.type === 'performance');
   const fairytaleVideo = performances.find(v => v.title.toLowerCase().includes('fairytale'));
   const linusVideo = performances.find(v => v.title.toLowerCase().includes('linus'));
-
-  useEffect(() => {
-    const audio = audioRef?.current;
-    if (!audio) return;
-
-    const updateTime = () => setCurrentTime(audio.currentTime);
-    const updateDuration = () => setDuration(audio.duration);
-
-    audio.addEventListener('timeupdate', updateTime);
-    audio.addEventListener('loadedmetadata', updateDuration);
-
-    return () => {
-      audio.removeEventListener('timeupdate', updateTime);
-      audio.removeEventListener('loadedmetadata', updateDuration);
-    };
-  }, [audioRef]);
-
-  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const audio = audioRef?.current;
-    const progressBar = progressBarRef.current;
-    if (!audio || !progressBar) return;
-
-    const rect = progressBar.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const percentage = clickX / rect.width;
-    const newTime = percentage * duration;
-    
-    audio.currentTime = newTime;
-  };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
@@ -166,12 +124,20 @@ export function HeroSection() {
 
       <div className="relative z-10 container mx-auto px-4 py-20">
         <div className="text-center mb-12 space-y-8">
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-9xl font-black text-primary mb-6 drop-shadow-2xl animate-gentle-scale" style={{
-            textShadow: '0 0 50px rgba(220, 38, 38, 0.6), 0 0 100px rgba(220, 38, 38, 0.4), 0 4px 20px rgba(0, 0, 0, 0.5)',
-            fontFamily: 'var(--font-christmas)',
-            letterSpacing: '0.05em',
-          }}>
-            Christmas Music Workshops
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 drop-shadow-xl animate-gentle-scale">
+            <span className="block text-accent mb-2" style={{ 
+              fontFamily: 'var(--font-elegant)',
+              textShadow: '0 2px 20px rgba(0, 0, 0, 0.4)'
+            }}>
+              Master the Magic of
+            </span>
+            <span className="block text-primary" style={{
+              textShadow: '0 0 30px rgba(220, 38, 38, 0.4), 0 2px 15px rgba(0, 0, 0, 0.5)',
+              fontFamily: 'var(--font-christmas)',
+              letterSpacing: '0.02em',
+            }}>
+              Christmas Music
+            </span>
           </h1>
           <p className="text-xl sm:text-2xl md:text-3xl text-accent max-w-4xl mx-auto leading-relaxed font-bold" style={{ 
             fontFamily: 'var(--font-elegant)',
@@ -183,69 +149,6 @@ export function HeroSection() {
             8 immersive workshops covering carols, theory, ear training, and creative arrangements with Jason Zac
           </p>
 
-          <div className="flex flex-col items-center gap-6 mt-12">
-            <div className="text-center space-y-2">
-              <p className="text-sm sm:text-base text-accent font-semibold">
-                {trackNames[currentTrack]}
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Track {currentTrack + 1} of 10
-              </p>
-            </div>
-
-            <div className="w-full max-w-4xl space-y-2">
-              <div 
-                ref={progressBarRef}
-                className="relative h-3 bg-card/50 backdrop-blur-sm rounded-full border border-border overflow-hidden cursor-pointer group"
-                data-testid="progress-bar"
-                onClick={handleProgressClick}
-                title="Click to seek"
-              >
-                <div 
-                  className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-accent transition-all"
-                  style={{ width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              </div>
-              <div className="flex justify-between text-xs text-muted-foreground px-2">
-                <span>{formatTime(currentTime)}</span>
-                <span>{formatTime(duration)}</span>
-              </div>
-            </div>
-
-            <button
-              onClick={toggleAudio}
-              className="relative w-20 h-20 sm:w-24 sm:h-24 transition-all duration-300 hover:scale-110 focus:outline-none focus:ring-4 focus:ring-primary/50"
-              data-testid="button-audio-toggle-hero"
-              aria-label={isPlaying ? "Pause music" : "Play music"}
-            >
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div 
-                  className="relative w-full h-full rounded-full bg-gradient-to-br from-primary via-red-600 to-primary shadow-2xl"
-                  style={{
-                    boxShadow: '0 0 60px rgba(220, 38, 38, 0.7), 0 0 120px rgba(220, 38, 38, 0.5)',
-                  }}
-                >
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-white/20 via-transparent to-transparent" />
-                  
-                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-2">
-                    <div className="w-6 h-8 sm:w-8 sm:h-10 bg-accent rounded-t-lg" />
-                    <div className="w-8 h-2 sm:w-10 sm:h-3 bg-accent rounded-full transform -translate-x-1 -translate-y-1" />
-                  </div>
-                  
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    {isPlaying ? (
-                      <Pause className="w-8 h-8 sm:w-10 sm:h-10 text-white fill-white" />
-                    ) : (
-                      <Play className="w-8 h-8 sm:w-10 sm:h-10 text-white fill-white ml-1" />
-                    )}
-                  </div>
-                  
-                  <div className="absolute inset-2 rounded-full border-4 border-white/30" />
-                </div>
-              </div>
-            </button>
-          </div>
         </div>
 
         <div className="text-center space-y-8 mt-16">
