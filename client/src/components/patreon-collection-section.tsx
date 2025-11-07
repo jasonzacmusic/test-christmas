@@ -26,7 +26,11 @@ export function PatreonCollectionSection() {
   const secondPerformance = performances[1];
   return (
     <section className="py-16 sm:py-20 md:py-24 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-primary/5" />
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-12"
+        style={{ backgroundImage: 'url(/bg-christmas-tree.png)' }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/80 to-background/90" />
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-5xl mx-auto">
