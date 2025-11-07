@@ -140,14 +140,17 @@ export function HeroSection() {
 
       <div className="relative z-10 container mx-auto px-4 py-20">
         <div className="text-center mb-12 space-y-8">
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-primary mb-6 drop-shadow-2xl animate-gentle-scale tracking-tight" style={{
-            textShadow: '0 0 40px rgba(220, 38, 38, 0.5), 0 0 80px rgba(220, 38, 38, 0.3)',
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-9xl font-black text-primary mb-6 drop-shadow-2xl animate-gentle-scale" style={{
+            textShadow: '0 0 50px rgba(220, 38, 38, 0.6), 0 0 100px rgba(220, 38, 38, 0.4), 0 4px 20px rgba(0, 0, 0, 0.5)',
             fontFamily: 'var(--font-christmas)',
-            letterSpacing: '0.02em',
+            letterSpacing: '0.05em',
           }}>
             Christmas Music Workshops
           </h1>
-          <p className="text-2xl sm:text-3xl md:text-4xl text-foreground max-w-4xl mx-auto leading-relaxed font-semibold" style={{ fontFamily: 'var(--font-elegant)' }}>
+          <p className="text-xl sm:text-2xl md:text-3xl text-accent max-w-4xl mx-auto leading-relaxed font-bold" style={{ 
+            fontFamily: 'var(--font-elegant)',
+            textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
+          }}>
             Master the magic of the season with our comprehensive Christmas music program
           </p>
           <p className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto">

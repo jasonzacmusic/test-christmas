@@ -45,7 +45,6 @@ export function YouTubeVideosSection() {
   }
 
   const tutorials = randomizedVideos.filter(v => v.type === 'tutorial');
-  const performances = randomizedVideos.filter(v => v.type === 'performance');
 
   return (
     <section className="py-16 sm:py-20 md:py-24 relative overflow-hidden">
@@ -53,12 +52,16 @@ export function YouTubeVideosSection() {
       
       <div className="container mx-auto px-4 relative z-10">
         {tutorials.length > 0 && (
-          <div className="mb-16">
+          <div>
             <div className="text-center mb-12">
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-primary mb-4" style={{ fontFamily: 'var(--font-christmas)' }}>
+              <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold text-primary mb-6" style={{ 
+                fontFamily: 'var(--font-christmas)',
+                letterSpacing: '0.03em',
+                textShadow: '0 2px 20px rgba(220, 38, 38, 0.3)'
+              }}>
                 Christmas Piano Tutorials
               </h2>
-              <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
+              <p className="text-xl sm:text-2xl text-accent font-semibold max-w-3xl mx-auto" style={{ fontFamily: 'var(--font-elegant)' }}>
                 Learn your favorite Christmas songs with step-by-step video tutorials
               </p>
             </div>
@@ -112,73 +115,6 @@ export function YouTubeVideosSection() {
                 className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-background/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity"
                 onClick={() => scroll(tutorialScrollRef, 'right')}
                 data-testid="button-scroll-right-tutorials"
-              >
-                <ChevronRight className="w-6 h-6" />
-              </Button>
-            </div>
-          </div>
-        )}
-
-        {performances.length > 0 && (
-          <div>
-            <div className="text-center mb-12">
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-primary mb-4" style={{ fontFamily: 'var(--font-christmas)' }}>
-                Christmas Performances
-              </h2>
-              <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto">
-                Enjoy beautiful Christmas piano performances
-              </p>
-            </div>
-
-            <div className="relative group">
-              <Button
-                size="icon"
-                variant="ghost"
-                className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-background/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity"
-                onClick={() => scroll(performanceScrollRef, 'left')}
-                data-testid="button-scroll-left-performances"
-              >
-                <ChevronLeft className="w-6 h-6" />
-              </Button>
-
-              <div
-                ref={performanceScrollRef}
-                className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-4"
-                style={{ scrollBehavior: 'smooth' }}
-              >
-                {performances.map((video) => (
-                  <div
-                    key={video.id}
-                    className="flex-shrink-0 w-[400px] bg-card/50 backdrop-blur-sm rounded-lg overflow-hidden border border-card-border hover-elevate transition-all duration-300"
-                    data-testid={`video-performance-${video.id}`}
-                  >
-                    <div className="relative aspect-video bg-muted">
-                      <iframe
-                        className="absolute inset-0 w-full h-full"
-                        src={`https://www.youtube.com/embed/${video.id}`}
-                        title={video.title}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowFullScreen
-                      />
-                    </div>
-                    <div className="p-4">
-                      <h3 className="text-lg font-semibold text-card-foreground mb-2 line-clamp-2">
-                        {video.title}
-                      </h3>
-                      <p className="text-sm text-muted-foreground line-clamp-3">
-                        {video.description}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <Button
-                size="icon"
-                variant="ghost"
-                className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-background/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity"
-                onClick={() => scroll(performanceScrollRef, 'right')}
-                data-testid="button-scroll-right-performances"
               >
                 <ChevronRight className="w-6 h-6" />
               </Button>
