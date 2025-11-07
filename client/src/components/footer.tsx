@@ -1,4 +1,5 @@
 import { Youtube, Instagram } from "lucide-react";
+import nsmLogoWhite from "@assets/NSM White_1762526198507.png";
 
 export function Footer() {
   return (
@@ -12,11 +13,18 @@ export function Footer() {
               href="https://www.nathanielschool.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="block transition-all duration-300 hover:scale-110"
+              className="flex flex-col items-center gap-4 transition-all duration-300 hover:scale-105"
               data-testid="link-website-logo"
               aria-label="Visit Nathaniel School of Music Website"
             >
-              <h2 className="text-2xl font-bold text-primary">
+              <div className="bg-foreground/90 dark:bg-transparent rounded-full p-3 transition-colors">
+                <img 
+                  src={nsmLogoWhite} 
+                  alt="NSM Logo" 
+                  className="h-10 w-auto"
+                />
+              </div>
+              <h2 className="text-2xl font-bold text-primary" style={{ fontFamily: 'var(--font-christmas)' }}>
                 Nathaniel School of Music
               </h2>
             </a>

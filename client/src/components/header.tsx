@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useAudio } from "@/contexts/audio-context";
+import nsmLogoWhite from "@assets/NSM White_1762526198507.png";
 
 export function Header() {
   const [isVisible, setIsVisible] = useState(false);
@@ -18,10 +19,17 @@ export function Header() {
             href="https://www.nathanielschool.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className={`transition-opacity duration-1000 hover-elevate ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+            className={`transition-opacity duration-1000 hover-elevate flex items-center gap-3 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
             data-testid="link-school-logo"
           >
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-primary">
+            <div className="bg-foreground/90 dark:bg-transparent rounded-full p-2 transition-colors">
+              <img 
+                src={nsmLogoWhite} 
+                alt="NSM Logo" 
+                className="h-6 sm:h-8 md:h-10 w-auto"
+              />
+            </div>
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-primary" style={{ fontFamily: 'var(--font-christmas)' }}>
               Nathaniel School of Music
             </h1>
           </a>

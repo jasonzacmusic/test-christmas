@@ -71,10 +71,11 @@ export function HeroSection() {
         <div className="text-center mb-12 space-y-8">
           <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-primary mb-6 drop-shadow-2xl animate-gentle-scale" style={{
             textShadow: '0 0 40px rgba(220, 38, 38, 0.5), 0 0 80px rgba(220, 38, 38, 0.3)',
+            fontFamily: 'var(--font-christmas)',
           }}>
             Christmas Music Workshops
           </h1>
-          <p className="text-xl sm:text-2xl md:text-3xl text-foreground max-w-4xl mx-auto leading-relaxed">
+          <p className="text-xl sm:text-2xl md:text-3xl text-foreground max-w-4xl mx-auto leading-relaxed" style={{ fontFamily: 'var(--font-elegant)' }}>
             Master the magic of the season with our comprehensive Christmas music program
           </p>
           <p className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto">
