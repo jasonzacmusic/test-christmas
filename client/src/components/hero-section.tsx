@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { trackEvent } from "@/lib/analytics";
 import { Snowflake, Star, Sparkles, Globe, MapPin } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import jasonHero from "@assets/2_1762532746081.png";
 
 interface YouTubeVideo {
   id: string;
@@ -12,57 +13,8 @@ interface YouTubeVideo {
 
 
 export function HeroSection() {
-  const { data: videos = [] } = useQuery<YouTubeVideo[]>({
-    queryKey: ['/api/christmas-videos'],
-  });
-
-  const performances = videos.filter(v => v.type === 'performance');
-  const fairytaleVideo = performances.find(v => v.title.toLowerCase().includes('fairytale'));
-  const linusVideo = performances.find(v => v.title.toLowerCase().includes('linus'));
-
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {linusVideo && (
-        <div className="absolute left-4 bottom-32 z-20 hidden xl:block w-64" data-testid="video-hero-linus">
-          <div className="bg-card/80 backdrop-blur-md rounded-lg overflow-hidden border border-card-border hover-elevate transition-all duration-300 shadow-xl">
-            <div className="relative aspect-video bg-muted">
-              <iframe
-                className="absolute inset-0 w-full h-full"
-                src={`https://www.youtube.com/embed/${linusVideo.id}`}
-                title={linusVideo.title}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
-            </div>
-            <div className="p-2.5">
-              <h4 className="text-xs font-semibold text-card-foreground line-clamp-2" style={{ fontFamily: 'var(--font-elegant)' }}>
-                {linusVideo.title}
-              </h4>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {fairytaleVideo && (
-        <div className="absolute right-4 bottom-32 z-20 hidden xl:block w-64" data-testid="video-hero-fairytale">
-          <div className="bg-card/80 backdrop-blur-md rounded-lg overflow-hidden border border-card-border hover-elevate transition-all duration-300 shadow-xl">
-            <div className="relative aspect-video bg-muted">
-              <iframe
-                className="absolute inset-0 w-full h-full"
-                src={`https://www.youtube.com/embed/${fairytaleVideo.id}`}
-                title={fairytaleVideo.title}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
-            </div>
-            <div className="p-2.5">
-              <h4 className="text-xs font-semibold text-card-foreground line-clamp-2" style={{ fontFamily: 'var(--font-elegant)' }}>
-                {fairytaleVideo.title}
-              </h4>
-            </div>
-          </div>
-        </div>
-      )}
 
       <div className="absolute inset-0 bg-gradient-to-br from-green-950 via-slate-900 to-emerald-950" />
       
@@ -123,8 +75,9 @@ export function HeroSection() {
       />
 
       <div className="relative z-10 container mx-auto px-4 py-20">
-        <div className="text-center mb-12 space-y-8">
-          <div className="max-w-5xl mx-auto space-y-6">
+        <div className="grid lg:grid-cols-2 gap-12 items-center mb-12">
+          <div className="text-center lg:text-left space-y-8 order-2 lg:order-1">
+            <div className="space-y-6">
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight" style={{ fontFamily: 'var(--font-elegant)' }}>
               <span className="block text-foreground mb-3" style={{ 
                 textShadow: '0 2px 25px rgba(0, 0, 0, 0.5)'
@@ -169,8 +122,20 @@ export function HeroSection() {
                 <span>All Skill Levels Welcome</span>
               </div>
             </div>
+            </div>
           </div>
 
+          <div className="order-1 lg:order-2 flex justify-center">
+            <div className="relative group max-w-md w-full">
+              <div className="absolute -inset-4 bg-gradient-to-r from-primary via-accent to-secondary rounded-3xl opacity-30 group-hover:opacity-40 transition-opacity blur-2xl" />
+              <img
+                src={jasonHero}
+                alt="Jason Zachariah teaching Christmas music"
+                className="relative rounded-3xl shadow-2xl w-full object-cover border-4 border-primary/20"
+                data-testid="img-jason-hero"
+              />
+            </div>
+          </div>
         </div>
 
         <div className="text-center space-y-8 mt-16">
