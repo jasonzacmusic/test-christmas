@@ -43,6 +43,8 @@ export function useYouTubePauseAudio() {
   const { pauseAudio } = useAudio();
 
   useEffect(() => {
+    let initialized = false;
+
     // Load YouTube IFrame API if not already loaded
     if (!window.YT) {
       const tag = document.createElement('script');
@@ -53,43 +55,78 @@ export function useYouTubePauseAudio() {
 
     // Function to initialize players
     const initializePlayers = () => {
-      if (!window.YT) {
-        console.log('YouTube API not ready yet');
+      if (initialized || !window.YT || !window.YT.Player) {
+        console.log('Skip initialization - already done or API not ready');
         return;
       }
 
       const iframes = document.querySelectorAll('iframe[src*="youtube.com/embed"]');
       console.log(`Found ${iframes.length} YouTube iframes to initialize`);
       
+      if (iframes.length === 0) {
+        // Retry after a delay if no iframes found
+        setTimeout(initializePlayers, 1000);
+        return;
+      }
+
+      initialized = true;
+      
       // Clear old registry
       window.youtubePlayersRegistry = [];
       
       iframes.forEach((iframe, index) => {
+        // Skip if already has player
+        if ((iframe as any).hasYouTubePlayer) {
+          return;
+        }
+        
         // Add unique ID if not present
         if (!iframe.id) {
-          iframe.id = `youtube-player-${index}`;
+          iframe.id = `youtube-player-${Date.now()}-${index}`;
         }
 
         try {
           // Create player instance
           const player = new window.YT!.Player(iframe.id, {
             events: {
+              onReady: (event: any) => {
+                console.log(`Player ${index} ready`);
+              },
               onStateChange: (event: any) => {
-                // When video starts playing
+                console.log(`Player ${index} state changed: ${event.data}`);
+                
+                // When this video starts playing
                 if (event.data === window.YT!.PlayerState.PLAYING) {
-                  console.log('YouTube video started playing - pausing audio');
+                  console.log('YouTube video started playing - pausing audio and other videos');
+                  
+                  // Pause audio
                   pauseAudio();
+                  
+                  // Pause all other YouTube videos
+                  if (window.youtubePlayersRegistry) {
+                    window.youtubePlayersRegistry.forEach((p) => {
+                      if (p !== player && typeof p.pauseVideo === 'function') {
+                        try {
+                          p.pauseVideo();
+                        } catch (e) {
+                          // Ignore
+                        }
+                      }
+                    });
+                  }
                 }
               },
             },
           });
           
+          // Mark iframe as having a player
+          (iframe as any).hasYouTubePlayer = true;
+          
           // Store player in global registry
           window.youtubePlayersRegistry?.push(player);
           console.log(`YouTube player ${index} initialized (${iframe.id})`);
         } catch (error) {
-          // Player might already be initialized
-          console.log('YouTube player initialization skipped:', error);
+          console.log('YouTube player initialization error:', error);
         }
       });
       
@@ -99,17 +136,18 @@ export function useYouTubePauseAudio() {
     // Wait for API to be ready
     const checkAndInitialize = () => {
       if (window.YT && window.YT.Player) {
-        initializePlayers();
+        setTimeout(initializePlayers, 1500);
       } else {
-        window.onYouTubeIframeAPIReady = initializePlayers;
+        window.onYouTubeIframeAPIReady = () => {
+          setTimeout(initializePlayers, 1500);
+        };
       }
     };
 
-    // Small delay to ensure iframes are in DOM
-    const timer = setTimeout(checkAndInitialize, 1000);
+    checkAndInitialize();
 
     return () => {
-      clearTimeout(timer);
+      // Cleanup
     };
   }, [pauseAudio]);
 }
