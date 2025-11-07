@@ -1,7 +1,8 @@
 import { Header } from "@/components/header";
 import { HeroSection } from "@/components/hero-section";
 import { WorkshopsSection } from "@/components/workshops-section";
-import { ScheduleSection } from "@/components/schedule-section";
+import { YouTubeVideosSection } from "@/components/youtube-videos-section";
+import { PatreonCollectionSection } from "@/components/patreon-collection-section";
 import { ProfileSection } from "@/components/profile-section";
 import { Footer } from "@/components/footer";
 
@@ -12,7 +13,8 @@ export default function HomePage() {
       <main>
         <HeroSection />
         <WorkshopsSection />
-        <ScheduleSection />
+        <YouTubeVideosSection />
+        <PatreonCollectionSection />
         <ProfileSection />
       </main>
       <Footer />

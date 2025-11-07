@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { db } from "./db";
 import { analyticsEventsTable, insertAnalyticsEventSchema } from "@shared/schema";
 import { sql } from "drizzle-orm";
+import { fetchChristmasVideos } from "./google-sheets";
 
 const GOOGLE_SHEET_ID = "1QqeTbhU7ksJnLRC1j2aTT5bevsUD3vBzhVygEe438VA";
 const YOUTUBE_PLAYLIST_ID = "PLrNNL05e9FT-nmVSqhB5g0RD2yHEpuoRs";
@@ -182,6 +183,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching analytics stats:", error);
       res.status(500).json({ error: "Failed to fetch stats" });
+    }
+  });
+
+  app.get("/api/christmas-videos", async (req, res) => {
+    try {
+      const videos = await fetchChristmasVideos();
+      res.json(videos);
+    } catch (error) {
+      console.error("Error fetching Christmas videos:", error);
+      res.status(500).json({ error: "Failed to fetch videos" });
     }
   });
 

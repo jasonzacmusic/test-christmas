@@ -24,26 +24,26 @@ export function ProfileSection() {
                 <img
                   src={jasonChristmas}
                   alt="Jason Zachariah in festive Christmas attire"
-                  className="relative rounded-2xl shadow-2xl w-full max-w-md object-cover"
+                  className="relative rounded-2xl shadow-2xl w-full max-w-lg object-cover"
                   data-testid="img-jason-profile"
                 />
               </div>
             </div>
 
             <div className="space-y-6 text-foreground">
-              <p className="text-base sm:text-lg leading-relaxed">
+              <p className="text-sm sm:text-base leading-relaxed" style={{ fontFamily: 'var(--font-elegant)' }}>
                 Jason is the co-director of the <strong className="text-primary">Nathaniel School of Music</strong> and runs a YouTube Education channel with over <strong className="text-primary">115,000 subscribers</strong>, teaching piano, bass, music theory, composition, ear training, production, and rhythm concepts. His <strong className="text-primary">15,000+ Instagram supporters</strong> benefit from daily music tips and lessons.
               </p>
 
-              <p className="text-base sm:text-lg leading-relaxed">
+              <p className="text-sm sm:text-base leading-relaxed" style={{ fontFamily: 'var(--font-elegant)' }}>
                 His teaching style is best described as <strong className="text-primary">custom-made to suit every level</strong>. Jason has a knack for identifying the best methods that are engaging, interactive, and flexible to suit the needs of almost any student. His workshops and tutorials are lauded in the music circle for being <strong className="text-primary">result-oriented</strong> while allowing space for students to learn and improvise above and beyond.
               </p>
 
-              <p className="text-base sm:text-lg leading-relaxed">
+              <p className="text-sm sm:text-base leading-relaxed" style={{ fontFamily: 'var(--font-elegant)' }}>
                 As a <strong className="text-primary">multi-instrumentalist</strong>, Jason plays piano, bass, horns, assorted percussion, and sings. He has released <strong className="text-primary">three albums</strong> to date, each showing his growth in musical expression, with the latest incorporating influences from Indian Classical Music and Celtic Folk. He has also performed with bands including <strong className="text-primary">Allegro Fudge</strong>, blending folk with Indian influences.
               </p>
 
-              <p className="text-base sm:text-lg leading-relaxed">
+              <p className="text-sm sm:text-base leading-relaxed" style={{ fontFamily: 'var(--font-elegant)' }}>
                 Jason comes from a family of music pioneers. His grandfathers, <strong className="text-primary">Walter Nathaniel</strong> and <strong className="text-primary">A.D. Zachariah</strong>, were key figures in Western and Indian Classical Music in India, respectively, a legacy that informs his unique approach to music education.
               </p>
 
