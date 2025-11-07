@@ -96,36 +96,43 @@ export async function fetchChristmasVideos(): Promise<YouTubeVideo[]> {
     const sheets = await getUncachableGoogleSheetClient();
     const spreadsheetId = '1tYMH4LMLenD3cYyZR9ecvpHXAvPJpaLM1JDoKx244gM';
     
-    const metadata = await sheets.spreadsheets.get({
+    const tutorialsResponse = await sheets.spreadsheets.values.get({
       spreadsheetId,
+      range: 'Tutorials!A2:D100',
     });
 
-    const firstSheetName = metadata.data.sheets?.[0]?.properties?.title || 'Sheet1';
-    
-    const response = await sheets.spreadsheets.values.get({
+    const performancesResponse = await sheets.spreadsheets.values.get({
       spreadsheetId,
-      range: `${firstSheetName}!A2:D100`,
+      range: 'Performances!A2:D100',
     });
 
-    const rows = response.data.values || [];
+    const tutorialRows = tutorialsResponse.data.values || [];
+    const performanceRows = performancesResponse.data.values || [];
     
-    if (rows.length === 0) {
-      console.warn('No data found in Google Sheet, using fallback data');
-      return fallbackVideos;
-    }
-
-    const videos: YouTubeVideo[] = rows
+    const tutorials: YouTubeVideo[] = tutorialRows
       .filter((row: any[]) => row[0] && row[1])
       .map((row: any[]) => ({
         id: extractYouTubeId(row[1]),
         title: row[0] || '',
         description: row[2] || '',
-        type: (row[3] === '0' || row[3]?.toLowerCase() === 'performance' ? 'performance' : 'tutorial') as 'tutorial' | 'performance'
+        type: 'tutorial' as const
       }))
       .filter(video => video.id.length === 11);
 
-    console.log(`Successfully loaded ${videos.length} Christmas videos from Google Sheets`);
-    return videos.length > 0 ? videos : fallbackVideos;
+    const performances: YouTubeVideo[] = performanceRows
+      .filter((row: any[]) => row[0] && row[1])
+      .map((row: any[]) => ({
+        id: extractYouTubeId(row[0]),
+        title: row[1] || '',
+        description: row[2] || '',
+        type: 'performance' as const
+      }))
+      .filter(video => video.id.length === 11);
+
+    const allVideos = [...tutorials, ...performances];
+
+    console.log(`Successfully loaded ${tutorials.length} tutorials and ${performances.length} performances from Google Sheets`);
+    return allVideos.length > 0 ? allVideos : fallbackVideos;
   } catch (error) {
     console.error('Error fetching Christmas videos from Google Sheets:', error);
     return fallbackVideos;
