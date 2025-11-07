@@ -5,7 +5,6 @@ import { useQuery } from "@tanstack/react-query";
 import jasonChristmasMain from "@assets/1_1762536054233.png";
 import jasonHero1 from "@assets/2_1762532746081.png";
 import jasonHero2 from "@assets/1_1762531724143.png";
-import jasonHero3 from "@assets/4_1762532740320.png";
 
 interface YouTubeVideo {
   id: string;
@@ -16,6 +15,14 @@ interface YouTubeVideo {
 
 
 export function HeroSection() {
+  const { data: videos = [] } = useQuery<YouTubeVideo[]>({
+    queryKey: ['/api/christmas-videos'],
+  });
+
+  const linusVideo = videos.find(v => 
+    v.type === 'performance' && v.title.toLowerCase().includes('linus')
+  );
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
 
@@ -156,15 +163,27 @@ export function HeroSection() {
                   />
                 </div>
                 
-                <div className="relative group">
-                  <div className="absolute -inset-2 bg-gradient-to-r from-secondary via-primary to-accent rounded-2xl opacity-25 group-hover:opacity-35 transition-opacity blur-xl" />
-                  <img
-                    src={jasonHero3}
-                    alt="Jason Zac with students"
-                    className="relative rounded-2xl shadow-xl w-full object-cover border-3 border-secondary/20"
-                    data-testid="img-jason-hero-3"
-                  />
-                </div>
+                {linusVideo && (
+                  <div className="relative group">
+                    <div className="absolute -inset-2 bg-gradient-to-r from-secondary via-primary to-accent rounded-2xl opacity-25 group-hover:opacity-35 transition-opacity blur-xl" />
+                    <div className="relative bg-card/50 backdrop-blur-sm rounded-2xl overflow-hidden border-3 border-secondary/20 shadow-xl">
+                      <div className="aspect-video bg-muted">
+                        <iframe
+                          className="w-full h-full"
+                          src={`https://www.youtube.com/embed/${linusVideo.id}`}
+                          title={linusVideo.title}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                        />
+                      </div>
+                      <div className="p-3">
+                        <h4 className="text-sm font-semibold text-card-foreground line-clamp-2" style={{ fontFamily: 'var(--font-elegant)' }}>
+                          {linusVideo.title}
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
