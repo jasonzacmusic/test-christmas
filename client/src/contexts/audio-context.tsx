@@ -70,13 +70,16 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [isPlaying]);
 
-  // Handle audio playback and track changes
+  // Handle track changes
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
+    // Force audio element to reload the new track
+    audio.load();
+    audio.currentTime = 0;
+
     const handleLoadedMetadata = () => {
-      audio.currentTime = 0; // Start from beginning
       if (isPlaying) {
         audio.play().catch((error) => {
           console.log('Audio playback blocked or failed:', error.message);
@@ -96,20 +99,21 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
       audio.removeEventListener('ended', handleEnded);
     };
-  }, [currentTrack, isPlaying]);
+  }, [currentTrack]);
 
-  // Handle play/pause state changes
+  // Handle play/pause state changes (separate from track changes)
   useEffect(() => {
     localStorage.setItem('christmasAudioEnabled', isPlaying.toString());
     
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.play().catch((error) => {
-          console.log('Audio playback blocked or failed:', error.message);
-        });
-      } else {
-        audioRef.current.pause();
-      }
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (isPlaying) {
+      audio.play().catch((error) => {
+        console.log('Audio playback blocked or failed:', error.message);
+      });
+    } else {
+      audio.pause();
     }
   }, [isPlaying]);
 
