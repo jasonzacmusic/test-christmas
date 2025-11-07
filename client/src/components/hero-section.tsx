@@ -53,18 +53,11 @@ export function HeroSection() {
   useEffect(() => {
     const analyzer = analyzerNode?.current;
     
-    if (!analyzer || !isPlaying) {
+    if (!analyzer) {
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
-      const gentleAnimation = () => {
-        setFrequencyData(prev => prev.map((val, i) => {
-          const target = 0.2 + Math.sin(Date.now() / 1000 + i * 0.5) * 0.15 + Math.random() * 0.1;
-          return val + (target - val) * 0.1;
-        }));
-        animationFrameRef.current = requestAnimationFrame(gentleAnimation);
-      };
-      gentleAnimation();
+      setFrequencyData(Array(32).fill(0.3));
       return;
     }
 
@@ -73,6 +66,8 @@ export function HeroSection() {
     const barCount = 32;
 
     const updateFrequencies = () => {
+      if (!analyzer) return;
+      
       analyzer.getByteFrequencyData(dataArray);
       const frequencies: number[] = [];
       const samplesPerBar = Math.floor(bufferLength / barCount);
@@ -97,7 +92,7 @@ export function HeroSection() {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [isPlaying, analyzerNode]);
+  }, [analyzerNode]);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
@@ -163,12 +158,12 @@ export function HeroSection() {
         {[...Array(30)].map((_, i) => (
           <div
             key={`star-${i}`}
-            className="absolute text-accent/40"
+            className="absolute text-accent/20"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              animation: `twinkle ${2 + Math.random() * 4}s ease-in-out infinite`,
-              animationDelay: `${Math.random() * 3}s`,
+              animation: `twinkle ${3 + Math.random() * 5}s ease-in-out infinite`,
+              animationDelay: `${Math.random() * 4}s`,
             }}
           >
             <Star className="w-2 h-2 sm:w-3 sm:h-3" fill="currentColor" />
@@ -249,7 +244,7 @@ export function HeroSection() {
                     )}
                   </div>
                   
-                  <div className={`absolute inset-2 rounded-full border-4 border-white/30 transition-all duration-300 ${isPlaying ? 'animate-ping' : ''}`} />
+                  <div className="absolute inset-2 rounded-full border-4 border-white/30" />
                 </div>
               </div>
             </button>
