@@ -66,19 +66,13 @@ export function HeroSection() {
     const barCount = 32;
 
     const updateFrequencies = () => {
-      if (!analyzer) return;
-      
       analyzer.getByteFrequencyData(dataArray);
       const frequencies: number[] = [];
-      const samplesPerBar = Math.floor(bufferLength / barCount);
       
       for (let i = 0; i < barCount; i++) {
-        let sum = 0;
-        for (let j = 0; j < samplesPerBar; j++) {
-          sum += dataArray[i * samplesPerBar + j];
-        }
-        const average = sum / samplesPerBar / 255;
-        frequencies.push(Math.max(average, 0.05));
+        const index = Math.floor((i / barCount) * bufferLength);
+        const value = dataArray[index] / 255;
+        frequencies.push(Math.max(value * 1.2, 0.05));
       }
       
       setFrequencyData(frequencies);
