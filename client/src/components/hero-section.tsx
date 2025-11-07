@@ -1,11 +1,45 @@
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { trackEvent } from "@/lib/analytics";
-import { Snowflake, Volume2, VolumeX, Star, Sparkles } from "lucide-react";
+import { Snowflake, Star, Sparkles, Gift } from "lucide-react";
 import { useAudio } from "@/contexts/audio-context";
+import { useState, useEffect, useRef } from "react";
 
 export function HeroSection() {
-  const { isPlaying, currentTrack, toggleAudio, selectTrack, trackNames } = useAudio();
+  const { isPlaying, currentTrack, toggleAudio, trackNames, audioRef } = useAudio();
+  const [isOpening, setIsOpening] = useState(false);
+  const [waveformData, setWaveformData] = useState<number[]>(Array(50).fill(0.3));
+  const waveformRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setIsOpening(true);
+    const timer = setTimeout(() => setIsOpening(false), 800);
+    return () => clearTimeout(timer);
+  }, [currentTrack]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (isPlaying) {
+        setWaveformData(prev => 
+          prev.map(() => 0.2 + Math.random() * 0.8)
+        );
+      }
+    }, 100);
+    return () => clearInterval(interval);
+  }, [isPlaying]);
+
+  const handleWaveformClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!waveformRef.current || !audioRef?.current) return;
+    
+    const audio = audioRef.current;
+    if (audio.readyState < HTMLMediaElement.HAVE_METADATA || !isFinite(audio.duration)) {
+      return;
+    }
+    
+    const rect = waveformRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const percentage = x / rect.width;
+    audio.currentTime = audio.duration * percentage;
+  };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
@@ -83,63 +117,77 @@ export function HeroSection() {
           </p>
 
           <div className="flex flex-col items-center gap-8 mt-12">
-            <Button
+            <button
               onClick={toggleAudio}
-              size="lg"
-              className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full bg-primary text-primary-foreground shadow-2xl hover:scale-110 transition-all duration-300 animate-gentle-scale hover:animate-none"
-              style={{
-                boxShadow: '0 0 40px rgba(220, 38, 38, 0.6), 0 0 80px rgba(220, 38, 38, 0.4)',
-              }}
+              className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 transition-all duration-500 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-primary/50 rounded-lg"
               data-testid="button-audio-toggle-hero"
               aria-label={isPlaying ? "Pause music" : "Play music"}
             >
-              {isPlaying ? (
-                <Volume2 className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24" />
-              ) : (
-                <VolumeX className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24" />
-              )}
-            </Button>
-
-            {isPlaying && (
-              <div className="text-center space-y-2 animate-in fade-in duration-500">
-                <p className="text-sm sm:text-base text-accent font-semibold animate-pulse">
-                  Now playing: {trackNames[currentTrack]}
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  Track {currentTrack + 1} of 10
-                </p>
+              <div 
+                className={`absolute inset-0 bg-gradient-to-br from-primary via-red-600 to-primary rounded-lg shadow-2xl transition-all duration-500 ${isOpening ? 'scale-110 rotate-12' : 'scale-100 rotate-0'}`}
+                style={{
+                  boxShadow: '0 0 40px rgba(220, 38, 38, 0.6), 0 0 80px rgba(220, 38, 38, 0.4)',
+                }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-accent/30 via-transparent to-transparent rounded-lg" />
+                
+                <div className="absolute top-1/2 left-0 right-0 h-4 sm:h-6 bg-accent transform -translate-y-1/2" />
+                <div className="absolute left-1/2 top-0 bottom-0 w-4 sm:w-6 bg-accent transform -translate-x-1/2" />
+                
+                <div className={`absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-500 ${isOpening ? 'scale-150 -translate-y-8' : 'scale-100'}`}>
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-accent rounded-full flex items-center justify-center shadow-lg">
+                    <div className="w-8 h-2 sm:w-12 sm:h-3 bg-accent-foreground rounded-full" />
+                    <div className="absolute w-2 h-8 sm:w-3 sm:h-12 bg-accent-foreground rounded-full" />
+                  </div>
+                </div>
               </div>
-            )}
+              
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Gift className={`w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 text-white transition-opacity duration-300 ${isPlaying ? 'opacity-0' : 'opacity-100'}`} />
+                <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isPlaying ? 'opacity-100' : 'opacity-0'}`}>
+                  <div className="relative w-12 h-12 sm:w-16 sm:h-16">
+                    <div className="absolute inset-0 border-4 border-white rounded-full animate-ping opacity-75" />
+                    <div className="absolute inset-0 border-4 border-white rounded-full" />
+                  </div>
+                </div>
+              </div>
+            </button>
 
-            <div className="flex flex-wrap justify-center gap-2 max-w-2xl">
-              {[...Array(10)].map((_, i) => (
-                <Button
-                  key={i}
-                  onClick={() => selectTrack(i)}
-                  variant={currentTrack === i ? "default" : "outline"}
-                  size="lg"
-                  className={`
-                    w-12 h-12 sm:w-14 sm:h-14 rounded-lg font-bold text-lg
-                    transition-all duration-300
-                    ${currentTrack === i 
-                      ? 'scale-110 shadow-lg shadow-primary/50' 
-                      : 'hover:scale-105'
-                    }
-                  `}
-                  data-testid={`button-track-${i + 1}`}
-                  aria-label={`Play track ${i + 1}: ${trackNames[i]}`}
-                  style={currentTrack === i ? {
-                    boxShadow: '0 0 20px rgba(220, 38, 38, 0.5)',
-                  } : {}}
-                >
-                  {i === 9 ? '10' : i + 1}
-                </Button>
-              ))}
+            <div className="text-center space-y-2 mt-4">
+              <p className="text-sm sm:text-base text-accent font-semibold">
+                {trackNames[currentTrack]}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Track {currentTrack + 1} of 10
+              </p>
             </div>
 
-            <Badge variant="outline" className="text-sm px-4 py-2 bg-card/50 backdrop-blur-sm">
-              Press 1-10 on keyboard for quick track selection
-            </Badge>
+            <div className="w-full max-w-4xl mt-8 space-y-4">
+              <div 
+                ref={waveformRef}
+                onClick={handleWaveformClick}
+                className="relative h-24 sm:h-32 bg-card/50 backdrop-blur-sm rounded-lg border border-border overflow-hidden cursor-pointer hover-elevate transition-all"
+                data-testid="waveform-container"
+              >
+                <div className="absolute inset-0 flex items-center justify-center gap-1 px-2">
+                  {waveformData.map((height, i) => (
+                    <div
+                      key={i}
+                      className={`flex-1 rounded-full transition-all duration-100 ${isPlaying ? 'bg-primary' : 'bg-muted'}`}
+                      style={{
+                        height: `${height * 100}%`,
+                        opacity: isPlaying ? 0.6 + height * 0.4 : 0.3,
+                      }}
+                    />
+                  ))}
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <p className="text-xs text-muted-foreground bg-background/80 px-3 py-1 rounded-full">
+                    Click to seek
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

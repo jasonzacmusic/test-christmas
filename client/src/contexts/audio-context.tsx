@@ -36,6 +36,7 @@ interface AudioContextType {
   toggleAudio: () => void;
   selectTrack: (index: number) => void;
   trackNames: string[];
+  audioRef: React.RefObject<HTMLAudioElement> | null;
 }
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
@@ -127,7 +128,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AudioContext.Provider value={{ isPlaying, currentTrack, toggleAudio, selectTrack, trackNames: TRACK_NAMES }}>
+    <AudioContext.Provider value={{ isPlaying, currentTrack, toggleAudio, selectTrack, trackNames: TRACK_NAMES, audioRef }}>
       {children}
       <audio
         ref={audioRef}
