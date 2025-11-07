@@ -35,6 +35,7 @@ interface AudioContextType {
   currentTrack: number;
   toggleAudio: () => Promise<void>;
   selectTrack: (index: number) => Promise<void>;
+  pauseAudio: () => void;
   trackNames: string[];
   audioRef: React.RefObject<HTMLAudioElement> | null;
 }
@@ -159,10 +160,18 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const pauseAudio = () => {
+    const audio = audioRef.current;
+    if (audio && !audio.paused) {
+      audio.pause();
+      setIsPlaying(false);
+    }
+  };
+
   selectTrackRef.current = selectTrack;
 
   return (
-    <AudioContext.Provider value={{ isPlaying, currentTrack, toggleAudio, selectTrack, trackNames: TRACK_NAMES, audioRef }}>
+    <AudioContext.Provider value={{ isPlaying, currentTrack, toggleAudio, selectTrack, pauseAudio, trackNames: TRACK_NAMES, audioRef }}>
       {children}
       <audio
         ref={audioRef}
