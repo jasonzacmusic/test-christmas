@@ -40,13 +40,13 @@ export function ProfileSection() {
     performanceScrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
   };
 
-  const performances = randomizedVideos.filter(v => 
-    v.type === 'performance'
-  ).slice(0, 3);
-  
   const linusVideo = randomizedVideos.find(v => 
     v.type === 'performance' && v.title.toLowerCase().includes('linus')
   );
+  
+  const performances = randomizedVideos.filter(v => 
+    v.type === 'performance' && !v.title.toLowerCase().includes('linus')
+  ).slice(0, 2);
 
   return (
     <section className="py-16 sm:py-20 md:py-24 relative overflow-hidden">

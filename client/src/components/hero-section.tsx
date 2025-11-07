@@ -16,57 +16,8 @@ interface YouTubeVideo {
 
 
 export function HeroSection() {
-  const { data: videos = [] } = useQuery<YouTubeVideo[]>({
-    queryKey: ['/api/christmas-videos'],
-  });
-
-  const performances = videos.filter(v => v.type === 'performance');
-  const fairytaleVideo = performances.find(v => v.title.toLowerCase().includes('fairytale'));
-  const linusVideo = performances.find(v => v.title.toLowerCase().includes('linus'));
-
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {linusVideo && (
-        <div className="absolute left-4 bottom-32 z-20 hidden xl:block w-64" data-testid="video-hero-linus">
-          <div className="bg-card/80 backdrop-blur-md rounded-lg overflow-hidden border border-card-border hover-elevate transition-all duration-300 shadow-xl">
-            <div className="relative aspect-video bg-muted">
-              <iframe
-                className="absolute inset-0 w-full h-full"
-                src={`https://www.youtube.com/embed/${linusVideo.id}`}
-                title={linusVideo.title}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
-            </div>
-            <div className="p-2.5">
-              <h4 className="text-xs font-semibold text-card-foreground line-clamp-2" style={{ fontFamily: 'var(--font-elegant)' }}>
-                {linusVideo.title}
-              </h4>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {fairytaleVideo && (
-        <div className="absolute right-4 bottom-32 z-20 hidden xl:block w-64" data-testid="video-hero-fairytale">
-          <div className="bg-card/80 backdrop-blur-md rounded-lg overflow-hidden border border-card-border hover-elevate transition-all duration-300 shadow-xl">
-            <div className="relative aspect-video bg-muted">
-              <iframe
-                className="absolute inset-0 w-full h-full"
-                src={`https://www.youtube.com/embed/${fairytaleVideo.id}`}
-                title={fairytaleVideo.title}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
-            </div>
-            <div className="p-2.5">
-              <h4 className="text-xs font-semibold text-card-foreground line-clamp-2" style={{ fontFamily: 'var(--font-elegant)' }}>
-                {fairytaleVideo.title}
-              </h4>
-            </div>
-          </div>
-        </div>
-      )}
 
       <div className="absolute inset-0 bg-gradient-to-br from-green-950 via-slate-900 to-emerald-950" />
       
