@@ -44,9 +44,13 @@ export function ProfileSection() {
     v.type === 'performance' && v.title.toLowerCase().includes('linus')
   );
   
-  const performances = randomizedVideos.filter(v => 
-    v.type === 'performance' && !v.title.toLowerCase().includes('linus')
-  ).slice(0, 2);
+  const fairytaleVideo = randomizedVideos.find(v => 
+    v.type === 'performance' && v.title.toLowerCase().includes('fairytale')
+  );
+  
+  const narayanVideo = randomizedVideos.find(v => 
+    v.type === 'performance' && (v.title.toLowerCase().includes('narayan') || v.description.toLowerCase().includes('narayan'))
+  );
 
   return (
     <section className="py-16 sm:py-20 md:py-24 relative overflow-hidden">
@@ -73,7 +77,7 @@ export function ProfileSection() {
 
           <div className="space-y-12">
             <div className="grid lg:grid-cols-3 gap-8 md:gap-12">
-              <div className="lg:col-span-1 space-y-8">
+              <div className="lg:col-span-1 space-y-6">
                 {linusVideo && (
                   <div className="bg-card/50 backdrop-blur-sm rounded-lg overflow-hidden border border-card-border hover-elevate transition-all duration-300 shadow-xl">
                     <div className="relative aspect-video bg-muted">
@@ -91,6 +95,50 @@ export function ProfileSection() {
                       </h4>
                       <p className="text-sm text-muted-foreground line-clamp-2">
                         {linusVideo.description}
+                      </p>
+                    </div>
+                  </div>
+                )}
+                
+                {fairytaleVideo && (
+                  <div className="bg-card/50 backdrop-blur-sm rounded-lg overflow-hidden border border-card-border hover-elevate transition-all duration-300 shadow-xl">
+                    <div className="relative aspect-video bg-muted">
+                      <iframe
+                        className="absolute inset-0 w-full h-full"
+                        src={`https://www.youtube.com/embed/${fairytaleVideo.id}`}
+                        title={fairytaleVideo.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                      />
+                    </div>
+                    <div className="p-4">
+                      <h4 className="text-base font-semibold text-card-foreground mb-2 line-clamp-2" style={{ fontFamily: 'var(--font-elegant)' }}>
+                        {fairytaleVideo.title}
+                      </h4>
+                      <p className="text-sm text-muted-foreground line-clamp-2">
+                        {fairytaleVideo.description}
+                      </p>
+                    </div>
+                  </div>
+                )}
+                
+                {narayanVideo && (
+                  <div className="bg-card/50 backdrop-blur-sm rounded-lg overflow-hidden border border-card-border hover-elevate transition-all duration-300 shadow-xl">
+                    <div className="relative aspect-video bg-muted">
+                      <iframe
+                        className="absolute inset-0 w-full h-full"
+                        src={`https://www.youtube.com/embed/${narayanVideo.id}`}
+                        title={narayanVideo.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                      />
+                    </div>
+                    <div className="p-4">
+                      <h4 className="text-base font-semibold text-card-foreground mb-2 line-clamp-2" style={{ fontFamily: 'var(--font-elegant)' }}>
+                        {narayanVideo.title}
+                      </h4>
+                      <p className="text-sm text-muted-foreground line-clamp-2">
+                        {narayanVideo.description}
                       </p>
                     </div>
                   </div>
@@ -159,44 +207,6 @@ export function ProfileSection() {
               </div>
               </div>
             </div>
-            
-            {performances.length > 0 && (
-              <div className="space-y-6">
-                <h3 className="text-3xl font-bold text-primary text-center" style={{ 
-                  fontFamily: 'var(--font-elegant)',
-                  textShadow: '0 2px 15px rgba(220, 38, 38, 0.2)'
-                }}>
-                  Performance Videos
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                  {performances.map((video) => (
-                    <div
-                      key={video.id}
-                      className="bg-card/50 backdrop-blur-sm rounded-lg overflow-hidden border border-card-border hover-elevate transition-all duration-300"
-                      data-testid={`video-performance-${video.id}`}
-                    >
-                      <div className="relative aspect-video bg-muted">
-                        <iframe
-                          className="absolute inset-0 w-full h-full"
-                          src={`https://www.youtube.com/embed/${video.id}`}
-                          title={video.title}
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                          allowFullScreen
-                        />
-                      </div>
-                      <div className="p-4">
-                        <h4 className="text-sm font-semibold text-card-foreground mb-1 line-clamp-2" style={{ fontFamily: 'var(--font-elegant)' }}>
-                          {video.title}
-                        </h4>
-                        <p className="text-xs text-muted-foreground line-clamp-2">
-                          {video.description}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
