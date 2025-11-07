@@ -10,6 +10,26 @@ declare global {
         PLAYING: number;
       };
     };
+    youtubePlayersRegistry?: any[];
+  }
+}
+
+// Global registry to store all YouTube player instances
+if (typeof window !== 'undefined') {
+  window.youtubePlayersRegistry = [];
+}
+
+export function pauseAllYouTubeVideos() {
+  if (typeof window !== 'undefined' && window.youtubePlayersRegistry) {
+    window.youtubePlayersRegistry.forEach((player) => {
+      try {
+        if (player && typeof player.pauseVideo === 'function') {
+          player.pauseVideo();
+        }
+      } catch (error) {
+        console.log('Failed to pause YouTube video:', error);
+      }
+    });
   }
 }
 
@@ -31,6 +51,9 @@ export function useYouTubePauseAudio() {
 
       const iframes = document.querySelectorAll('iframe[src*="youtube.com/embed"]');
       
+      // Clear old registry
+      window.youtubePlayersRegistry = [];
+      
       iframes.forEach((iframe, index) => {
         // Add unique ID if not present
         if (!iframe.id) {
@@ -39,7 +62,7 @@ export function useYouTubePauseAudio() {
 
         try {
           // Create player instance
-          new window.YT!.Player(iframe.id, {
+          const player = new window.YT!.Player(iframe.id, {
             events: {
               onStateChange: (event: any) => {
                 // When video starts playing
@@ -49,6 +72,9 @@ export function useYouTubePauseAudio() {
               },
             },
           });
+          
+          // Store player in global registry
+          window.youtubePlayersRegistry?.push(player);
         } catch (error) {
           // Player might already be initialized
           console.log('YouTube player initialization skipped:', error);
