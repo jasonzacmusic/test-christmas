@@ -13,25 +13,22 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border shadow-lg">
-      <div className="container mx-auto px-4 py-3">
+      <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between gap-4">
           <a
             href="https://www.nathanielschool.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className={`transition-opacity duration-1000 hover-elevate flex items-center gap-3 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+            className={`transition-all duration-1000 hover:scale-110 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
             data-testid="link-school-logo"
           >
-            <div className="bg-foreground/90 dark:bg-transparent rounded-full p-2 transition-colors">
+            <div className="bg-foreground/90 dark:bg-transparent rounded-full p-3 transition-colors">
               <img 
                 src={nsmLogoWhite} 
                 alt="NSM Logo" 
-                className="h-6 sm:h-8 md:h-10 w-auto"
+                className="h-10 sm:h-12 md:h-14 lg:h-16 w-auto"
               />
             </div>
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-primary" style={{ fontFamily: 'var(--font-christmas)' }}>
-              Nathaniel School of Music
-            </h1>
           </a>
 
           <div className="hidden md:flex items-center gap-1">

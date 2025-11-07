@@ -79,8 +79,8 @@
   --font-sans: Inter, sans-serif;
   --font-serif: Georgia, serif;
   --font-mono: Menlo, monospace;
-  --font-christmas: 'Mountains of Christmas', cursive;
-  --font-elegant: 'Great Vibes', cursive;
+  --font-christmas: 'Cinzel', serif;
+  --font-elegant: 'Playfair Display', serif;
   --radius: .5rem; /* 8px */
   --shadow-2xs: 0px 2px 0px 0px hsl(270 20% 20% / 0.05);
   --shadow-xs: 0px 2px 0px 0px hsl(270 20% 20% / 0.08);

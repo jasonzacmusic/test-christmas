@@ -13,20 +13,17 @@ export function Footer() {
               href="https://www.nathanielschool.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex flex-col items-center gap-4 transition-all duration-300 hover:scale-105"
+              className="transition-all duration-300 hover:scale-110"
               data-testid="link-website-logo"
               aria-label="Visit Nathaniel School of Music Website"
             >
-              <div className="bg-foreground/90 dark:bg-transparent rounded-full p-3 transition-colors">
+              <div className="bg-foreground/90 dark:bg-transparent rounded-full p-4 transition-colors">
                 <img 
                   src={nsmLogoWhite} 
                   alt="NSM Logo" 
-                  className="h-10 w-auto"
+                  className="h-16 sm:h-20 w-auto"
                 />
               </div>
-              <h2 className="text-2xl font-bold text-primary" style={{ fontFamily: 'var(--font-christmas)' }}>
-                Nathaniel School of Music
-              </h2>
             </a>
           </div>
           <div className="flex items-center gap-6">
