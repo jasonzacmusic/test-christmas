@@ -21,11 +21,16 @@ const formatTime = (seconds: number) => {
 
 export function HeroSection() {
   const { isPlaying, currentTrack, toggleAudio, trackNames, audioRef, analyzerNode } = useAudio();
-  const [waveformData, setWaveformData] = useState<number[]>(Array(200).fill(0.5));
+  const [waveformData, setWaveformData] = useState<number[]>(() => {
+    const data = [];
+    for (let i = 0; i < 200; i++) {
+      data.push(0.3 + Math.random() * 0.7);
+    }
+    return data;
+  });
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const waveformRef = useRef<HTMLDivElement>(null);
-  const animationFrameRef = useRef<number>();
 
   const { data: videos = [] } = useQuery<YouTubeVideo[]>({
     queryKey: ['/api/christmas-videos'],
@@ -52,44 +57,19 @@ export function HeroSection() {
   }, [audioRef]);
 
   useEffect(() => {
-    const analyzer = analyzerNode?.current;
-    if (!analyzer || !isPlaying) {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-      setWaveformData(Array(200).fill(0));
-      return;
-    }
-
-    const bufferLength = analyzer.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
-
-    const updateWaveform = () => {
-      analyzer.getByteTimeDomainData(dataArray);
+    const generateStaticWaveform = () => {
       const samples: number[] = [];
-      const desiredSamples = 200;
-      
-      for (let i = 0; i < desiredSamples; i++) {
-        const position = (i / desiredSamples) * bufferLength;
-        const index = Math.floor(position);
-        const nextIndex = Math.min(index + 1, bufferLength - 1);
-        const fraction = position - index;
-        
-        const value = dataArray[index] * (1 - fraction) + dataArray[nextIndex] * fraction;
-        samples.push(Math.abs((value - 128) / 128));
+      for (let i = 0; i < 200; i++) {
+        const normalizedPosition = i / 200;
+        const baseAmplitude = 0.3 + Math.sin(normalizedPosition * Math.PI * 4) * 0.3;
+        const randomVariation = Math.random() * 0.4;
+        samples.push(Math.min(baseAmplitude + randomVariation, 1));
       }
       setWaveformData(samples);
-      animationFrameRef.current = requestAnimationFrame(updateWaveform);
     };
 
-    updateWaveform();
-
-    return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-    };
-  }, [isPlaying, analyzerNode]);
+    generateStaticWaveform();
+  }, [currentTrack]);
 
   const handleWaveformClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!waveformRef.current || !audioRef?.current) return;
@@ -278,18 +258,23 @@ export function HeroSection() {
                 title="Click anywhere to seek"
               >
                 <div className="absolute inset-0 flex items-center justify-start px-0.5">
-                  {waveformData.map((amplitude, i) => (
-                    <div
-                      key={i}
-                      className={`flex-shrink-0 transition-all duration-75 ${isPlaying ? 'bg-primary/70' : 'bg-muted/60'}`}
-                      style={{
-                        width: '2px',
-                        height: `${Math.max(amplitude * 100, 8)}%`,
-                        marginRight: '1px',
-                        opacity: i / waveformData.length < (currentTime / duration) ? (isPlaying ? 0.9 : 0.5) : (isPlaying ? 0.4 : 0.3),
-                      }}
-                    />
-                  ))}
+                  {waveformData.map((amplitude, i) => {
+                    const progress = duration > 0 ? currentTime / duration : 0;
+                    const isPlayed = i / waveformData.length < progress;
+                    return (
+                      <div
+                        key={i}
+                        className="flex-shrink-0 transition-all duration-100"
+                        style={{
+                          width: '2px',
+                          height: `${Math.max(amplitude * 100, 10)}%`,
+                          marginRight: '1px',
+                          backgroundColor: isPlayed ? 'hsl(var(--primary))' : 'hsl(var(--muted-foreground) / 0.4)',
+                          opacity: isPlayed ? 0.9 : 0.6,
+                        }}
+                      />
+                    );
+                  })}
                 </div>
                 
                 <div 
