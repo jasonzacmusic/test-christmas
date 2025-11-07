@@ -108,7 +108,7 @@ export function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       {linusVideo && (
-        <div className="absolute left-4 top-1/2 -translate-y-1/2 z-20 hidden xl:block w-72" data-testid="video-hero-linus">
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 z-20 hidden lg:block w-64 lg:w-72" data-testid="video-hero-linus">
           <div className="bg-card/70 backdrop-blur-sm rounded-lg overflow-hidden border border-card-border hover-elevate transition-all duration-300">
             <div className="relative aspect-video bg-muted">
               <iframe
@@ -129,7 +129,7 @@ export function HeroSection() {
       )}
 
       {fairytaleVideo && (
-        <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 hidden xl:block w-72" data-testid="video-hero-fairytale">
+        <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 hidden lg:block w-64 lg:w-72" data-testid="video-hero-fairytale">
           <div className="bg-card/70 backdrop-blur-sm rounded-lg overflow-hidden border border-card-border hover-elevate transition-all duration-300">
             <div className="relative aspect-video bg-muted">
               <iframe

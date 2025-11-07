@@ -31,7 +31,7 @@ export function Header() {
             </div>
           </a>
 
-          <div className="hidden md:flex items-center gap-1">
+          <div className="flex items-center gap-1">
             {[...Array(10)].map((_, i) => (
               <Button
                 key={i}
@@ -39,7 +39,7 @@ export function Header() {
                 variant={currentTrack === i ? "default" : "ghost"}
                 size="sm"
                 className={`
-                  w-8 h-8 p-0 text-sm font-bold
+                  w-7 h-7 sm:w-8 sm:h-8 p-0 text-xs sm:text-sm font-bold
                   transition-all duration-200
                   ${currentTrack === i ? 'scale-110' : 'hover:scale-105'}
                 `}

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { trackEvent } from "@/lib/analytics";
+import { useQuery } from "@tanstack/react-query";
 import thumbnail1 from "@assets/Maxresdefault 1280x720 (1)_1762528882666.jpg";
 import thumbnail2 from "@assets/Maxresdefault 1280x720 (2)_1762528882666.webp";
 import thumbnail3 from "@assets/Maxresdefault 1280x720 (3)_1762528882666.webp";
@@ -7,9 +8,22 @@ import thumbnail4 from "@assets/Maxresdefault 1280x720 (4)_1762528882666.webp";
 import thumbnail5 from "@assets/Maxresdefault 1280x720 (5)_1762528882666.webp";
 import thumbnail6 from "@assets/Maxresdefault 1280x720_1762528882666.jpg";
 
+interface YouTubeVideo {
+  id: string;
+  title: string;
+  description: string;
+  type: string;
+}
+
 const thumbnails = [thumbnail1, thumbnail2, thumbnail3, thumbnail4, thumbnail5, thumbnail6];
 
 export function PatreonCollectionSection() {
+  const { data: videos = [] } = useQuery<YouTubeVideo[]>({
+    queryKey: ['/api/christmas-videos'],
+  });
+
+  const performances = videos.filter(v => v.type === 'performance');
+  const secondPerformance = performances[1];
   return (
     <section className="py-16 sm:py-20 md:py-24 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-primary/5" />
@@ -24,6 +38,27 @@ export function PatreonCollectionSection() {
               Unlock 20 exclusive Christmas piano tutorials and performances
             </p>
           </div>
+
+          {secondPerformance && (
+            <div className="lg:hidden mb-8 max-w-2xl mx-auto" data-testid="video-patreon-mobile">
+              <div className="bg-card/70 backdrop-blur-sm rounded-lg overflow-hidden border border-card-border hover-elevate transition-all duration-300">
+                <div className="relative aspect-video bg-muted">
+                  <iframe
+                    className="absolute inset-0 w-full h-full"
+                    src={`https://www.youtube.com/embed/${secondPerformance.id}`}
+                    title={secondPerformance.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </div>
+                <div className="p-4">
+                  <h4 className="text-base font-semibold text-card-foreground line-clamp-2" style={{ fontFamily: 'var(--font-elegant)' }}>
+                    {secondPerformance.title}
+                  </h4>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="relative">
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
