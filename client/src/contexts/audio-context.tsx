@@ -1,20 +1,33 @@
 import { createContext, useContext, useEffect, useState, useRef, ReactNode } from "react";
 
-// Import all 10 MP3 files
-import track01 from "@assets/01_1761662458015.mp3";
-import track02 from "@assets/02_1761662458016.mp3";
-import track03 from "@assets/03_1761662458016.mp3";
-import track04 from "@assets/04_1761662458016.mp3";
-import track05 from "@assets/05_1761662458016.mp3";
-import track06 from "@assets/06_1761662458016.mp3";
-import track07 from "@assets/07_1761662458016.mp3";
-import track08 from "@assets/08_1761662458016.mp3";
-import track09 from "@assets/09_1761662458016.mp3";
-import track10 from "@assets/10_1761662458016.mp3";
+// Import all 10 Christmas MP3 files
+import track01 from "@assets/1.Jesu Joy of Man's Desiring_1762525313885.mp3";
+import track02 from "@assets/2.Joy to the World_1762525313886.mp3";
+import track03 from "@assets/3.Away in a Manger_1762525313886.mp3";
+import track04 from "@assets/4.Go Tell it on the Mountain_1762525313886.mp3";
+import track05 from "@assets/5.O Come, O Come Emmanuel_1762525313886.mp3";
+import track06 from "@assets/6.We Three Kings_1762525313886.mp3";
+import track07 from "@assets/7.The First Nowell_1762525313886.mp3";
+import track08 from "@assets/8.Silent Night_1762525313886.mp3";
+import track09 from "@assets/9.O Come All Ye Faithful_1762525313886.mp3";
+import track10 from "@assets/10.Gloria_1762525313886.mp3";
 
 const AUDIO_TRACKS = [
   track01, track02, track03, track04, track05,
   track06, track07, track08, track09, track10
+];
+
+const TRACK_NAMES = [
+  "Jesu Joy of Man's Desiring",
+  "Joy to the World",
+  "Away in a Manger",
+  "Go Tell it on the Mountain",
+  "O Come, O Come Emmanuel",
+  "We Three Kings",
+  "The First Nowell",
+  "Silent Night",
+  "O Come All Ye Faithful",
+  "Gloria"
 ];
 
 interface AudioContextType {
@@ -22,6 +35,7 @@ interface AudioContextType {
   currentTrack: number;
   toggleAudio: () => void;
   selectTrack: (index: number) => void;
+  trackNames: string[];
 }
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
@@ -32,7 +46,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    const savedPreference = localStorage.getItem('halloweenAudioEnabled');
+    const savedPreference = localStorage.getItem('christmasAudioEnabled');
     if (savedPreference === 'true') {
       setIsPlaying(true);
     }
@@ -86,7 +100,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 
   // Handle play/pause state changes
   useEffect(() => {
-    localStorage.setItem('halloweenAudioEnabled', isPlaying.toString());
+    localStorage.setItem('christmasAudioEnabled', isPlaying.toString());
     
     if (audioRef.current) {
       if (isPlaying) {
@@ -109,7 +123,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AudioContext.Provider value={{ isPlaying, currentTrack, toggleAudio, selectTrack }}>
+    <AudioContext.Provider value={{ isPlaying, currentTrack, toggleAudio, selectTrack, trackNames: TRACK_NAMES }}>
       {children}
       <audio
         ref={audioRef}
