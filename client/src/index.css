@@ -2,84 +2,83 @@
 @tailwind components;
 @tailwind utilities;
 
-/* LIGHT MODE - Halloween Theme (Dark by default) */
+/* LIGHT MODE - Christmas Theme */
 :root {
-  --button-outline: rgba(255,255,255, .10);
-  --badge-outline: rgba(255,255,255, .05);
+  --button-outline: rgba(0,0,0, .10);
+  --badge-outline: rgba(0,0,0, .05);
 
   /* Automatic computation of border around primary / danger buttons */
   --opaque-button-border-intensity: 9;
 
   /* Backgrounds applied on top of other backgrounds when hovered/active */
-  --elevate-1: rgba(255,255,255, .04);
-  --elevate-2: rgba(255,255,255, .09);
+  --elevate-1: rgba(0,0,0, .03);
+  --elevate-2: rgba(0,0,0, .06);
 
-  --background: 270 50% 8%;
+  --background: 0 0% 100%;
 
-  --foreground: 270 10% 95%;
+  --foreground: 0 0% 10%;
 
-  --border: 270 30% 18%;
+  --border: 140 20% 85%;
 
-  --card: 270 40% 12%;
+  --card: 0 0% 98%;
 
-  --card-foreground: 270 10% 95%;
+  --card-foreground: 0 0% 10%;
 
-  --card-border: 270 30% 16%;
+  --card-border: 140 20% 88%;
 
-  --sidebar: 270 40% 14%;
+  --sidebar: 140 30% 96%;
 
-  --sidebar-foreground: 270 10% 95%;
+  --sidebar-foreground: 0 0% 10%;
 
-  --sidebar-border: 270 30% 19%;
+  --sidebar-border: 140 20% 90%;
 
-  --sidebar-primary: 25 95% 55%;
+  --sidebar-primary: 355 85% 50%;
 
-  --sidebar-primary-foreground: 270 10% 10%;
+  --sidebar-primary-foreground: 0 0% 100%;
 
-  --sidebar-accent: 270 40% 19%;
+  --sidebar-accent: 140 40% 92%;
 
-  --sidebar-accent-foreground: 270 10% 88%;
+  --sidebar-accent-foreground: 0 0% 10%;
 
-  --sidebar-ring: 25 95% 55%;
+  --sidebar-ring: 355 85% 50%;
 
-  --popover: 270 40% 17%;
+  --popover: 0 0% 100%;
 
-  --popover-foreground: 270 10% 95%;
+  --popover-foreground: 0 0% 10%;
 
-  --popover-border: 270 30% 22%;
+  --popover-border: 140 20% 88%;
 
-  --primary: 25 95% 55%;
+  --primary: 355 85% 50%;
 
-  --primary-foreground: 270 10% 10%;
+  --primary-foreground: 0 0% 100%;
 
-  --secondary: 270 40% 22%;
+  --secondary: 140 50% 45%;
 
-  --secondary-foreground: 270 10% 90%;
+  --secondary-foreground: 0 0% 100%;
 
-  --muted: 270 30% 20%;
+  --muted: 140 20% 94%;
 
-  --muted-foreground: 270 10% 70%;
+  --muted-foreground: 0 0% 40%;
 
-  --accent: 270 50% 21%;
+  --accent: 45 95% 55%;
 
-  --accent-foreground: 270 10% 88%;
+  --accent-foreground: 0 0% 10%;
 
   --destructive: 0 72% 48%;
 
-  --destructive-foreground: 270 10% 98%;
+  --destructive-foreground: 0 0% 100%;
 
-  --input: 270 30% 45%;
-  --ring: 25 95% 55%;
-  --chart-1: 270 70% 72%;
-  --chart-2: 25 90% 68%;
-  --chart-3: 330 65% 70%;
-  --chart-4: 45 75% 65%;
-  --chart-5: 200 70% 68%;
+  --input: 140 20% 50%;
+  --ring: 355 85% 50%;
+  --chart-1: 355 70% 60%;
+  --chart-2: 140 60% 50%;
+  --chart-3: 45 90% 60%;
+  --chart-4: 355 50% 70%;
+  --chart-5: 140 40% 65%;
 
   --font-sans: Inter, sans-serif;
   --font-serif: Georgia, serif;
   --font-mono: Menlo, monospace;
-  --font-gothic: Creepster, cursive;
   --radius: .5rem; /* 8px */
   --shadow-2xs: 0px 2px 0px 0px hsl(270 20% 20% / 0.05);
   --shadow-xs: 0px 2px 0px 0px hsl(270 20% 20% / 0.08);
@@ -133,67 +132,67 @@
   --elevate-1: rgba(255,255,255, .04);
   --elevate-2: rgba(255,255,255, .09);
 
-  --background: 270 50% 8%;
+  --background: 140 30% 8%;
 
-  --foreground: 270 10% 95%;
+  --foreground: 0 0% 95%;
 
-  --border: 270 30% 18%;
+  --border: 140 20% 18%;
 
-  --card: 270 40% 12%;
+  --card: 140 25% 12%;
 
-  --card-foreground: 270 10% 95%;
+  --card-foreground: 0 0% 95%;
 
-  --card-border: 270 30% 16%;
+  --card-border: 140 20% 16%;
 
-  --sidebar: 270 40% 14%;
+  --sidebar: 140 25% 10%;
 
-  --sidebar-foreground: 270 10% 95%;
+  --sidebar-foreground: 0 0% 95%;
 
-  --sidebar-border: 270 30% 19%;
+  --sidebar-border: 140 20% 15%;
 
-  --sidebar-primary: 25 95% 55%;
+  --sidebar-primary: 355 85% 55%;
 
-  --sidebar-primary-foreground: 270 10% 10%;
+  --sidebar-primary-foreground: 0 0% 100%;
 
-  --sidebar-accent: 270 40% 19%;
+  --sidebar-accent: 140 25% 18%;
 
-  --sidebar-accent-foreground: 270 10% 88%;
+  --sidebar-accent-foreground: 0 0% 90%;
 
-  --sidebar-ring: 25 95% 55%;
+  --sidebar-ring: 355 85% 55%;
 
-  --popover: 270 40% 17%;
+  --popover: 140 25% 12%;
 
-  --popover-foreground: 270 10% 95%;
+  --popover-foreground: 0 0% 95%;
 
-  --popover-border: 270 30% 22%;
+  --popover-border: 140 20% 20%;
 
-  --primary: 25 95% 55%;
+  --primary: 355 85% 55%;
 
-  --primary-foreground: 270 10% 10%;
+  --primary-foreground: 0 0% 100%;
 
-  --secondary: 270 40% 22%;
+  --secondary: 140 30% 25%;
 
-  --secondary-foreground: 270 10% 90%;
+  --secondary-foreground: 0 0% 95%;
 
-  --muted: 270 30% 20%;
+  --muted: 140 20% 20%;
 
-  --muted-foreground: 270 10% 70%;
+  --muted-foreground: 0 0% 65%;
 
-  --accent: 270 50% 21%;
+  --accent: 45 90% 50%;
 
-  --accent-foreground: 270 10% 88%;
+  --accent-foreground: 0 0% 10%;
 
   --destructive: 0 72% 48%;
 
-  --destructive-foreground: 270 10% 98%;
+  --destructive-foreground: 0 0% 100%;
 
-  --input: 270 30% 45%;
-  --ring: 25 95% 55%;
-  --chart-1: 270 70% 72%;
-  --chart-2: 25 90% 68%;
-  --chart-3: 330 65% 70%;
-  --chart-4: 45 75% 65%;
-  --chart-5: 200 70% 68%;
+  --input: 140 20% 35%;
+  --ring: 355 85% 55%;
+  --chart-1: 355 70% 60%;
+  --chart-2: 140 60% 50%;
+  --chart-3: 45 90% 60%;
+  --chart-4: 355 50% 70%;
+  --chart-5: 140 40% 65%;
 
   --shadow-2xs: 0px 2px 0px 0px hsl(270 20% 5% / 0.15);
   --shadow-xs: 0px 2px 0px 0px hsl(270 20% 5% / 0.20);
@@ -352,66 +351,13 @@
     inset: -1px;
   }
 
-  /* Halloween Background Animations */
-  @keyframes fog-drift {
-    0% {
-      transform: translateX(0) translateY(0);
-      opacity: 0.1;
-    }
-    50% {
-      transform: translateX(-20px) translateY(-10px);
-      opacity: 0.15;
-    }
-    100% {
-      transform: translateX(0) translateY(0);
-      opacity: 0.1;
-    }
-  }
-
-  @keyframes fog-drift-2 {
-    0% {
-      transform: translateX(0) translateY(0);
-      opacity: 0.08;
-    }
-    50% {
-      transform: translateX(30px) translateY(15px);
-      opacity: 0.12;
-    }
-    100% {
-      transform: translateX(0) translateY(0);
-      opacity: 0.08;
-    }
-  }
-
-  @keyframes candlelight-flicker {
+  /* Christmas Background Animations */
+  @keyframes float {
     0%, 100% {
-      opacity: 0.9;
-      filter: blur(1px);
-    }
-    20% {
-      opacity: 0.95;
-      filter: blur(1.2px);
-    }
-    40% {
-      opacity: 0.85;
-      filter: blur(0.8px);
-    }
-    60% {
-      opacity: 1;
-      filter: blur(1.5px);
-    }
-    80% {
-      opacity: 0.88;
-      filter: blur(1px);
-    }
-  }
-
-  @keyframes gradient-shift {
-    0%, 100% {
-      background-position: 0% 50%;
+      transform: translateY(0) rotate(0deg);
     }
     50% {
-      background-position: 100% 50%;
+      transform: translateY(-20px) rotate(180deg);
     }
   }
 
@@ -422,23 +368,6 @@
     50% {
       transform: scale(1.05);
     }
-  }
-
-  .animate-fog-drift {
-    animation: fog-drift 25s ease-in-out infinite;
-  }
-
-  .animate-fog-drift-2 {
-    animation: fog-drift-2 30s ease-in-out infinite;
-  }
-
-  .animate-candlelight {
-    animation: candlelight-flicker 3s ease-in-out infinite;
-  }
-
-  .animate-gradient {
-    background-size: 200% 200%;
-    animation: gradient-shift 20s ease infinite;
   }
 
   .animate-gentle-scale {

@@ -1,8 +1,6 @@
 import { Header } from "@/components/header";
 import { HeroSection } from "@/components/hero-section";
-import { PatreonSection } from "@/components/patreon-section";
-import { YouTubeSection } from "@/components/youtube-section";
-import { PlaylistSection } from "@/components/playlist-section";
+import { WorkshopsSection } from "@/components/workshops-section";
 import { Footer } from "@/components/footer";
 
 export default function HomePage() {
@@ -11,9 +9,7 @@ export default function HomePage() {
       <Header />
       <main>
         <HeroSection />
-        <PatreonSection />
-        <YouTubeSection />
-        <PlaylistSection />
+        <WorkshopsSection />
       </main>
       <Footer />
     </div>

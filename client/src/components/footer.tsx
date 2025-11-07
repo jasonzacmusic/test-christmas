@@ -1,6 +1,4 @@
 import { Youtube, Instagram } from "lucide-react";
-import { SiPatreon } from "react-icons/si";
-import nsmLogoWhite from "@assets/NSM LOGO White_1761660070091.png";
 
 export function Footer() {
   return (
@@ -18,11 +16,9 @@ export function Footer() {
               data-testid="link-website-logo"
               aria-label="Visit Nathaniel School of Music Website"
             >
-              <img 
-                src={nsmLogoWhite} 
-                alt="Nathaniel School of Music" 
-                className="h-16 animate-gentle-scale"
-              />
+              <h2 className="text-2xl font-bold text-primary">
+                Nathaniel School of Music
+              </h2>
             </a>
           </div>
           <div className="flex items-center gap-6">
@@ -45,16 +41,6 @@ export function Footer() {
               aria-label="Instagram"
             >
               <Instagram className="w-7 h-7" />
-            </a>
-            <a
-              href="https://www.patreon.com/2815392/join"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-foreground hover:text-primary transition-all duration-300 hover:scale-110 hover-elevate p-3 rounded-full"
-              data-testid="link-patreon"
-              aria-label="Patreon"
-            >
-              <SiPatreon className="w-7 h-7" />
             </a>
           </div>
 
