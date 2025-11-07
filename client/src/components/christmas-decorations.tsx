@@ -23,40 +23,76 @@ function Snowflake({ left, animationDuration, delay, size }: SnowflakeProps) {
   );
 }
 
-interface OrnamentProps {
-  color: string;
-  size: number;
+interface CandyCaneProps {
   top: string;
   left: string;
+  rotation: number;
   delay: string;
 }
 
-function Ornament({ color, size, top, left, delay }: OrnamentProps) {
+function CandyCane({ top, left, rotation, delay }: CandyCaneProps) {
+  return (
+    <div
+      className="absolute pointer-events-none opacity-40"
+      style={{
+        top,
+        left,
+        transform: `rotate(${rotation}deg)`,
+        animation: `sway 4s ease-in-out ${delay} infinite`,
+      }}
+    >
+      <div className="relative w-4 h-12">
+        <div className="absolute inset-0 bg-gradient-to-b from-red-500 via-white to-red-500 rounded-full"
+          style={{
+            backgroundImage: 'repeating-linear-gradient(45deg, #ef4444 0px, #ef4444 6px, white 6px, white 12px)',
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
+interface ChristmasStarProps {
+  top: string;
+  left: string;
+  size: number;
+  delay: string;
+}
+
+function ChristmasStar({ top, left, size, delay }: ChristmasStarProps) {
+  return (
+    <div
+      className="absolute pointer-events-none text-yellow-400"
+      style={{
+        top,
+        left,
+        fontSize: `${size}px`,
+        animation: `twinkle 3s ease-in-out ${delay} infinite`,
+      }}
+    >
+      ⭐
+    </div>
+  );
+}
+
+interface ChristmasLightProps {
+  top: string;
+  left: string;
+  color: string;
+  delay: string;
+}
+
+function ChristmasLight({ top, left, color, delay }: ChristmasLightProps) {
   return (
     <div
       className="absolute pointer-events-none"
       style={{
         top,
         left,
-        animation: `sway 3s ease-in-out ${delay} infinite`,
+        animation: `pulse 2s ease-in-out ${delay} infinite`,
       }}
     >
-      <div
-        className={`rounded-full ${color} shadow-lg`}
-        style={{
-          width: `${size}px`,
-          height: `${size}px`,
-          boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
-        }}
-      />
-      <div
-        className="mx-auto bg-yellow-600/60"
-        style={{
-          width: `${size * 0.3}px`,
-          height: `${size * 0.4}px`,
-          borderRadius: '0 0 50% 50%',
-        }}
-      />
+      <div className={`w-3 h-4 ${color} rounded-b-full opacity-50`} />
     </div>
   );
 }
@@ -85,7 +121,7 @@ function Sparkle({ top, left, delay, color }: SparkleProps) {
 
 export function ChristmasDecorations() {
   const [snowflakes] = useState(() =>
-    Array.from({ length: 8 }, (_, i) => ({
+    Array.from({ length: 12 }, (_, i) => ({
       id: i,
       left: `${Math.random() * 100}%`,
       animationDuration: `${8 + Math.random() * 6}s`,
@@ -94,19 +130,38 @@ export function ChristmasDecorations() {
     }))
   );
 
-  const [ornaments] = useState(() =>
-    Array.from({ length: 4 }, (_, i) => ({
+  const [candyCanes] = useState(() =>
+    Array.from({ length: 3 }, (_, i) => ({
       id: i,
-      color: ['bg-red-600/40', 'bg-green-600/40', 'bg-yellow-600/40', 'bg-blue-600/40'][i % 4],
-      size: 20 + Math.random() * 15,
-      top: `${5 + Math.random() * 15}%`,
-      left: i < 2 ? `${Math.random() * 10}%` : `${90 + Math.random() * 10}%`,
+      top: `${10 + Math.random() * 30}%`,
+      left: i === 0 ? `${Math.random() * 15}%` : i === 1 ? `${85 + Math.random() * 10}%` : `${40 + Math.random() * 20}%`,
+      rotation: -20 + Math.random() * 40,
+      delay: `${Math.random() * 2}s`,
+    }))
+  );
+
+  const [stars] = useState(() =>
+    Array.from({ length: 6 }, (_, i) => ({
+      id: i,
+      top: `${5 + Math.random() * 40}%`,
+      left: `${10 + Math.random() * 80}%`,
+      size: 16 + Math.random() * 12,
+      delay: `${Math.random() * 3}s`,
+    }))
+  );
+
+  const [lights] = useState(() =>
+    Array.from({ length: 8 }, (_, i) => ({
+      id: i,
+      top: `${3 + Math.random() * 15}%`,
+      left: `${i * 12 + Math.random() * 8}%`,
+      color: ['bg-red-500', 'bg-green-500', 'bg-yellow-500', 'bg-blue-500'][i % 4],
       delay: `${Math.random() * 2}s`,
     }))
   );
 
   const [sparkles] = useState(() =>
-    Array.from({ length: 6 }, (_, i) => ({
+    Array.from({ length: 8 }, (_, i) => ({
       id: i,
       top: `${10 + Math.random() * 80}%`,
       left: `${5 + Math.random() * 90}%`,
@@ -157,6 +212,17 @@ export function ChristmasDecorations() {
             transform: scale(1.2);
           }
         }
+        
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 0.3;
+            transform: scale(0.9);
+          }
+          50% {
+            opacity: 0.7;
+            transform: scale(1.1);
+          }
+        }
       `;
       document.head.appendChild(style);
     }
@@ -165,13 +231,19 @@ export function ChristmasDecorations() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {snowflakes.map((flake) => (
-        <Snowflake key={flake.id} {...flake} />
+        <Snowflake key={`snow-${flake.id}`} {...flake} />
       ))}
-      {ornaments.map((ornament) => (
-        <Ornament key={ornament.id} {...ornament} />
+      {candyCanes.map((cane) => (
+        <CandyCane key={`cane-${cane.id}`} {...cane} />
+      ))}
+      {stars.map((star) => (
+        <ChristmasStar key={`star-${star.id}`} {...star} />
+      ))}
+      {lights.map((light) => (
+        <ChristmasLight key={`light-${light.id}`} {...light} />
       ))}
       {sparkles.map((sparkle) => (
-        <Sparkle key={sparkle.id} {...sparkle} />
+        <Sparkle key={`sparkle-${sparkle.id}`} {...sparkle} />
       ))}
     </div>
   );
