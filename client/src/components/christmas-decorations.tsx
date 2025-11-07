@@ -23,31 +23,52 @@ function Snowflake({ left, animationDuration, delay, size }: SnowflakeProps) {
   );
 }
 
-interface CandyCaneProps {
+interface PineBranchProps {
   top: string;
   left: string;
   rotation: number;
   delay: string;
 }
 
-function CandyCane({ top, left, rotation, delay }: CandyCaneProps) {
+function PineBranch({ top, left, rotation, delay }: PineBranchProps) {
+  return (
+    <div
+      className="absolute pointer-events-none opacity-30"
+      style={{
+        top,
+        left,
+        transform: `rotate(${rotation}deg)`,
+        animation: `sway 5s ease-in-out ${delay} infinite`,
+      }}
+    >
+      <svg width="50" height="20" viewBox="0 0 50 20" fill="none">
+        <path d="M5 10 Q15 5, 25 10 T45 10" stroke="#16a34a" strokeWidth="2" fill="none"/>
+        <line x1="10" y1="10" x2="8" y2="15" stroke="#16a34a" strokeWidth="1.5"/>
+        <line x1="20" y1="10" x2="18" y2="15" stroke="#16a34a" strokeWidth="1.5"/>
+        <line x1="30" y1="10" x2="28" y2="15" stroke="#16a34a" strokeWidth="1.5"/>
+        <line x1="40" y1="10" x2="38" y2="15" stroke="#16a34a" strokeWidth="1.5"/>
+      </svg>
+    </div>
+  );
+}
+
+interface ChristmasBellProps {
+  top: string;
+  left: string;
+  delay: string;
+}
+
+function ChristmasBell({ top, left, delay }: ChristmasBellProps) {
   return (
     <div
       className="absolute pointer-events-none opacity-40"
       style={{
         top,
         left,
-        transform: `rotate(${rotation}deg)`,
-        animation: `sway 4s ease-in-out ${delay} infinite`,
+        animation: `sway 3s ease-in-out ${delay} infinite`,
       }}
     >
-      <div className="relative w-4 h-12">
-        <div className="absolute inset-0 bg-gradient-to-b from-red-500 via-white to-red-500 rounded-full"
-          style={{
-            backgroundImage: 'repeating-linear-gradient(45deg, #ef4444 0px, #ef4444 6px, white 6px, white 12px)',
-          }}
-        />
-      </div>
+      <div className="text-yellow-600 text-2xl">🔔</div>
     </div>
   );
 }
@@ -130,12 +151,21 @@ export function ChristmasDecorations() {
     }))
   );
 
-  const [candyCanes] = useState(() =>
-    Array.from({ length: 3 }, (_, i) => ({
+  const [pineBranches] = useState(() =>
+    Array.from({ length: 4 }, (_, i) => ({
       id: i,
-      top: `${10 + Math.random() * 30}%`,
-      left: i === 0 ? `${Math.random() * 15}%` : i === 1 ? `${85 + Math.random() * 10}%` : `${40 + Math.random() * 20}%`,
-      rotation: -20 + Math.random() * 40,
+      top: `${8 + Math.random() * 25}%`,
+      left: i < 2 ? `${Math.random() * 20}%` : `${75 + Math.random() * 20}%`,
+      rotation: -15 + Math.random() * 30,
+      delay: `${Math.random() * 3}s`,
+    }))
+  );
+
+  const [bells] = useState(() =>
+    Array.from({ length: 2 }, (_, i) => ({
+      id: i,
+      top: `${5 + Math.random() * 15}%`,
+      left: i === 0 ? `${Math.random() * 10}%` : `${88 + Math.random() * 8}%`,
       delay: `${Math.random() * 2}s`,
     }))
   );
@@ -233,8 +263,11 @@ export function ChristmasDecorations() {
       {snowflakes.map((flake) => (
         <Snowflake key={`snow-${flake.id}`} {...flake} />
       ))}
-      {candyCanes.map((cane) => (
-        <CandyCane key={`cane-${cane.id}`} {...cane} />
+      {pineBranches.map((branch) => (
+        <PineBranch key={`branch-${branch.id}`} {...branch} />
+      ))}
+      {bells.map((bell) => (
+        <ChristmasBell key={`bell-${bell.id}`} {...bell} />
       ))}
       {stars.map((star) => (
         <ChristmasStar key={`star-${star.id}`} {...star} />

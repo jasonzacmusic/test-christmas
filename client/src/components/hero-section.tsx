@@ -142,31 +142,33 @@ export function HeroSection() {
                 />
               </div>
               
-              <div className="hidden lg:grid lg:grid-cols-1 gap-4">
-                <div className="relative group">
-                  <div className="absolute -inset-2 bg-gradient-to-r from-primary via-accent to-secondary rounded-2xl opacity-25 group-hover:opacity-35 transition-opacity blur-xl" />
-                  <img
-                    src={jasonHero1}
-                    alt="Jason Zachariah teaching Christmas music"
-                    className="relative rounded-2xl shadow-xl w-full object-cover border-3 border-primary/20"
-                    data-testid="img-jason-hero-1"
-                  />
-                </div>
-                
-                <div className="relative group">
-                  <div className="absolute -inset-2 bg-gradient-to-r from-accent via-secondary to-primary rounded-2xl opacity-25 group-hover:opacity-35 transition-opacity blur-xl" />
-                  <img
-                    src={jasonHero2}
-                    alt="Jason Zac performing"
-                    className="relative rounded-2xl shadow-xl w-full object-cover border-3 border-accent/20"
-                    data-testid="img-jason-hero-2"
-                  />
+              <div className="hidden lg:grid lg:grid-cols-2 gap-4">
+                <div className="space-y-4">
+                  <div className="relative group">
+                    <div className="absolute -inset-2 bg-gradient-to-r from-primary via-accent to-secondary rounded-2xl opacity-25 group-hover:opacity-35 transition-opacity blur-xl" />
+                    <img
+                      src={jasonHero2}
+                      alt="Jason Zac performing"
+                      className="relative rounded-2xl shadow-xl w-full object-cover border-3 border-accent/20"
+                      data-testid="img-jason-hero-left"
+                    />
+                  </div>
+                  
+                  <div className="relative group">
+                    <div className="absolute -inset-2 bg-gradient-to-r from-accent via-secondary to-primary rounded-2xl opacity-25 group-hover:opacity-35 transition-opacity blur-xl" />
+                    <img
+                      src={jasonHero1}
+                      alt="Jason Zachariah teaching Christmas music"
+                      className="relative rounded-2xl shadow-xl w-full object-cover border-3 border-primary/20"
+                      data-testid="img-jason-hero-bottom-left"
+                    />
+                  </div>
                 </div>
                 
                 {linusVideo && (
                   <div className="relative group">
                     <div className="absolute -inset-2 bg-gradient-to-r from-secondary via-primary to-accent rounded-2xl opacity-25 group-hover:opacity-35 transition-opacity blur-xl" />
-                    <div className="relative bg-card/50 backdrop-blur-sm rounded-2xl overflow-hidden border-3 border-secondary/20 shadow-xl">
+                    <div className="relative bg-card/50 backdrop-blur-sm rounded-2xl overflow-hidden border-3 border-secondary/20 shadow-xl h-full">
                       <div className="aspect-video bg-muted">
                         <iframe
                           className="w-full h-full"
