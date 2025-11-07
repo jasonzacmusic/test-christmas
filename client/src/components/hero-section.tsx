@@ -85,7 +85,7 @@ export function HeroSection() {
       />
 
       <div className="relative z-10 container mx-auto px-4 py-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-start mb-12">
+        <div className="grid lg:grid-cols-2 gap-8 items-start mb-12">
           <div className="text-center lg:text-left space-y-8 order-2 lg:order-1">
             <div className="space-y-6">
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight" style={{ fontFamily: 'var(--font-elegant)' }}>
@@ -106,14 +106,14 @@ export function HeroSection() {
               
               <div className="h-1 w-32 bg-gradient-to-r from-primary via-accent to-secondary mx-auto lg:mx-0 rounded-full" />
               
-              <p className="text-lg sm:text-xl md:text-2xl text-foreground/90 max-w-3xl mx-auto lg:mx-0 leading-relaxed" style={{ 
+              <p className="text-lg sm:text-xl md:text-2xl text-foreground/90 mx-auto lg:mx-0 leading-relaxed" style={{ 
                 fontFamily: 'var(--font-elegant)',
                 textShadow: '0 1px 15px rgba(0, 0, 0, 0.4)'
               }}>
                 Join <span className="text-primary font-bold">8 live workshops</span> this December with Jason Zac, covering carols, theory, ear training, and creative arrangements. Plus, unlock our <span className="text-accent font-bold">exclusive Patreon collection</span> featuring 20 premium tutorials, sheet music, and performance videos—everything you need to shine this festive season.
               </p>
               
-              <div className="flex flex-wrap justify-center lg:justify-start gap-4 text-sm sm:text-base text-muted-foreground">
+              <div className="flex flex-wrap justify-center lg:justify-start gap-4 text-sm sm:text-base text-muted-foreground lg:hidden">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-primary rounded-full" />
                   <span>8 Live Workshops (Dec 5-21)</span>
@@ -130,7 +130,7 @@ export function HeroSection() {
             </div>
             
             <div className="hidden lg:block mt-8">
-              <div className="relative group max-w-md">
+              <div className="relative group">
                 <div className="absolute -inset-2 bg-gradient-to-r from-accent via-secondary to-primary rounded-2xl opacity-25 group-hover:opacity-35 transition-opacity blur-xl" />
                 <img
                   src={jasonHero1}
@@ -142,7 +142,7 @@ export function HeroSection() {
             </div>
           </div>
 
-          <div className="order-1 lg:order-2">
+          <div className="order-1 lg:order-2 space-y-6">
             <div className="max-w-md mx-auto lg:max-w-none">
               <div className="relative group lg:hidden">
                 <div className="absolute -inset-3 bg-gradient-to-r from-primary via-accent to-secondary rounded-3xl opacity-30 group-hover:opacity-40 transition-opacity blur-2xl" />
@@ -186,6 +186,21 @@ export function HeroSection() {
                     </div>
                   </div>
                 )}
+              </div>
+            </div>
+            
+            <div className="hidden lg:flex flex-col gap-4 text-base text-muted-foreground bg-card/30 backdrop-blur-sm rounded-2xl p-6 border border-card-border">
+              <div className="flex items-center gap-3">
+                <div className="w-3 h-3 bg-primary rounded-full flex-shrink-0" />
+                <span>8 Live Workshops (Dec 5-21)</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-3 h-3 bg-accent rounded-full flex-shrink-0" />
+                <span>20+ Patreon Tutorials</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-3 h-3 bg-secondary rounded-full flex-shrink-0" />
+                <span>Sheet Music & Recordings</span>
               </div>
             </div>
           </div>
