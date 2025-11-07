@@ -62,16 +62,48 @@ export function ProfileSection() {
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8 md:gap-12">
-            <div className="lg:col-span-1 flex justify-center">
-              <div className="relative group">
-                <div className="absolute -inset-4 bg-gradient-to-r from-primary via-accent to-secondary rounded-2xl opacity-20 group-hover:opacity-30 transition-opacity blur-xl" />
-                <img
-                  src={jasonChristmas}
-                  alt="Jason Zachariah in festive Christmas attire"
-                  className="relative rounded-2xl shadow-2xl w-full max-w-lg object-cover"
-                  data-testid="img-jason-profile"
-                />
+            <div className="lg:col-span-1 space-y-8">
+              <div className="flex justify-center">
+                <div className="relative group">
+                  <div className="absolute -inset-4 bg-gradient-to-r from-primary via-accent to-secondary rounded-2xl opacity-20 group-hover:opacity-30 transition-opacity blur-xl" />
+                  <img
+                    src={jasonChristmas}
+                    alt="Jason Zachariah in festive Christmas attire"
+                    className="relative rounded-2xl shadow-2xl w-full max-w-lg object-cover"
+                    data-testid="img-jason-profile"
+                  />
+                </div>
               </div>
+
+              {performances.length > 0 && (
+                <div className="space-y-4">
+                  {performances.map((video) => (
+                    <div
+                      key={video.id}
+                      className="bg-card/50 backdrop-blur-sm rounded-lg overflow-hidden border border-card-border hover-elevate transition-all duration-300"
+                      data-testid={`video-performance-${video.id}`}
+                    >
+                      <div className="relative aspect-video bg-muted">
+                        <iframe
+                          className="absolute inset-0 w-full h-full"
+                          src={`https://www.youtube.com/embed/${video.id}`}
+                          title={video.title}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                        />
+                      </div>
+                      <div className="p-3">
+                        <h4 className="text-sm font-semibold text-card-foreground mb-1 line-clamp-2" style={{ fontFamily: 'var(--font-elegant)' }}>
+                          {video.title}
+                        </h4>
+                        <p className="text-xs text-muted-foreground line-clamp-2">
+                          {video.description}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="lg:col-span-2 space-y-6">
@@ -134,77 +166,6 @@ export function ProfileSection() {
                   </a>
                 </div>
               </div>
-
-              {performances.length > 0 && (
-                <div className="mt-12">
-                  <div className="mb-8">
-                    <h3 className="text-3xl sm:text-4xl font-bold text-primary mb-3" style={{ 
-                      fontFamily: 'var(--font-christmas)',
-                      letterSpacing: '0.03em',
-                      textShadow: '0 2px 20px rgba(220, 38, 38, 0.3)'
-                    }}>
-                      Christmas Performances
-                    </h3>
-                    <p className="text-base sm:text-lg text-muted-foreground" style={{ fontFamily: 'var(--font-elegant)' }}>
-                      Enjoy beautiful Christmas piano performances by Jason
-                    </p>
-                  </div>
-
-                  <div className="relative group">
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-background/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity"
-                      onClick={() => scroll('left')}
-                      data-testid="button-scroll-left-performances"
-                    >
-                      <ChevronLeft className="w-6 h-6" />
-                    </Button>
-
-                    <div
-                      ref={performanceScrollRef}
-                      className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth pb-4"
-                      style={{ scrollBehavior: 'smooth' }}
-                    >
-                      {performances.map((video) => (
-                        <div
-                          key={video.id}
-                          className="flex-shrink-0 w-[300px] bg-card/50 backdrop-blur-sm rounded-lg overflow-hidden border border-card-border hover-elevate transition-all duration-300"
-                          data-testid={`video-performance-${video.id}`}
-                        >
-                          <div className="relative aspect-video bg-muted">
-                            <iframe
-                              className="absolute inset-0 w-full h-full"
-                              src={`https://www.youtube.com/embed/${video.id}`}
-                              title={video.title}
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                              allowFullScreen
-                            />
-                          </div>
-                          <div className="p-3">
-                            <h4 className="text-base font-semibold text-card-foreground mb-1 line-clamp-2" style={{ fontFamily: 'var(--font-elegant)' }}>
-                              {video.title}
-                            </h4>
-                            <p className="text-xs text-muted-foreground line-clamp-2">
-                              {video.description}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-background/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity"
-                      onClick={() => scroll('right')}
-                      data-testid="button-scroll-right-performances"
-                    >
-                      <ChevronRight className="w-6 h-6" />
-                    </Button>
-                  </div>
-                </div>
-              )}
             </div>
           </div>
         </div>
