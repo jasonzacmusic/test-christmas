@@ -265,8 +265,20 @@ export function HeroSection() {
 
             <div className="w-full max-w-4xl mt-8 space-y-2">
               <div 
-                className="relative h-32 sm:h-40 bg-card/50 backdrop-blur-sm rounded-lg border border-border overflow-hidden"
+                className="relative h-32 sm:h-40 bg-card/50 backdrop-blur-sm rounded-lg border border-border overflow-hidden cursor-pointer group"
                 data-testid="equalizer-container"
+                onClick={(e) => {
+                  if (!audioRef?.current) return;
+                  const audio = audioRef.current;
+                  if (audio.readyState < HTMLMediaElement.HAVE_METADATA || !isFinite(audio.duration)) {
+                    return;
+                  }
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const x = e.clientX - rect.left;
+                  const percentage = x / rect.width;
+                  audio.currentTime = audio.duration * percentage;
+                }}
+                title="Click to seek"
               >
                 <div className="absolute inset-0 flex items-end justify-center gap-1 sm:gap-2 p-4">
                   {frequencyData.map((amplitude, i) => (
@@ -282,6 +294,13 @@ export function HeroSection() {
                     />
                   ))}
                 </div>
+                
+                <div 
+                  className="absolute top-0 bottom-0 w-1 bg-accent shadow-lg shadow-accent/50 pointer-events-none z-10 transition-all"
+                  style={{ left: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
+                />
+                
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
               </div>
               <div className="flex justify-between text-xs text-muted-foreground px-2">
                 <span>{formatTime(currentTime)}</span>

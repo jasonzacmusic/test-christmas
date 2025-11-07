@@ -31,26 +31,31 @@ export function Header() {
             </div>
           </a>
 
-          <div className="flex items-center gap-1.5 sm:gap-2">
-            {[...Array(10)].map((_, i) => (
-              <Button
-                key={i}
-                onClick={() => selectTrack(i)}
-                variant={currentTrack === i ? "default" : "outline"}
-                className={`
-                  w-9 h-9 sm:w-10 sm:h-10 p-0 text-sm sm:text-base font-bold
-                  transition-all duration-200
-                  ${currentTrack === i 
-                    ? 'scale-110 shadow-lg shadow-primary/50 ring-2 ring-primary/30' 
-                    : 'hover:scale-105 hover:border-primary/50'
-                  }
-                `}
-                data-testid={`button-header-track-${i + 1}`}
-                aria-label={`Select track ${i + 1}`}
-              >
-                {i === 9 ? '10' : i + 1}
-              </Button>
-            ))}
+          <div className="flex flex-col items-end gap-2">
+            <span className="text-xs text-muted-foreground font-medium hidden sm:block">
+              Select Christmas Carol
+            </span>
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              {[...Array(10)].map((_, i) => (
+                <Button
+                  key={i}
+                  onClick={() => selectTrack(i)}
+                  variant={currentTrack === i ? "default" : "outline"}
+                  className={`
+                    w-9 h-9 sm:w-10 sm:h-10 p-0 text-sm sm:text-base font-bold
+                    transition-all duration-200
+                    ${currentTrack === i 
+                      ? 'scale-110 shadow-lg shadow-primary/50 ring-2 ring-primary/30' 
+                      : 'hover:scale-105 hover:border-primary/50'
+                    }
+                  `}
+                  data-testid={`button-header-track-${i + 1}`}
+                  aria-label={`Select track ${i + 1}`}
+                >
+                  {i === 9 ? '10' : i + 1}
+                </Button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
