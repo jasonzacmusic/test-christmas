@@ -37,7 +37,6 @@ interface AudioContextType {
   selectTrack: (index: number) => Promise<void>;
   trackNames: string[];
   audioRef: React.RefObject<HTMLAudioElement> | null;
-  analyzerNode: React.RefObject<AnalyserNode | null>;
 }
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
@@ -46,35 +45,6 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrack, setCurrentTrack] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const analyzerNode = useRef<AnalyserNode | null>(null);
-  const audioContextRef = useRef<AudioContext | null>(null);
-  const sourceNodeRef = useRef<MediaElementAudioSourceNode | null>(null);
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    try {
-      if (!audioContextRef.current) {
-        const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
-        audioContextRef.current = new AudioContextClass();
-      }
-
-      if (!sourceNodeRef.current && audioContextRef.current) {
-        sourceNodeRef.current = audioContextRef.current.createMediaElementSource(audio);
-        analyzerNode.current = audioContextRef.current.createAnalyser();
-        analyzerNode.current.fftSize = 512;
-        analyzerNode.current.smoothingTimeConstant = 0.6;
-        analyzerNode.current.minDecibels = -90;
-        analyzerNode.current.maxDecibels = -10;
-        
-        sourceNodeRef.current.connect(analyzerNode.current);
-        analyzerNode.current.connect(audioContextRef.current.destination);
-      }
-    } catch (error) {
-      console.log('Web Audio API setup failed:', error);
-    }
-  }, []);
 
   useEffect(() => {
     const savedPreference = localStorage.getItem('christmasAudioEnabled');
@@ -152,12 +122,6 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     try {
       const audio = audioRef.current;
       
-      if (audioContextRef.current?.state === 'suspended') {
-        console.log('Resuming AudioContext...');
-        await audioContextRef.current.resume();
-        console.log('AudioContext state:', audioContextRef.current.state);
-      }
-      
       if (isPlaying && audio && !audio.paused) {
         audio.pause();
         setIsPlaying(false);
@@ -170,18 +134,13 @@ export function AudioProvider({ children }: { children: ReactNode }) {
         setIsPlaying(true);
       }
     } catch (error) {
-      console.log('AudioContext operation failed:', error);
+      console.log('Audio playback operation failed:', error);
     }
   };
 
   const selectTrack = async (index: number) => {
     try {
       const audio = audioRef.current;
-      
-      if (audioContextRef.current?.state === 'suspended') {
-        await audioContextRef.current.resume();
-      }
-      
       const isSameTrack = index === currentTrack;
       
       if (isSameTrack && audio?.paused) {
@@ -194,7 +153,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
         if (!isPlaying) setIsPlaying(true);
       }
     } catch (error) {
-      console.log('AudioContext resume failed:', error);
+      console.log('Track selection failed:', error);
       setCurrentTrack(index);
       if (!isPlaying) setIsPlaying(true);
     }
@@ -203,14 +162,13 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   selectTrackRef.current = selectTrack;
 
   return (
-    <AudioContext.Provider value={{ isPlaying, currentTrack, toggleAudio, selectTrack, trackNames: TRACK_NAMES, audioRef, analyzerNode }}>
+    <AudioContext.Provider value={{ isPlaying, currentTrack, toggleAudio, selectTrack, trackNames: TRACK_NAMES, audioRef }}>
       {children}
       <audio
         ref={audioRef}
         preload="auto"
         data-testid="audio-ambient"
         src={AUDIO_TRACKS[currentTrack]}
-        crossOrigin="anonymous"
       />
     </AudioContext.Provider>
   );
