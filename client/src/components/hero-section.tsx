@@ -115,15 +115,15 @@ export function HeroSection() {
               
               <div className="flex flex-wrap justify-center lg:justify-start gap-4 text-base sm:text-lg font-semibold">
                 <div className="flex items-center gap-2 group transition-all duration-300" data-testid="bullet-workshops">
-                  <div className="w-3 h-3 bg-primary rounded-full group-hover:shadow-[0_0_15px_rgba(220,38,38,0.6)] transition-all duration-300 animate-pulse" />
+                  <div className="w-3 h-3 bg-primary rounded-full group-hover:shadow-[0_0_15px_rgba(220,38,38,0.6)] transition-all duration-300" />
                   <span className="text-foreground/90 group-hover:text-primary transition-colors duration-300">8 Live Workshops (Dec 5-21)</span>
                 </div>
                 <div className="flex items-center gap-2 group transition-all duration-300" data-testid="bullet-tutorials">
-                  <div className="w-3 h-3 bg-accent rounded-full group-hover:shadow-[0_0_15px_rgba(251,191,36,0.6)] transition-all duration-300 animate-pulse" style={{ animationDelay: '0.5s' }} />
+                  <div className="w-3 h-3 bg-accent rounded-full group-hover:shadow-[0_0_15px_rgba(251,191,36,0.6)] transition-all duration-300" />
                   <span className="text-foreground/90 group-hover:text-accent transition-colors duration-300">20+ Patreon Tutorials</span>
                 </div>
                 <div className="flex items-center gap-2 group transition-all duration-300" data-testid="bullet-sheet-music">
-                  <div className="w-3 h-3 bg-secondary rounded-full group-hover:shadow-[0_0_15px_rgba(34,197,94,0.6)] transition-all duration-300 animate-pulse" style={{ animationDelay: '1s' }} />
+                  <div className="w-3 h-3 bg-secondary rounded-full group-hover:shadow-[0_0_15px_rgba(34,197,94,0.6)] transition-all duration-300" />
                   <span className="text-foreground/90 group-hover:text-secondary transition-colors duration-300">Sheet Music & Recordings</span>
                 </div>
               </div>
@@ -181,7 +181,7 @@ export function HeroSection() {
 
         <div className="text-center space-y-8 mt-16">
           <div className="max-w-4xl mx-auto">
-            <h3 className="text-2xl sm:text-3xl font-bold text-primary mb-6" style={{ fontFamily: 'var(--font-christmas)' }}>
+            <h3 className="text-4xl sm:text-5xl md:text-6xl font-bold text-primary mb-6" style={{ fontFamily: 'var(--font-christmas)' }}>
               Choose Your Payment Method
             </h3>
             <div className="grid md:grid-cols-2 gap-6">
@@ -192,9 +192,6 @@ export function HeroSection() {
                 </div>
                 <p className="text-sm text-muted-foreground">
                   For Indian & International Students
-                </p>
-                <p className="text-xs text-foreground/70 -mt-2">
-                  Pay via UPI, Account Transfer, or Credit/Debit Card
                 </p>
                 <Button
                   asChild
