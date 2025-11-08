@@ -79,8 +79,12 @@ export function PatreonCollectionSection() {
             <div className="text-center space-y-6">
               <div className="bg-card/80 backdrop-blur-sm rounded-lg p-8 border border-card-border">
                 <div className="mb-6">
-                  <div className="text-5xl font-bold text-primary mb-2">$89</div>
+                  <div className="flex items-center justify-center gap-4 mb-2">
+                    <span className="text-3xl font-bold text-muted-foreground/50 line-through">$129</span>
+                    <span className="text-5xl font-bold text-primary">$89</span>
+                  </div>
                   <p className="text-muted-foreground">Complete Christmas Collection</p>
+                  <p className="text-sm text-accent font-semibold mt-1">Holiday Special - Save $40!</p>
                 </div>
                 <ul className="text-left space-y-3 mb-8 max-w-2xl mx-auto text-foreground">
                   <li className="flex items-center gap-3">
@@ -107,7 +111,7 @@ export function PatreonCollectionSection() {
                 <Button
                   asChild
                   size="lg"
-                  className="text-xl px-12 py-6 shadow-2xl hover:scale-105 transition-all duration-300"
+                  className="text-xl px-12 py-6 shadow-2xl transition-all duration-300"
                   style={{
                     boxShadow: '0 0 30px rgba(220, 38, 38, 0.5), 0 0 60px rgba(220, 38, 38, 0.3)',
                   }}

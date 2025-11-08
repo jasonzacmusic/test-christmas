@@ -110,22 +110,21 @@ export function HeroSection() {
                 fontFamily: 'var(--font-elegant)',
                 textShadow: '0 1px 15px rgba(0, 0, 0, 0.4)'
               }}>
-                Celebrate the season with <span className="text-primary font-bold">8 live workshops</span> covering carols, theory, ear training, and creative arrangements with Jason Zac. Unwrap the complete holiday music experience with our  <span className="text-accent font-bold">exclusive Patreon collection</span> featuring 20 tutorials, sheet music, and performance videos.</p>
-                <p> From beginner carols to creative techniques for every skill level, everything you need to shine this season awaits.
+                Celebrate the season with <span className="text-primary font-bold">8 live workshops</span> covering carols, theory, ear training, and creative arrangements with Jason Zac. Unwrap the complete holiday music experience with our <span className="text-accent font-bold">exclusive Patreon collection</span> featuring 20 tutorials, sheet music, and performance videos. From beginner carols to creative techniques for every skill level, everything you need to shine this season awaits.
               </p>
               
-              <div className="flex flex-wrap justify-center lg:justify-start gap-4 text-sm sm:text-base text-muted-foreground">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-primary rounded-full" />
-                  <span>8 Live Workshops (Dec 5-21)</span>
+              <div className="flex flex-wrap justify-center lg:justify-start gap-4 text-base sm:text-lg font-semibold">
+                <div className="flex items-center gap-2 group transition-all duration-300" data-testid="bullet-workshops">
+                  <div className="w-3 h-3 bg-primary rounded-full group-hover:shadow-[0_0_15px_rgba(220,38,38,0.6)] transition-all duration-300 animate-pulse" />
+                  <span className="text-foreground/90 group-hover:text-primary transition-colors duration-300">8 Live Workshops (Dec 5-21)</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-accent rounded-full" />
-                  <span>20+ Patreon Tutorials</span>
+                <div className="flex items-center gap-2 group transition-all duration-300" data-testid="bullet-tutorials">
+                  <div className="w-3 h-3 bg-accent rounded-full group-hover:shadow-[0_0_15px_rgba(251,191,36,0.6)] transition-all duration-300 animate-pulse" style={{ animationDelay: '0.5s' }} />
+                  <span className="text-foreground/90 group-hover:text-accent transition-colors duration-300">20+ Patreon Tutorials</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-secondary rounded-full" />
-                  <span>Sheet Music & Recordings</span>
+                <div className="flex items-center gap-2 group transition-all duration-300" data-testid="bullet-sheet-music">
+                  <div className="w-3 h-3 bg-secondary rounded-full group-hover:shadow-[0_0_15px_rgba(34,197,94,0.6)] transition-all duration-300 animate-pulse" style={{ animationDelay: '1s' }} />
+                  <span className="text-foreground/90 group-hover:text-secondary transition-colors duration-300">Sheet Music & Recordings</span>
                 </div>
               </div>
             </div>
@@ -186,18 +185,24 @@ export function HeroSection() {
               Choose Your Payment Method
             </h3>
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="bg-card/50 backdrop-blur-sm rounded-lg p-6 border border-card-border space-y-4">
+              <div className="bg-card/50 backdrop-blur-sm rounded-lg p-6 border border-card-border space-y-4 hover:border-primary/50 transition-all duration-300">
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <MapPin className="w-6 h-6 text-primary" />
-                  <h4 className="text-xl font-bold text-foreground">Indian Residents</h4>
+                  <h4 className="text-xl font-bold text-foreground">UPI / Card / Bank Transfer</h4>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Pay with UPI, Account Transfer, or Credit Card
+                  For Indian & International Students
+                </p>
+                <p className="text-xs text-foreground/70 -mt-2">
+                  Pay via UPI, Account Transfer, or Credit/Debit Card
                 </p>
                 <Button
                   asChild
                   size="lg"
-                  className="w-full text-lg px-6 py-6 shadow-xl hover:scale-105 transition-all duration-300"
+                  className="w-full text-lg px-6 py-6 shadow-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(220,38,38,0.6)]"
+                  style={{
+                    boxShadow: '0 0 20px rgba(220, 38, 38, 0.3)',
+                  }}
                   data-testid="button-register-indian"
                 >
                   <a
@@ -206,24 +211,30 @@ export function HeroSection() {
                     rel="noopener noreferrer"
                     onClick={() => trackEvent('cta_click', 'hero_register_indian')}
                   >
-                    Register Now (Indian)
+                    Enroll Now
                   </a>
                 </Button>
               </div>
 
-              <div className="bg-card/50 backdrop-blur-sm rounded-lg p-6 border border-card-border space-y-4">
+              <div className="bg-card/50 backdrop-blur-sm rounded-lg p-6 border border-card-border space-y-4 hover:border-accent/50 transition-all duration-300">
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <Globe className="w-6 h-6 text-accent" />
-                  <h4 className="text-xl font-bold text-foreground">International</h4>
+                  <h4 className="text-xl font-bold text-foreground">PayPal</h4>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Secure payment via PayPal
+                  For International Students Only
+                </p>
+                <p className="text-xs text-foreground/70 -mt-2">
+                  Secure worldwide payment via PayPal
                 </p>
                 <Button
                   asChild
                   size="lg"
                   variant="secondary"
-                  className="w-full text-lg px-6 py-6 shadow-xl hover:scale-105 transition-all duration-300"
+                  className="w-full text-lg px-6 py-6 shadow-xl transition-all duration-300 hover:shadow-[0_0_30px_rgba(251,191,36,0.6)]"
+                  style={{
+                    boxShadow: '0 0 20px rgba(251, 191, 36, 0.3)',
+                  }}
                   data-testid="button-paypal-international"
                 >
                   <a

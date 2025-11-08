@@ -57,7 +57,7 @@ const workshops = [
     id: "6",
     title: "Ear Training",
     date: "13th December",
-    time: "TBA",
+    time: "06:30 AM",
     icon: Ear,
     description: "Listen to popular Christmas carols and songs and identify the scale, chords, intervals and rhythm pattern just by using your ear. Also, covered in this lecture would be sight singing of melodies along with their rhythm elements. Designed for students of all levels.",
   },
