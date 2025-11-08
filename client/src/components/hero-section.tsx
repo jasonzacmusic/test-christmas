@@ -185,7 +185,7 @@ export function HeroSection() {
               Choose Your Payment Method
             </h3>
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="bg-card/50 backdrop-blur-sm rounded-lg p-6 border border-card-border space-y-4 hover:border-primary/50 transition-all duration-300">
+              <div className="bg-card/50 backdrop-blur-sm rounded-lg p-6 border border-card-border space-y-4 hover:border-primary/50 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(220,38,38,0.4)] transition-all duration-300">
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <MapPin className="w-6 h-6 text-primary" />
                   <h4 className="text-xl font-bold text-foreground">UPI / Card / Bank Transfer</h4>
@@ -213,7 +213,7 @@ export function HeroSection() {
                 </Button>
               </div>
 
-              <div className="bg-card/50 backdrop-blur-sm rounded-lg p-6 border border-card-border space-y-4 hover:border-accent/50 transition-all duration-300">
+              <div className="bg-card/50 backdrop-blur-sm rounded-lg p-6 border border-card-border space-y-4 hover:border-accent/50 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(251,191,36,0.4)] transition-all duration-300">
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <Globe className="w-6 h-6 text-accent" />
                   <h4 className="text-xl font-bold text-foreground">PayPal</h4>
