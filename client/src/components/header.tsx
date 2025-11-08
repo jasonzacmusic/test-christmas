@@ -2,19 +2,19 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { useAudio } from "@/contexts/audio-context";
 import nsmLogoWhite from "@assets/NSM White_1762526198507.png";
-import { Heart, Globe, Baby, Mountain, Star, Crown, Bell, Moon, Church, Sparkles, Play, Pause } from "lucide-react";
+import { Church, Gift, Baby, Mountain, Star, Crown, Snowflake, Flame, TreePine, Sparkles, Play, Pause } from "lucide-react";
 
 const trackIcons = [
-  Heart,      // 1. Jesu Joy of Man's Desiring
-  Globe,      // 2. Joy to the World
-  Baby,       // 3. Away in a Manger
-  Mountain,   // 4. Go Tell it on the Mountain
-  Star,       // 5. O Come, O Come Emmanuel
-  Crown,      // 6. We Three Kings
-  Bell,       // 7. The First Nowell
-  Moon,       // 8. Silent Night
-  Church,     // 9. O Come All Ye Faithful
-  Sparkles    // 10. Gloria
+  Church,     // 1. Jesu Joy of Man's Desiring - Religious hymn
+  Gift,       // 2. Joy to the World - Gift of joy
+  Baby,       // 3. Away in a Manger - Baby Jesus
+  Mountain,   // 4. Go Tell it on the Mountain - Mountain
+  Star,       // 5. O Come, O Come Emmanuel - Star of Bethlehem
+  Crown,      // 6. We Three Kings - Kings' crowns
+  Snowflake,  // 7. The First Nowell - Winter/Christmas
+  Flame,      // 8. Silent Night - Candlelight service
+  TreePine,   // 9. O Come All Ye Faithful - Christmas tree
+  Sparkles    // 10. Gloria - Glory/shine
 ];
 
 const formatTime = (seconds: number) => {
