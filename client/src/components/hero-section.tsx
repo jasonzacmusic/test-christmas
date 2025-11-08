@@ -110,7 +110,7 @@ export function HeroSection() {
                 fontFamily: 'var(--font-elegant)',
                 textShadow: '0 1px 15px rgba(0, 0, 0, 0.4)'
               }}>
-                Celebrate the season with <span className="text-primary font-bold">8 live workshops</span> covering carols, theory, ear training, and creative arrangements with Jason Zac. Unwrap the complete holiday music experience with our <span className="text-accent font-bold">exclusive Patreon collection</span> featuring 20 tutorials, sheet music, and performance videos. From beginner carols to creative techniques for every skill level, everything you need to shine this season awaits.
+                Celebrate the season with <span className="text-primary font-bold">8 live workshops</span> covering carols, theory, ear training, and arrangements with Jason Zac. Unwrap the complete holiday music experience with our <span className="text-accent font-bold">exclusive Patreon collection</span> featuring 20 tutorials, sheet music, and performance videos. From beginner carols to creative techniques for every skill level, everything you need to shine this season awaits.
               </p>
               
               <div className="flex flex-wrap justify-center lg:justify-start gap-4 text-base sm:text-lg font-semibold">
