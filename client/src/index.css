@@ -446,7 +446,6 @@
   }
 
   a, button, [role="button"], input[type="submit"], input[type="button"], .cursor-pointer {
-    cursor: pointer;
-    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M8 4 L10 10 L16 11 L11 15 L13 21 L8 17 L3 21 L5 15 L0 11 L6 10 Z' fill='%23dc2626' stroke='%23fbbf24' stroke-width='1.5'/></svg>") 12 12, pointer;
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><path d='M6 3 L6 16 L10 12 L13 19 L15 18 L12 11 L18 11 Z' fill='white' stroke='%23dc2626' stroke-width='2'/></svg>") 6 3, pointer;
   }
 }
