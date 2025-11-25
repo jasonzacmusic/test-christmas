@@ -12,12 +12,12 @@ interface Workshop {
 
 const WORKSHOPS: Workshop[] = [
   { date: "5th December", time: "06:30 AM", title: "Easy Christmas Carols" },
-  { date: "6th December", time: "06:30 AM", title: "Christmas Songs Reimagined" },
-  { date: "6th December", time: "07:45 AM", title: "Intervals, Scales and Chord Awareness" },
   { date: "6th December", time: "02:00 PM", title: "The 'Roots' Genre Christmas Twist" },
-  { date: "7th December", time: "08:30 AM", title: "The Christmas Challenge" },
-  { date: "13th December", time: "TBA", title: "Ear Training" },
+  { date: "7th December", time: "09:00 AM", title: "The Christmas Challenge" },
+  { date: "13th December", time: "06:30 AM", title: "Ear Training" },
   { date: "14th December", time: "06:45 AM", title: "Christmas Factory 1" },
+  { date: "20th December", time: "06:30 AM", title: "Christmas Songs Reimagined" },
+  { date: "20th December", time: "07:45 AM", title: "Intervals, Scales and Chord Awareness" },
   { date: "21st December", time: "06:45 AM", title: "Christmas Factory 2" },
 ];
 
