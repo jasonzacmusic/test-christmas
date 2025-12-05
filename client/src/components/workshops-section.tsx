@@ -17,17 +17,9 @@ const workshops = [
     id: "1",
     title: "Easy Christmas Carols",
     date: "5th December",
-    time: "06:30 AM",
+    time: "06:15 AM",
     icon: Music,
     description: "Ideal to prepare yourself for the festive season to sing and play your favourite carols or accompany a group of musicians or singers. We'll also sneak in simple melodic arrangements for solo piano.",
-  },
-  {
-    id: "4",
-    title: "The 'Roots' Genre Christmas Twist",
-    date: "6th December",
-    time: "02:00 PM",
-    icon: Radio,
-    description: "Learn the Blues, Gospel, Country, Folk, Rock n Roll, Reggae and many more genres by using our favourite Christmas pieces as examples. We'll also be playing with meter and time feel through the lecture.",
   },
   {
     id: "5",
@@ -36,6 +28,14 @@ const workshops = [
     time: "09:00 AM",
     icon: Sparkles,
     description: "Suggest or Choose a great Christmas song and develop your own versions for Christmas for your loved ones. These will be Solo Piano arrangements. Before learning the song, we'll figure out each and every ingredient by ear and create the notation on our own with cutting edge software.",
+  },
+  {
+    id: "4",
+    title: "The 'Roots' Genre Christmas Twist",
+    date: "7th December",
+    time: "12:30 PM",
+    icon: Radio,
+    description: "Learn the Blues, Gospel, Country, Folk, Rock n Roll, Reggae and many more genres by using our favourite Christmas pieces as examples. We'll also be playing with meter and time feel through the lecture.",
   },
   {
     id: "6",
