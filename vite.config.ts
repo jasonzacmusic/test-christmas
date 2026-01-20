@@ -18,7 +18,7 @@ export default defineConfig({
     },
   },
   root: path.resolve(import.meta.dirname, "client"),
-  base: "/ChristmasPiano/", // Assuming repository name
+  base: "/test-christmas/", // Assuming repository name
   build: {
     outDir: path.resolve(import.meta.dirname, "dist"),
     emptyOutDir: true,
