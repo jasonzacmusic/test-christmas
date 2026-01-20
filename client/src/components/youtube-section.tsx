@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { YouTubeVideo } from "@shared/schema";
+import type { YouTubeVideo } from "@/lib/data";
 
 function getYouTubeVideoId(url: string): string {
   const match = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
@@ -9,7 +9,7 @@ function getYouTubeVideoId(url: string): string {
 }
 
 function VideoCard({ video }: { video: YouTubeVideo }) {
-  const videoId = getYouTubeVideoId(video.link);
+  const videoId = getYouTubeVideoId(video.link || "");
 
   return (
     <Card className="bg-card/50 backdrop-blur-sm border-card-border hover-elevate transition-all duration-300 overflow-hidden" data-testid={`card-video-${videoId}`}>
@@ -37,10 +37,12 @@ function VideoCard({ video }: { video: YouTubeVideo }) {
   );
 }
 
+import { YOUTUBE_VIDEOS } from "@/lib/data";
+
 export function YouTubeSection() {
-  const { data, isLoading, error } = useQuery<{ videos: YouTubeVideo[] }>({
-    queryKey: ["/api/youtube-videos"],
-  });
+  const data = { videos: YOUTUBE_VIDEOS };
+  const isLoading = false;
+  const error = null;
 
   const tutorials = data?.videos.filter((v) => v.category === "Tutorial") || [];
   const songs = data?.videos.filter((v) => v.category === "Song") || [];

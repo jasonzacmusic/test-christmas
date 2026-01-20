@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Switch, Route } from "wouter";
+import { Switch, Route, Router as WouterRouter } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -13,10 +13,12 @@ function Router() {
   useYouTubePauseAudio();
   
   return (
-    <Switch>
-      <Route path="/" component={HomePage} />
-      <Route component={NotFound} />
-    </Switch>
+    <WouterRouter base={import.meta.env.BASE_URL}>
+      <Switch>
+        <Route path="/" component={HomePage} />
+        <Route component={NotFound} />
+      </Switch>
+    </WouterRouter>
   );
 }
 

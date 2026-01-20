@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Flame, Music2, Piano } from "lucide-react";
-import type { LiveSession } from "@shared/schema";
+import type { LiveSession } from "@/lib/data";
 import { trackEvent } from "@/lib/analytics";
 
 const sessions: LiveSession[] = [

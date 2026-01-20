@@ -14,10 +14,10 @@ interface YouTubeVideo {
 }
 
 
+import { CHRISTMAS_VIDEOS } from "@/lib/data";
+
 export function HeroSection() {
-  const { data: videos = [] } = useQuery<YouTubeVideo[]>({
-    queryKey: ['/api/christmas-videos'],
-  });
+  const videos = CHRISTMAS_VIDEOS;
 
   const linusVideo = videos.find(v => 
     v.type === 'performance' && v.title.toLowerCase().includes('linus')

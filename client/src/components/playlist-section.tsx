@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { PlaylistVideo } from "@shared/schema";
+import type { YouTubeVideo as PlaylistVideo } from "@/lib/data";
 
 function PlaylistVideoCard({ video }: { video: PlaylistVideo }) {
   return (
@@ -27,10 +27,12 @@ function PlaylistVideoCard({ video }: { video: PlaylistVideo }) {
   );
 }
 
+import { PLAYLIST_VIDEOS } from "@/lib/data";
+
 export function PlaylistSection() {
-  const { data, isLoading, error } = useQuery<{ videos: PlaylistVideo[] }>({
-    queryKey: ["/api/playlist-videos"],
-  });
+  const data = { videos: PLAYLIST_VIDEOS };
+  const isLoading = false;
+  const error = null;
 
   return (
     <section className="py-12 sm:py-16 md:py-20 bg-card/30 relative overflow-hidden">

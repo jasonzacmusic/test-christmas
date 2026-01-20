@@ -18,10 +18,10 @@ interface YouTubeVideo {
 
 const thumbnails = [thumbnail1, thumbnail2, thumbnail3, thumbnail4, thumbnail5, thumbnail6];
 
+import { CHRISTMAS_VIDEOS } from "@/lib/data";
+
 export function PatreonCollectionSection() {
-  const { data: videos = [] } = useQuery<YouTubeVideo[]>({
-    queryKey: ['/api/christmas-videos'],
-  });
+  const videos = CHRISTMAS_VIDEOS;
 
   const performances = videos.filter(v => v.type === 'performance');
   const secondPerformance = performances[1];
